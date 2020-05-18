@@ -1,4 +1,4 @@
-package com.kinnerapriyap.sugar
+package com.kinnerapriyap.sample
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
