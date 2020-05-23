@@ -38,6 +38,11 @@ class ShergilActivity : AppCompatActivity() {
         )
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        getMultipleFromGallery.unregister()
+    }
+
     private fun setResultAndFinish(result: Intent) {
         setResult(Activity.RESULT_OK, result)
         finish()
