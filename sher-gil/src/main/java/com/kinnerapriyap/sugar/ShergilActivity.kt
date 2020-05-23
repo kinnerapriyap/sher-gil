@@ -50,10 +50,12 @@ class ShergilActivity : AppCompatActivity() {
     }
 
     private fun getGalleryIntent() =
-        Intent(
-            Intent.ACTION_PICK,
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        ).apply {
-            putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-        }
+        Intent(Intent.ACTION_GET_CONTENT)
+            .apply {
+                type = "image/*"
+                addCategory(Intent.CATEGORY_OPENABLE)
+                putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+                // TODO: Make optional-local storage only
+                putExtra(Intent.EXTRA_LOCAL_ONLY, false)
+            }
 }
