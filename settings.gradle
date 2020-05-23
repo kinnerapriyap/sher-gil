@@ -1,3 +1,3 @@
 rootProject.name='sher-gil'
-include ':app'
+include ':sher-gil'
 include ':sample'

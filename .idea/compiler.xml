@@ -2,8 +2,8 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
-      <module name="sher-gil.app" target="1.8" />
-      <module name="sher-gil.sample" target="1.8" />
+      <module name="sher-gil.sample" target="1.7" />
+      <module name="sher-gil.sher-gil" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>
