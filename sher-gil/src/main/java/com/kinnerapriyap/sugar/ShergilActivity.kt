@@ -2,10 +2,10 @@ package com.kinnerapriyap.sugar
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import com.kinnerapriyap.sugar.GetMultipleFromGallery.Companion.RESULT_URIS
 import java.util.ArrayList
 
 class ShergilActivity : AppCompatActivity() {
@@ -13,48 +13,33 @@ class ShergilActivity : AppCompatActivity() {
     private val container: ImageView
         get() = findViewById(R.id.container)
 
+    private val getMultipleFromGallery =
+        registerForActivityResult(GetMultipleFromGallery()) { imageUriList ->
+            val resultIntent =
+                Intent().apply {
+                    putParcelableArrayListExtra(RESULT_URIS, imageUriList as? ArrayList)
+                }
+            setResultAndFinish(resultIntent)
+        }
+
     companion object {
-        private const val RESULT_URIS = "result_uris"
-        private const val GALLERY_REQUEST = 4541
+        fun createIntent() = ShergilActivity()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shergil)
 
-        startActivityForResult(getGalleryIntent(), GALLERY_REQUEST)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        val result = Intent()
-        if (resultCode == Activity.RESULT_OK && requestCode == GALLERY_REQUEST) {
-            val images = mutableListOf<Uri>().apply {
-                data?.clipData?.let {
-                    for (i in 0 until it.itemCount) {
-                        add(it.getItemAt(i).uri)
-                    }
-                }
-            }
-            result.apply {
-                putParcelableArrayListExtra(RESULT_URIS, images as? ArrayList)
-            }
-        }
-        setResultAndFinish(result)
+        getMultipleFromGallery.launch(
+            GetMultipleFromGalleryInput(
+                isOnlyFromLocal = false,
+                isMultipleAllowed = true
+            )
+        )
     }
 
     private fun setResultAndFinish(result: Intent) {
         setResult(Activity.RESULT_OK, result)
         finish()
     }
-
-    private fun getGalleryIntent() =
-        Intent(Intent.ACTION_GET_CONTENT)
-            .apply {
-                type = "image/*"
-                addCategory(Intent.CATEGORY_OPENABLE)
-                putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-                // TODO: Make optional-local storage only
-                putExtra(Intent.EXTRA_LOCAL_ONLY, false)
-            }
 }
