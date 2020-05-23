@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application>
-        <activity android:name=".ShergilActivity"></activity>
+        <activity android:name=".ShergilActivity" />
     </application>
 
 </manifest>
