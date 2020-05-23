@@ -7,8 +7,8 @@ import android.net.Uri
 import androidx.activity.result.contract.ActivityResultContract
 
 data class GetMultipleFromGalleryInput(
-    val isOnlyFromLocal: Boolean,
-    val isMultipleAllowed: Boolean
+    val allowOnlyLocalStorage: Boolean,
+    val allowMultiple: Boolean
 )
 
 class GetMultipleFromGallery : ActivityResultContract<GetMultipleFromGalleryInput, List<Uri>>() {
@@ -22,8 +22,8 @@ class GetMultipleFromGallery : ActivityResultContract<GetMultipleFromGalleryInpu
             .apply {
                 type = "image/*"
                 addCategory(Intent.CATEGORY_OPENABLE)
-                putExtra(Intent.EXTRA_ALLOW_MULTIPLE, input.isMultipleAllowed)
-                putExtra(Intent.EXTRA_LOCAL_ONLY, input.isOnlyFromLocal)
+                putExtra(Intent.EXTRA_ALLOW_MULTIPLE, input.allowMultiple)
+                putExtra(Intent.EXTRA_LOCAL_ONLY, input.allowOnlyLocalStorage)
             }
 
     override fun parseResult(resultCode: Int, intent: Intent?): List<Uri> =

@@ -73,8 +73,8 @@ class ShergilActivity : AppCompatActivity() {
     private fun openGallery() {
         getMultipleFromGallery.launch(
             GetMultipleFromGalleryInput(
-                isOnlyFromLocal = false,
-                isMultipleAllowed = true
+                allowOnlyLocalStorage = false,
+                allowMultiple = true
             )
         )
     }
