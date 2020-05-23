@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.widget.ImageView
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.kinnerapriyap.sugar.GetMultipleFromGallery.Companion.RESULT_URIS
@@ -17,20 +18,9 @@ class ShergilActivity : AppCompatActivity() {
     private val container: ImageView
         get() = findViewById(R.id.container)
 
-    private val getMultipleFromGallery =
-        registerForActivityResult(GetMultipleFromGallery()) { imageUriList ->
-            val resultIntent =
-                Intent().apply {
-                    putParcelableArrayListExtra(RESULT_URIS, imageUriList as? ArrayList)
-                }
-            setResultAndFinish(resultIntent)
-        }
+    private lateinit var getMultipleFromGallery: ActivityResultLauncher<GetMultipleFromGalleryInput>
 
-    private val askReadStoragePermission =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { allowed ->
-            if (allowed) openGallery()
-            else setCancelledAndFinish()
-        }
+    private lateinit var askReadStoragePermission: ActivityResultLauncher<String>
 
     companion object {
         fun createIntent() = ShergilActivity()
@@ -39,6 +29,8 @@ class ShergilActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shergil)
+
+        initialiseResultLaunchers()
 
         when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(
@@ -68,6 +60,23 @@ class ShergilActivity : AppCompatActivity() {
     private fun setCancelledAndFinish() {
         setResult(Activity.RESULT_CANCELED)
         finish()
+    }
+
+    private fun initialiseResultLaunchers() {
+        getMultipleFromGallery =
+            registerForActivityResult(GetMultipleFromGallery()) { imageUriList ->
+                val resultIntent =
+                    Intent().apply {
+                        putParcelableArrayListExtra(RESULT_URIS, imageUriList as? ArrayList)
+                    }
+                setResultAndFinish(resultIntent)
+            }
+
+        askReadStoragePermission =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { allowed ->
+                if (allowed) openGallery()
+                else setCancelledAndFinish()
+            }
     }
 
     private fun openGallery() {
