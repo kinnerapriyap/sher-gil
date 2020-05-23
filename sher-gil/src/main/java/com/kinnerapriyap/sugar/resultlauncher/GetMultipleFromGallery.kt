@@ -1,4 +1,4 @@
-package com.kinnerapriyap.sugar
+package com.kinnerapriyap.sugar.resultlauncher
 
 import android.app.Activity
 import android.content.Context
