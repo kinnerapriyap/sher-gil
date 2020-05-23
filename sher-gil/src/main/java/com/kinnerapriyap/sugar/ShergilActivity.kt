@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import java.util.ArrayList
 
 class ShergilActivity : AppCompatActivity() {
 
@@ -14,6 +15,7 @@ class ShergilActivity : AppCompatActivity() {
         get() = findViewById(R.id.container)
 
     companion object {
+        private const val RESULT_URIS = "result_uris"
         private const val GALLERY_REQUEST = 4541
     }
 
@@ -26,6 +28,7 @@ class ShergilActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        val result = Intent()
         if (resultCode == Activity.RESULT_OK && requestCode == GALLERY_REQUEST) {
             val images = mutableListOf<Uri>().apply {
                 data?.clipData?.let {
@@ -34,8 +37,16 @@ class ShergilActivity : AppCompatActivity() {
                     }
                 }
             }
-            container.setImageBitmap(image)
+            result.apply {
+                putParcelableArrayListExtra(RESULT_URIS, images as? ArrayList)
+            }
         }
+        setResultAndFinish(result)
+    }
+
+    private fun setResultAndFinish(result: Intent) {
+        setResult(Activity.RESULT_OK, result)
+        finish()
     }
 
     private fun getGalleryIntent() =
