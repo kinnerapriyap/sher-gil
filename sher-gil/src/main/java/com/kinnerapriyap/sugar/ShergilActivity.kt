@@ -2,8 +2,7 @@ package com.kinnerapriyap.sugar
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.ImageDecoder
-import android.os.Build
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.ImageView
@@ -28,11 +27,12 @@ class ShergilActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == GALLERY_REQUEST) {
-            val image = data?.data?.let {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    val source = ImageDecoder.createSource(contentResolver, it)
-                    ImageDecoder.decodeBitmap(source)
-                } else MediaStore.Images.Media.getBitmap(contentResolver, it)
+            val images = mutableListOf<Uri>().apply {
+                data?.clipData?.let {
+                    for (i in 0 until it.itemCount) {
+                        add(it.getItemAt(i).uri)
+                    }
+                }
             }
             container.setImageBitmap(image)
         }
@@ -42,5 +42,7 @@ class ShergilActivity : AppCompatActivity() {
         Intent(
             Intent.ACTION_PICK,
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        )
+        ).apply {
+            putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        }
 }
