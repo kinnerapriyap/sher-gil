@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
             Shergil.create(this)
                 .mimeTypes(MimeType.IMAGES)
                 .allowOnlyLocalStorage(false)
-                .allowMultiple(true)
+                .allowMultipleSelection(true)
                 .withRequestCode(REQUEST_SHERGIL)
         }
     }

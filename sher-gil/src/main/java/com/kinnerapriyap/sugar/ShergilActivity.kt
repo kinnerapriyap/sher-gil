@@ -31,7 +31,7 @@ internal class ShergilActivity : AppCompatActivity() {
     private val getFromGalleryInput by lazy {
         GetFromGalleryInput(
             allowOnlyLocalStorage = false,
-            allowMultiple = true
+            allowMultipleSelection = true
         )
     }
 

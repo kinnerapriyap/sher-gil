@@ -8,7 +8,7 @@ import androidx.activity.result.contract.ActivityResultContract
 
 data class GetFromGalleryInput(
     val allowOnlyLocalStorage: Boolean = false,
-    val allowMultiple: Boolean = true
+    val allowMultipleSelection: Boolean = true
 )
 
 class GetMultipleFromGallery : ActivityResultContract<GetFromGalleryInput, List<Uri>>() {
@@ -22,7 +22,7 @@ class GetMultipleFromGallery : ActivityResultContract<GetFromGalleryInput, List<
             .apply {
                 type = "image/*"
                 addCategory(Intent.CATEGORY_OPENABLE)
-                putExtra(Intent.EXTRA_ALLOW_MULTIPLE, input.allowMultiple)
+                putExtra(Intent.EXTRA_ALLOW_MULTIPLE, input.allowMultipleSelection)
                 putExtra(Intent.EXTRA_LOCAL_ONLY, input.allowOnlyLocalStorage)
             }
 

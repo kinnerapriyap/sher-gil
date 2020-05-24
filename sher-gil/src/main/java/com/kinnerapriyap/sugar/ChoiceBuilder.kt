@@ -43,14 +43,13 @@ class ChoiceBuilder private constructor(
     /**
      * Determines whether or not to allow multiple media selection
      *
-     * @param allowMultiple Boolean default is true
+     * @param allowMultipleSelection Boolean default is true
      * @return [ChoiceBuilder] instance
      */
-    //TODO: Rename to allowMultipleSelection
-    fun allowMultiple(allowMultiple: Boolean): ChoiceBuilder =
+    fun allowMultipleSelection(allowMultipleSelection: Boolean): ChoiceBuilder =
         apply {
             this.getFromGalleryInput = this.getFromGalleryInput.copy(
-                allowMultiple = allowMultiple
+                allowMultipleSelection = allowMultipleSelection
             )
         }
 

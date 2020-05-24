@@ -69,7 +69,7 @@ internal class ResultLauncherImpl(
         getFromGallery.launch(
             GetFromGalleryInput(
                 allowOnlyLocalStorage = input.allowOnlyLocalStorage,
-                allowMultiple = input.allowMultiple
+                allowMultipleSelection = input.allowMultipleSelection
             )
         )
     }
