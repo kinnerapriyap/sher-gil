@@ -21,6 +21,11 @@ internal class ResultLauncherImpl(
 
     private lateinit var askReadStoragePermission: ActivityResultLauncher<String>
 
+    companion object {
+        private const val REQUEST_GALLERY = "request_gallery"
+        private const val REQUEST_PERMISSIOn = "request_permission"
+    }
+
     init {
         lifecycleOwner.lifecycle.addObserver(this)
     }
@@ -39,7 +44,7 @@ internal class ResultLauncherImpl(
     private fun initialiseResultLaunchers() {
         getFromGallery =
             registry.register(
-                "key",
+                REQUEST_GALLERY,
                 GetMultipleFromGallery()
             ) { imageUriList ->
                 setGalleryResult(imageUriList)
@@ -47,7 +52,7 @@ internal class ResultLauncherImpl(
 
         askReadStoragePermission =
             registry.register(
-                "key",
+                REQUEST_PERMISSIOn,
                 ActivityResultContracts.RequestPermission()
             ) { allowed ->
                 setPermissionResult(allowed)
