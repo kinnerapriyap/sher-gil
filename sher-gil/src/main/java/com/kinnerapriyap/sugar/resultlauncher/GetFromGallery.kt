@@ -6,18 +6,18 @@ import android.content.Intent
 import android.net.Uri
 import androidx.activity.result.contract.ActivityResultContract
 
-data class GetMultipleFromGalleryInput(
+data class GetFromGalleryInput(
     val allowOnlyLocalStorage: Boolean,
     val allowMultiple: Boolean
 )
 
-class GetMultipleFromGallery : ActivityResultContract<GetMultipleFromGalleryInput, List<Uri>>() {
+class GetMultipleFromGallery : ActivityResultContract<GetFromGalleryInput, List<Uri>>() {
 
     companion object {
         const val RESULT_URIS = "result_uris"
     }
 
-    override fun createIntent(context: Context, input: GetMultipleFromGalleryInput): Intent =
+    override fun createIntent(context: Context, input: GetFromGalleryInput): Intent =
         Intent(Intent.ACTION_GET_CONTENT)
             .apply {
                 type = "image/*"

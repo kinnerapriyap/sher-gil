@@ -11,10 +11,11 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.kinnerapriyap.sugar.resultlauncher.GetMultipleFromGallery
+import com.kinnerapriyap.sugar.resultlauncher.GetFromGalleryInput
 import com.kinnerapriyap.sugar.resultlauncher.ResultLauncherHandler
 import java.util.ArrayList
 
-class ShergilActivity : AppCompatActivity() {
+internal class ShergilActivity : AppCompatActivity() {
 
     private val container: ImageView
         get() = findViewById(R.id.container)
@@ -27,8 +28,11 @@ class ShergilActivity : AppCompatActivity() {
         )
     }
 
-    companion object {
-        fun createIntent() = ShergilActivity()
+    private val getFromGalleryInput by lazy {
+        GetFromGalleryInput(
+            allowOnlyLocalStorage = false,
+            allowMultiple = true
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +54,7 @@ class ShergilActivity : AppCompatActivity() {
             ) != PackageManager.PERMISSION_GRANTED ->
                 observer.askPermission()
             else ->
-                observer.openGallery()
+                observer.openGallery(getFromGalleryInput)
         }
     }
 
@@ -73,7 +77,7 @@ class ShergilActivity : AppCompatActivity() {
 
     private fun setPermissionResult(allowed: Boolean) {
         if (allowed) {
-            observer.openGallery()
+            observer.openGallery(getFromGalleryInput)
         } else {
             setResult(Activity.RESULT_CANCELED)
             finish()

@@ -17,7 +17,7 @@ internal class ResultLauncherImpl(
     private val setPermissionResult: (Boolean) -> Unit
 ) : LifecycleObserver, ResultLauncher {
 
-    private lateinit var getMultipleFromGallery: ActivityResultLauncher<GetMultipleFromGalleryInput>
+    private lateinit var getFromGallery: ActivityResultLauncher<GetFromGalleryInput>
 
     private lateinit var askReadStoragePermission: ActivityResultLauncher<String>
 
@@ -32,12 +32,12 @@ internal class ResultLauncherImpl(
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun onDestroy() {
-        getMultipleFromGallery.unregister()
+        getFromGallery.unregister()
         askReadStoragePermission.unregister()
     }
 
     private fun initialiseResultLaunchers() {
-        getMultipleFromGallery =
+        getFromGallery =
             registry.register(
                 "key",
                 GetMultipleFromGallery()
@@ -60,11 +60,11 @@ internal class ResultLauncherImpl(
         )
     }
 
-    override fun openGallery() {
-        getMultipleFromGallery.launch(
-            GetMultipleFromGalleryInput(
-                allowOnlyLocalStorage = false,
-                allowMultiple = true
+    override fun openGallery(input: GetFromGalleryInput) {
+        getFromGallery.launch(
+            GetFromGalleryInput(
+                allowOnlyLocalStorage = input.allowOnlyLocalStorage,
+                allowMultiple = input.allowMultiple
             )
         )
     }
