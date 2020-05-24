@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.kinnerapriyap.sugar.resultlauncher.GetMultipleFromGallery
@@ -16,9 +15,6 @@ import com.kinnerapriyap.sugar.resultlauncher.ResultLauncherHandler
 import java.util.ArrayList
 
 internal class ShergilActivity : AppCompatActivity() {
-
-    private val container: ImageView
-        get() = findViewById(R.id.container)
 
     private val observer: ResultLauncherHandler by lazy {
         ResultLauncherHandler(
