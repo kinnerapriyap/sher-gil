@@ -16,6 +16,8 @@ import java.util.ArrayList
 
 internal class ShergilActivity : AppCompatActivity() {
 
+    private val choiceSpec: ChoiceSpec = ChoiceSpec.instance
+
     private val observer: ResultLauncherHandler by lazy {
         ResultLauncherHandler(
             this,
@@ -26,8 +28,9 @@ internal class ShergilActivity : AppCompatActivity() {
 
     private val getFromGalleryInput by lazy {
         GetFromGalleryInput(
-            allowOnlyLocalStorage = false,
-            allowMultipleSelection = true
+            mimeTypes = choiceSpec.mimeTypes,
+            allowOnlyLocalStorage = choiceSpec.allowOnlyLocalStorage,
+            allowMultipleSelection = choiceSpec.allowMultipleSelection
         )
     }
 

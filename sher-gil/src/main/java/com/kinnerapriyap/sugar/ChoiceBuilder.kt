@@ -3,13 +3,11 @@ package com.kinnerapriyap.sugar
 import android.app.Activity
 import android.content.Intent
 import androidx.fragment.app.Fragment
-import com.kinnerapriyap.sugar.resultlauncher.GetFromGalleryInput
 
 class ChoiceBuilder private constructor(
     private val activity: Activity? = null,
     private val fragment: Fragment? = null,
-    private var mimeTypes: List<MimeType> = MimeType.IMAGES,
-    private var getFromGalleryInput: GetFromGalleryInput = GetFromGalleryInput()
+    private var choiceSpec: ChoiceSpec = ChoiceSpec.cleanInstance
 ) {
 
     constructor(activity: Activity) : this(activity, null)
@@ -24,7 +22,7 @@ class ChoiceBuilder private constructor(
      */
     fun mimeTypes(mimeTypes: List<MimeType>): ChoiceBuilder =
         apply {
-            this.mimeTypes = mimeTypes
+            choiceSpec.mimeTypes = mimeTypes
         }
 
     /**
@@ -35,9 +33,7 @@ class ChoiceBuilder private constructor(
      */
     fun allowOnlyLocalStorage(allowOnlyLocalStorage: Boolean): ChoiceBuilder =
         apply {
-            this.getFromGalleryInput = this.getFromGalleryInput.copy(
-                allowOnlyLocalStorage = allowOnlyLocalStorage
-            )
+            choiceSpec.allowOnlyLocalStorage = allowOnlyLocalStorage
         }
 
     /**
@@ -48,9 +44,7 @@ class ChoiceBuilder private constructor(
      */
     fun allowMultipleSelection(allowMultipleSelection: Boolean): ChoiceBuilder =
         apply {
-            this.getFromGalleryInput = this.getFromGalleryInput.copy(
-                allowMultipleSelection = allowMultipleSelection
-            )
+            choiceSpec.allowMultipleSelection = allowMultipleSelection
         }
 
     /**
