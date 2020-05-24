@@ -23,7 +23,7 @@ internal class ResultLauncherImpl(
 
     companion object {
         private const val REQUEST_GALLERY = "request_gallery"
-        private const val REQUEST_PERMISSIOn = "request_permission"
+        private const val REQUEST_PERMISSION = "request_permission"
     }
 
     init {
@@ -52,7 +52,7 @@ internal class ResultLauncherImpl(
 
         askReadStoragePermission =
             registry.register(
-                REQUEST_PERMISSIOn,
+                REQUEST_PERMISSION,
                 ActivityResultContracts.RequestPermission()
             ) { allowed ->
                 setPermissionResult(allowed)
