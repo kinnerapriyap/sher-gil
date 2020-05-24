@@ -37,6 +37,9 @@ class GetMultipleFromGallery : ActivityResultContract<GetFromGalleryInput, List<
                             add(it.getItemAt(i).uri)
                         }
                     }
+                    intent?.data?.let {
+                        add(it)
+                    }
                 }
             else -> emptyList()
         }
