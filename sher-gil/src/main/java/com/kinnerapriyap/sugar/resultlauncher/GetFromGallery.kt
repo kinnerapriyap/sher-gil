@@ -7,8 +7,8 @@ import android.net.Uri
 import androidx.activity.result.contract.ActivityResultContract
 
 data class GetFromGalleryInput(
-    val allowOnlyLocalStorage: Boolean,
-    val allowMultiple: Boolean
+    val allowOnlyLocalStorage: Boolean = false,
+    val allowMultiple: Boolean = true
 )
 
 class GetMultipleFromGallery : ActivityResultContract<GetFromGalleryInput, List<Uri>>() {
