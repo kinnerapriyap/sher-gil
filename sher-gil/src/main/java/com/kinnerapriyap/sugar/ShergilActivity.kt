@@ -80,6 +80,10 @@ internal class ShergilActivity : AppCompatActivity(), MediaCellListener {
     }
 
     private fun setGalleryResult(mediaUriList: List<Uri>) {
+        viewModel.initialiseMediaCellDisplayModels(mediaUriList)
+    }
+
+    private fun setShergilResult(mediaUriList: List<Uri>) {
         val resultIntent =
             Intent().apply {
                 putParcelableArrayListExtra(
@@ -87,14 +91,9 @@ internal class ShergilActivity : AppCompatActivity(), MediaCellListener {
                     mediaUriList as? ArrayList
                 )
             }
-        //setResult(Activity.RESULT_OK, resultIntent)
-        //finish()
-        val map = mediaUriList.map { it to true }.toMap()
-        mediaList = map
-        controller.setMediaList(map)
+        setResult(Activity.RESULT_OK, resultIntent)
+        finish()
     }
-
-    var mediaList: Map<Uri, Boolean> = emptyMap()
 
     private fun setPermissionResult(allowed: Boolean) {
         if (allowed) {
@@ -105,11 +104,7 @@ internal class ShergilActivity : AppCompatActivity(), MediaCellListener {
         }
     }
 
-    override fun onMediaCellClicked(view: View, uri: Uri) {
-        val map = mediaList.map { (euri, isChecked) ->
-            euri to if (euri == uri) !isChecked else isChecked
-        }.toMap()
-        mediaList = map
-        controller.setMediaList(map)
+    override fun onMediaCellClicked(uri: Uri) {
+        viewModel.setCheckedMedia(uri)
     }
 }
