@@ -7,17 +7,19 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.airbnb.epoxy.EpoxyRecyclerView
 import com.kinnerapriyap.sugar.choice.ChoiceSpec
+import com.kinnerapriyap.sugar.databinding.MediaCellListener
 import com.kinnerapriyap.sugar.resultlauncher.GetFromGalleryInput
 import com.kinnerapriyap.sugar.resultlauncher.GetMultipleFromGallery
 import com.kinnerapriyap.sugar.resultlauncher.ResultLauncherHandler
 import java.util.ArrayList
 
-internal class ShergilActivity : AppCompatActivity() {
+internal class ShergilActivity : AppCompatActivity(), MediaCellListener {
 
     private val epoxyRecyclerView: EpoxyRecyclerView
         get() = findViewById(R.id.epoxy_recycler_view)
@@ -35,7 +37,7 @@ internal class ShergilActivity : AppCompatActivity() {
     }
 
     private val controller: ShergilController by lazy {
-        ShergilController()
+        ShergilController(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,8 +82,12 @@ internal class ShergilActivity : AppCompatActivity() {
             }
         //setResult(Activity.RESULT_OK, resultIntent)
         //finish()
-        controller.setMediaList(mediaUriList)
+        val map = mediaUriList.map { it to true }.toMap()
+        mediaList = map
+        controller.setMediaList(map)
     }
+
+    var mediaList: Map<Uri, Boolean> = emptyMap()
 
     private fun setPermissionResult(allowed: Boolean) {
         if (allowed) {
@@ -90,5 +96,13 @@ internal class ShergilActivity : AppCompatActivity() {
             setResult(Activity.RESULT_CANCELED)
             finish()
         }
+    }
+
+    override fun onMediaCellClicked(view: View, uri: Uri) {
+        val map = mediaList.map { (euri, isChecked) ->
+            euri to if (euri == uri) !isChecked else isChecked
+        }.toMap()
+        mediaList = map
+        controller.setMediaList(map)
     }
 }

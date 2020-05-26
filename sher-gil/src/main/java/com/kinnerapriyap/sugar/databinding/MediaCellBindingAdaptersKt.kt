@@ -6,6 +6,7 @@ import android.os.Build
 import android.provider.MediaStore
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import com.google.android.material.card.MaterialCardView
 
 @BindingAdapter("mediaUri")
 fun bindMediaUri(imageView: ImageView, uri: Uri) {
@@ -19,4 +20,9 @@ fun bindMediaUri(imageView: ImageView, uri: Uri) {
         }
     imageView.setImageBitmap(bitmap)
     //imageView.setImageURI(uri)
+}
+
+@BindingAdapter("android:checked_state")
+fun MaterialCardView.bindCheckedState(isChecked: Boolean) {
+    this.isChecked = isChecked
 }
