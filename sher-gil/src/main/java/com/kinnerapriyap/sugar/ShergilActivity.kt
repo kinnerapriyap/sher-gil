@@ -44,8 +44,7 @@ internal class ShergilActivity : AppCompatActivity() {
         observer = ResultLauncherHandler(this, ::setGalleryResult, ::setPermissionResult)
         blah()
 
-        // TODO: Make spanCount variable
-        val spanCount = 2
+        val spanCount = choiceSpec.numOfColumns
         val layoutManager = GridLayoutManager(this, spanCount)
         controller.spanCount = spanCount
         layoutManager.spanSizeLookup = controller.spanSizeLookup

@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
                 .mimeTypes(MimeType.IMAGES)
                 .allowOnlyLocalStorage(false)
                 .allowMultipleSelection(true)
+                .numOfColumns(3)
                 .withRequestCode(REQUEST_SHERGIL)
         }
     }

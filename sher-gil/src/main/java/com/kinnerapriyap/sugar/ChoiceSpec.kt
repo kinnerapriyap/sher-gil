@@ -4,6 +4,7 @@ class ChoiceSpec private constructor() {
     var mimeTypes: List<MimeType> = MimeType.IMAGES
     var allowOnlyLocalStorage: Boolean = false
     var allowMultipleSelection: Boolean = true
+    var numOfColumns: Int = 2
 
     private object InstanceHolder {
         val INSTANCE = ChoiceSpec()
@@ -25,5 +26,6 @@ class ChoiceSpec private constructor() {
         mimeTypes = MimeType.IMAGES
         allowOnlyLocalStorage = false
         allowMultipleSelection = true
+        numOfColumns = 2
     }
 }

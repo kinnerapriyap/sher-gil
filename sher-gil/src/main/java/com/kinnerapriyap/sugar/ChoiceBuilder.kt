@@ -48,6 +48,17 @@ class ChoiceBuilder private constructor(
         }
 
     /**
+     * Determines the number of columns in which media is displayed
+     *
+     * @param numOfColumns Int default is 2
+     * @return [ChoiceBuilder] instance
+     */
+    fun numOfColumns(numOfColumns: Int): ChoiceBuilder =
+        apply {
+            choiceSpec.numOfColumns = numOfColumns
+        }
+
+    /**
      * Opens media selection with the requestCode provided
      *
      * @param requestCode Request code to be returned in onActivityResult
