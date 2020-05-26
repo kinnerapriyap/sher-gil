@@ -9,17 +9,17 @@ import androidx.databinding.BindingAdapter
 import com.google.android.material.card.MaterialCardView
 
 @BindingAdapter("mediaUri")
-fun bindMediaUri(imageView: ImageView, uri: Uri) {
+fun ImageView.bindMediaUri(uri: Uri) {
     val bitmap =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             val source =
-                ImageDecoder.createSource(imageView.context.contentResolver, uri)
+                ImageDecoder.createSource(context.contentResolver, uri)
             ImageDecoder.decodeBitmap(source)
         } else {
-            MediaStore.Images.Media.getBitmap(imageView.context.contentResolver, uri)
+            MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
         }
-    imageView.setImageBitmap(bitmap)
-    //imageView.setImageURI(uri)
+    setImageBitmap(bitmap)
+    // setImageURI(uri)
 }
 
 @BindingAdapter("android:checked_state")
