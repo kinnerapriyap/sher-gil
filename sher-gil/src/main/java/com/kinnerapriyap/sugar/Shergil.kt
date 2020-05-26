@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.fragment.app.Fragment
 import com.kinnerapriyap.sugar.resultlauncher.GetMultipleFromGallery
 import androidx.activity.result.ActivityResultCallback
+import com.kinnerapriyap.sugar.choice.ChoiceBuilder
 
 
 open class Shergil {
@@ -18,7 +19,8 @@ open class Shergil {
          * @param activity Activity instance
          * @return [ChoiceBuilder] instance
          */
-        fun create(activity: Activity) = ChoiceBuilder(activity)
+        fun create(activity: Activity) =
+            ChoiceBuilder(activity)
 
         /**
          * Open Shergil from a Fragment
@@ -30,7 +32,8 @@ open class Shergil {
          * @param fragment Fragment instance
          * @return [ChoiceBuilder] instance
          */
-        fun create(fragment: Fragment) = ChoiceBuilder(fragment)
+        fun create(fragment: Fragment) =
+            ChoiceBuilder(fragment)
 
         /**
          * Get list of [Uri] for selected media

@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.activity.result.contract.ActivityResultContract
-import com.kinnerapriyap.sugar.MimeType
+import com.kinnerapriyap.sugar.choice.MimeType
 
 data class GetFromGalleryInput(
     val mimeTypes: List<MimeType> = MimeType.IMAGES,
