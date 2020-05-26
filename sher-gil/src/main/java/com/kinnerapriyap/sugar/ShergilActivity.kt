@@ -9,12 +9,16 @@ import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.airbnb.epoxy.EpoxyRecyclerView
 import com.kinnerapriyap.sugar.resultlauncher.GetMultipleFromGallery
 import com.kinnerapriyap.sugar.resultlauncher.GetFromGalleryInput
 import com.kinnerapriyap.sugar.resultlauncher.ResultLauncherHandler
 import java.util.ArrayList
 
 internal class ShergilActivity : AppCompatActivity() {
+
+    private val epoxyRecyclerView: EpoxyRecyclerView
+        get() = findViewById(R.id.epoxy_recycler_view)
 
     private val choiceSpec: ChoiceSpec = ChoiceSpec.instance
 
@@ -34,9 +38,17 @@ internal class ShergilActivity : AppCompatActivity() {
         )
     }
 
+    private val controller: ShergilController by lazy {
+        ShergilController()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shergil)
+
+        // TODO: Make variable
+        controller.spanCount = 3
+        epoxyRecyclerView.setControllerAndBuildModels(controller)
     }
 
     override fun onResume() {
