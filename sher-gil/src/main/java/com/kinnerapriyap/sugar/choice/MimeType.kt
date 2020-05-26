@@ -1,4 +1,4 @@
-package com.kinnerapriyap.sugar
+package com.kinnerapriyap.sugar.choice
 
 /** Only supports images
  * Reference for MIME types supported by Android:

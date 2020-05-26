@@ -1,4 +1,4 @@
-package com.kinnerapriyap.sugar
+package com.kinnerapriyap.sugar.choice
 
 class ChoiceSpec private constructor() {
     var mimeTypes: List<MimeType> = MimeType.IMAGES
