@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        title = "sample"
 
         findViewById<TextView>(R.id.hello).setOnClickListener {
             Shergil.create(this)
