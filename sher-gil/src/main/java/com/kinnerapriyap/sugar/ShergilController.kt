@@ -14,7 +14,7 @@ class ShergilController : EpoxyController() {
 
     override fun buildModels() {
         mediaList.forEach { uri ->
-            cell {
+            mediaCell {
                 id(uri.path)
                 mediaUri(uri)
             }
