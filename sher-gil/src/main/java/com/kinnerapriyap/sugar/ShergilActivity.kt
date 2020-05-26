@@ -9,9 +9,10 @@ import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import com.airbnb.epoxy.EpoxyRecyclerView
-import com.kinnerapriyap.sugar.resultlauncher.GetMultipleFromGallery
 import com.kinnerapriyap.sugar.resultlauncher.GetFromGalleryInput
+import com.kinnerapriyap.sugar.resultlauncher.GetMultipleFromGallery
 import com.kinnerapriyap.sugar.resultlauncher.ResultLauncherHandler
 import java.util.ArrayList
 
@@ -22,13 +23,7 @@ internal class ShergilActivity : AppCompatActivity() {
 
     private val choiceSpec: ChoiceSpec = ChoiceSpec.instance
 
-    private val observer: ResultLauncherHandler by lazy {
-        ResultLauncherHandler(
-            this,
-            ::setGalleryResult,
-            ::setPermissionResult
-        )
-    }
+    private lateinit var observer: ResultLauncherHandler
 
     private val getFromGalleryInput by lazy {
         GetFromGalleryInput(
@@ -46,15 +41,16 @@ internal class ShergilActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shergil)
 
-        // TODO: Make variable
-        controller.spanCount = 3
-        epoxyRecyclerView.setControllerAndBuildModels(controller)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        //TODO: Dont do this here
+        observer = ResultLauncherHandler(this, ::setGalleryResult, ::setPermissionResult)
         blah()
+
+        // TODO: Make spanCount variable
+        val spanCount = 2
+        val layoutManager = GridLayoutManager(this, spanCount)
+        controller.spanCount = spanCount
+        layoutManager.spanSizeLookup = controller.spanSizeLookup
+        epoxyRecyclerView.layoutManager = layoutManager
+        epoxyRecyclerView.setControllerAndBuildModels(controller)
     }
 
     fun blah() {
@@ -74,16 +70,17 @@ internal class ShergilActivity : AppCompatActivity() {
         super.onBackPressed()
     }
 
-    private fun setGalleryResult(imageUriList: List<Uri>) {
+    private fun setGalleryResult(mediaUriList: List<Uri>) {
         val resultIntent =
             Intent().apply {
                 putParcelableArrayListExtra(
                     GetMultipleFromGallery.RESULT_URIS,
-                    imageUriList as? ArrayList
+                    mediaUriList as? ArrayList
                 )
             }
-        setResult(Activity.RESULT_OK, resultIntent)
-        finish()
+        //setResult(Activity.RESULT_OK, resultIntent)
+        //finish()
+        controller.setMediaList(mediaUriList)
     }
 
     private fun setPermissionResult(allowed: Boolean) {
