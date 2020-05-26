@@ -9,12 +9,8 @@
             type="com.kinnerapriyap.sugar.databinding.MediaCellListener" />
 
         <variable
-            name="isChecked"
-            type="Boolean" />
-
-        <variable
-            name="mediaUri"
-            type="android.net.Uri" />
+            name="displayModel"
+            type="com.kinnerapriyap.sugar.databinding.MediaCellDisplayModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,10 +22,10 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:checkable="true"
-            android:checked_state="@{isChecked}"
+            android:checked_state="@{displayModel.isChecked}"
             android:clickable="true"
             android:focusable="true"
-            android:onClick="@{(view) -> listener.onMediaCellClicked(view, mediaUri)}"
+            android:onClick="@{() -> listener.onMediaCellClicked(displayModel.mediaUri)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="H, 1:1"
             app:layout_constraintEnd_toEndOf="parent"
@@ -37,7 +33,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                mediaUri="@{mediaUri}"
+                mediaUri="@{displayModel.mediaUri}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
