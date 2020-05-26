@@ -7,9 +7,10 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.airbnb.epoxy.EpoxyRecyclerView
 import com.kinnerapriyap.sugar.choice.ChoiceSpec
@@ -27,6 +28,8 @@ internal class ShergilActivity : AppCompatActivity(), MediaCellListener {
     private val choiceSpec: ChoiceSpec = ChoiceSpec.instance
 
     private lateinit var observer: ResultLauncherHandler
+
+    private val viewModel: ShergilViewModel by viewModels()
 
     private val getFromGalleryInput by lazy {
         GetFromGalleryInput(
@@ -53,6 +56,10 @@ internal class ShergilActivity : AppCompatActivity(), MediaCellListener {
         layoutManager.spanSizeLookup = controller.spanSizeLookup
         epoxyRecyclerView.layoutManager = layoutManager
         epoxyRecyclerView.setControllerAndBuildModels(controller)
+
+        viewModel.getMediaCellDisplayModels().observe(this, Observer {
+            controller.mediaCellDisplayModels = it
+        })
     }
 
     fun blah() {
