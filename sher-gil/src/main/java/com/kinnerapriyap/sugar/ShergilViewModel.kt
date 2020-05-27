@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.kinnerapriyap.sugar.databinding.MediaCellDisplayModel
+import com.kinnerapriyap.sugar.extension.toMediaCellDisplayModel
 
 class ShergilViewModel : ViewModel() {
     private val mediaCellDisplayModels =
@@ -28,10 +29,4 @@ class ShergilViewModel : ViewModel() {
                 it.copy(isChecked = isChecked)
             }
     }
-
-    private fun Uri.toMediaCellDisplayModel(isChecked: Boolean) =
-        MediaCellDisplayModel(
-            mediaUri = this,
-            isChecked = isChecked
-        )
 }
