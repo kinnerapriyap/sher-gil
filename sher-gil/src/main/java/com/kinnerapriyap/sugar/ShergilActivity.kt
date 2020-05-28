@@ -20,10 +20,7 @@ import com.kinnerapriyap.sugar.resultlauncher.GetMultipleFromGallery
 import com.kinnerapriyap.sugar.resultlauncher.ResultLauncherHandler
 import java.util.ArrayList
 
-internal class ShergilActivity : AppCompatActivity(), MediaCellListener {
-
-    private val epoxyRecyclerView: EpoxyRecyclerView
-        get() = findViewById(R.id.epoxy_recycler_view)
+internal class ShergilActivity : AppCompatActivity() {
 
     private val choiceSpec: ChoiceSpec = ChoiceSpec.instance
 
@@ -39,27 +36,12 @@ internal class ShergilActivity : AppCompatActivity(), MediaCellListener {
         )
     }
 
-    private val controller: ShergilController by lazy {
-        ShergilController(this)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shergil)
 
         observer = ResultLauncherHandler(this, ::setGalleryResult, ::setPermissionResult)
         blah()
-
-        val spanCount = choiceSpec.numOfColumns
-        val layoutManager = GridLayoutManager(this, spanCount)
-        controller.spanCount = spanCount
-        layoutManager.spanSizeLookup = controller.spanSizeLookup
-        epoxyRecyclerView.layoutManager = layoutManager
-        epoxyRecyclerView.setControllerAndBuildModels(controller)
-
-        viewModel.getMediaCellDisplayModels().observe(this, Observer {
-            controller.mediaCellDisplayModels = it
-        })
     }
 
     fun blah() {
@@ -69,8 +51,13 @@ internal class ShergilActivity : AppCompatActivity(), MediaCellListener {
                 READ_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED ->
                 observer.askPermission()
-            else ->
-                observer.openGallery(getFromGalleryInput)
+            else -> {
+                //observer.openGallery(getFromGalleryInput)
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.container, MediaGalleryFragment.newInstance())
+                    .commit()
+            }
         }
     }
 
@@ -102,9 +89,5 @@ internal class ShergilActivity : AppCompatActivity(), MediaCellListener {
             setResult(Activity.RESULT_CANCELED)
             finish()
         }
-    }
-
-    override fun onMediaCellClicked(uri: Uri) {
-        viewModel.setCheckedMedia(uri)
     }
 }
