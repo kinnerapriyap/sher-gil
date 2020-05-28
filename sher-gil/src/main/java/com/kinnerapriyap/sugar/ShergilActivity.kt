@@ -10,11 +10,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
-import com.airbnb.epoxy.EpoxyRecyclerView
 import com.kinnerapriyap.sugar.choice.ChoiceSpec
-import com.kinnerapriyap.sugar.databinding.MediaCellListener
 import com.kinnerapriyap.sugar.resultlauncher.GetFromGalleryInput
 import com.kinnerapriyap.sugar.resultlauncher.GetMultipleFromGallery
 import com.kinnerapriyap.sugar.resultlauncher.ResultLauncherHandler
