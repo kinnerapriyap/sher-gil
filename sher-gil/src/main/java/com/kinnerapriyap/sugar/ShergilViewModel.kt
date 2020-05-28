@@ -5,7 +5,6 @@ import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.kinnerapriyap.sugar.extension.toMediaCellDisplayModel
 import com.kinnerapriyap.sugar.mediagallery.MediaCellDisplayModel
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler
 import kotlinx.coroutines.*

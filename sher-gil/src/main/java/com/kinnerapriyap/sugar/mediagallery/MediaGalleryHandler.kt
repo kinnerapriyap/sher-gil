@@ -5,7 +5,6 @@ import android.content.ContentUris
 import android.net.Uri
 import android.provider.MediaStore
 import android.provider.BaseColumns
-import com.kinnerapriyap.sugar.extension.toMediaCellDisplayModel
 
 class MediaGalleryHandler(private val contentResolver: ContentResolver) {
 
