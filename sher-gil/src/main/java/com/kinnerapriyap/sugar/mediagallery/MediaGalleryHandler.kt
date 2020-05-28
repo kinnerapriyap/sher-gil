@@ -2,12 +2,11 @@ package com.kinnerapriyap.sugar.mediagallery
 
 import android.content.ContentResolver
 import android.content.ContentUris
-import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
 import android.provider.BaseColumns
 
-class MediaGalleryHandler {
+class MediaGalleryHandler(private val contentResolver: ContentResolver) {
 
     /**
      *  In API 29, BUCKET_DISPLAY_NAME was moved to MediaStore.MediaColumns
@@ -37,7 +36,7 @@ class MediaGalleryHandler {
             "${MediaStore.MediaColumns.DATE_MODIFIED} DESC"
     }
 
-    fun fetchMedia(contentResolver: ContentResolver): List<Uri> {
+    fun fetchMedia(): List<Uri> {
         val images: MutableList<Uri> = mutableListOf()
         contentResolver.query(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,

@@ -13,6 +13,10 @@ import kotlin.coroutines.CoroutineContext
 
 class ShergilViewModel(application: Application) : AndroidViewModel(application), CoroutineScope {
 
+    private val mediaGalleryHandler by lazy {
+        MediaGalleryHandler(getApplication<Application>().contentResolver)
+    }
+
     /**
      * Providing [Dispatchers.Main] in coroutineContext as default
      * to use [launch], which is an extension function of [CoroutineScope],
@@ -43,8 +47,7 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
     fun setMediaCellDisplayModels() {
         launch {
             mediaCellDisplayModels.value = withContext(Dispatchers.IO) {
-                MediaGalleryHandler()
-                    .fetchMedia(getApplication<Application>().contentResolver)
+               mediaGalleryHandler.fetchMedia()
                     .map { it.toMediaCellDisplayModel(false) }
             }
         }
