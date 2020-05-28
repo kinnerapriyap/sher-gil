@@ -11,21 +11,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import com.airbnb.epoxy.EpoxyRecyclerView
 import com.kinnerapriyap.sugar.choice.ChoiceSpec
 import com.kinnerapriyap.sugar.databinding.MediaCellListener
+import kotlinx.android.synthetic.main.fragment_media_gallery.*
 
 class MediaGalleryFragment : Fragment(), MediaCellListener {
-
-    private val epoxyRecyclerView: EpoxyRecyclerView
-        get() = requireView().findViewById(R.id.epoxy_recycler_view)
 
     private val choiceSpec: ChoiceSpec = ChoiceSpec.instance
 
     private val viewModel: ShergilViewModel by viewModels()
 
-    private val controller: ShergilController by lazy {
-        ShergilController(this)
+    private val mediaGalleryAdapter: MediaGalleryAdapter by lazy {
+        MediaGalleryAdapter(this@MediaGalleryFragment)
     }
 
     companion object {
@@ -41,15 +38,13 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val spanCount = choiceSpec.numOfColumns
-        val layoutManager = GridLayoutManager(requireActivity(), spanCount)
-        controller.spanCount = spanCount
-        layoutManager.spanSizeLookup = controller.spanSizeLookup
-        epoxyRecyclerView.layoutManager = layoutManager
-        epoxyRecyclerView.setControllerAndBuildModels(controller)
+        recyclerView.apply {
+            layoutManager = GridLayoutManager(requireActivity(), choiceSpec.numOfColumns)
+            adapter = mediaGalleryAdapter
+        }
 
         viewModel.getMediaCellDisplayModels().observe(requireActivity(), Observer {
-            controller.mediaCellDisplayModels = it
+            mediaGalleryAdapter.mediaCellDisplayModels = it
         })
 
         val images: MutableList<Uri> = mutableListOf()
