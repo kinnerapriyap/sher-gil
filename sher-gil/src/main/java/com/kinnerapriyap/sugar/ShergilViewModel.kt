@@ -48,7 +48,6 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
         launch {
             mediaCellDisplayModels.value = withContext(Dispatchers.IO) {
                mediaGalleryHandler.fetchMedia()
-                    .map { it.toMediaCellDisplayModel(false) }
             }
         }
     }

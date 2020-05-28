@@ -5,6 +5,7 @@ import android.content.ContentUris
 import android.net.Uri
 import android.provider.MediaStore
 import android.provider.BaseColumns
+import com.kinnerapriyap.sugar.extension.toMediaCellDisplayModel
 
 class MediaGalleryHandler(private val contentResolver: ContentResolver) {
 
@@ -36,8 +37,8 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
             "${MediaStore.MediaColumns.DATE_MODIFIED} DESC"
     }
 
-    fun fetchMedia(): List<Uri> {
-        val images: MutableList<Uri> = mutableListOf()
+    fun fetchMedia(): List<MediaCellDisplayModel> {
+        val mediaCellDisplayModels: MutableList<MediaCellDisplayModel> = mutableListOf()
         contentResolver.query(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
             PROJECTION,
@@ -60,9 +61,11 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                     cursor.getLong(idColumn)
                 )
-                images.add(contentUri)
+                mediaCellDisplayModels.add(
+                    contentUri.toMediaCellDisplayModel(false)
+                )
             }
         }
-        return images
+        return mediaCellDisplayModels
     }
 }
