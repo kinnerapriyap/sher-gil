@@ -15,6 +15,7 @@ import com.kinnerapriyap.sugar.mediagallery.MediaGalleryFragment
 import com.kinnerapriyap.sugar.resultlauncher.GetFromGalleryInput
 import com.kinnerapriyap.sugar.resultlauncher.GetMultipleFromGallery
 import com.kinnerapriyap.sugar.resultlauncher.ResultLauncherHandler
+import kotlinx.android.synthetic.main.activity_shergil.*
 import java.util.ArrayList
 
 internal class ShergilActivity : AppCompatActivity() {
@@ -34,8 +35,11 @@ internal class ShergilActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Shergil)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shergil)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         observer = ResultLauncherHandler(this, ::setGalleryResult, ::setPermissionResult)
         blah()
@@ -56,6 +60,11 @@ internal class ShergilActivity : AppCompatActivity() {
                     .commit()
             }
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     override fun onBackPressed() {
