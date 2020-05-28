@@ -10,7 +10,7 @@
 
         <variable
             name="displayModel"
-            type="com.kinnerapriyap.sugar.databinding.MediaCellDisplayModel" />
+            type="com.kinnerapriyap.sugar.mediagallery.MediaCellDisplayModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

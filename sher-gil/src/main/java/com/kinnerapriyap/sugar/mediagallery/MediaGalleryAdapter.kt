@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.kinnerapriyap.sugar.R
-import com.kinnerapriyap.sugar.databinding.MediaCellDisplayModel
 import com.kinnerapriyap.sugar.databinding.MediaCellListener
 import com.kinnerapriyap.sugar.databinding.ViewMediaCellBinding
 

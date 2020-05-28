@@ -1,4 +1,4 @@
-package com.kinnerapriyap.sugar.databinding
+package com.kinnerapriyap.sugar.mediagallery
 
 import android.net.Uri
 

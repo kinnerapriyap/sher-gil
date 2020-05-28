@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.loader.app.LoaderManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.kinnerapriyap.sugar.R
 import com.kinnerapriyap.sugar.ShergilViewModel
@@ -50,7 +51,7 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
             mediaGalleryAdapter.mediaCellDisplayModels = it
         })
 
-        val images: MutableList<Uri> = mutableListOf()
+        /*val images: MutableList<Uri> = mutableListOf()
         val projection = arrayOf(
             MediaStore.MediaColumns._ID,
             MediaStore.MediaColumns.DISPLAY_NAME
@@ -65,10 +66,10 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
         )?.use { cursor ->
             val idColumn = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID)
             while (cursor.moveToNext()) {
-                /**
+                *//**
                  * Use the ID column from the projection to get
                  * a URI representing the media item
-                 */
+                 *//*
                 val id = cursor.getLong(idColumn)
 
                 val contentUri: Uri = ContentUris.withAppendedId(
@@ -78,7 +79,7 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
                 images.add(contentUri)
             }
         }
-        viewModel.initialiseMediaCellDisplayModels(images)
+        viewModel.initialiseMediaCellDisplayModels(images)*/
     }
 
     override fun onMediaCellClicked(uri: Uri) {

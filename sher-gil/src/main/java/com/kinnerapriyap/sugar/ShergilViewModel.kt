@@ -4,7 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.kinnerapriyap.sugar.databinding.MediaCellDisplayModel
+import com.kinnerapriyap.sugar.mediagallery.MediaCellDisplayModel
 import com.kinnerapriyap.sugar.extension.toMediaCellDisplayModel
 
 class ShergilViewModel : ViewModel() {
