@@ -4,5 +4,6 @@ import android.net.Uri
 
 data class MediaCellDisplayModel(
     val mediaUri: Uri,
-    val isChecked: Boolean
+    val isChecked: Boolean = false,
+    val bucketDisplayName: String
 )
