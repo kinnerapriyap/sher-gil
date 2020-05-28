@@ -1,24 +1,34 @@
 package com.kinnerapriyap.sugar
 
+import android.app.Application
 import android.net.Uri
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.kinnerapriyap.sugar.mediagallery.MediaCellDisplayModel
 import com.kinnerapriyap.sugar.extension.toMediaCellDisplayModel
+import com.kinnerapriyap.sugar.mediagallery.MediaCellDisplayModel
+import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
-class ShergilViewModel : ViewModel() {
+class ShergilViewModel(application: Application) : AndroidViewModel(application), CoroutineScope {
+
+    /**
+     * Providing [Dispatchers.Main] in coroutineContext as default
+     * to use [launch], which is an extension function of [CoroutineScope],
+     * without specifying the thread each time
+     * [Dispatchers.IO] or [Dispatchers.Default] may be used
+     * when required to change the thread
+     */
+    private val job = Job()
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.Main
+
     private val mediaCellDisplayModels =
         MutableLiveData<List<MediaCellDisplayModel>>().apply { value = emptyList() }
 
     fun getMediaCellDisplayModels(): LiveData<List<MediaCellDisplayModel>> =
         mediaCellDisplayModels
-
-    fun initialiseMediaCellDisplayModels(mediaUriList: List<Uri>) {
-        mediaCellDisplayModels.value =
-            mediaUriList.map { it.toMediaCellDisplayModel(false) }
-
-    }
 
     fun setCheckedMedia(uri: Uri) {
         mediaCellDisplayModels.value =
@@ -28,5 +38,15 @@ class ShergilViewModel : ViewModel() {
                     else it.isChecked
                 it.copy(isChecked = isChecked)
             }
+    }
+
+    fun setMediaCellDisplayModels() {
+        launch {
+            mediaCellDisplayModels.value = withContext(Dispatchers.IO) {
+                MediaGalleryHandler()
+                    .fetchMedia(getApplication<Application>().contentResolver)
+                    .map { it.toMediaCellDisplayModel(false) }
+            }
+        }
     }
 }
