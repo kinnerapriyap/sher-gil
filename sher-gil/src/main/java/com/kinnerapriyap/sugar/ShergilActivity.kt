@@ -64,7 +64,7 @@ internal class ShergilActivity : AppCompatActivity() {
     }
 
     private fun setGalleryResult(mediaUriList: List<Uri>) {
-        viewModel.initialiseMediaCellDisplayModels(mediaUriList)
+        // viewModel.initialiseMediaCellDisplayModels(mediaUriList)
     }
 
     private fun setShergilResult(mediaUriList: List<Uri>) {
