@@ -56,14 +56,16 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
                  * Get a URI representing the media item and
                  * append the id from the projection column to the base URI
                  */
+                val id = cursor.getLong(idColumnIndex)
                 val contentUri: Uri = ContentUris.withAppendedId(
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    cursor.getLong(idColumnIndex)
+                    id
                 )
+                val bucketDisplayName = cursor.getString(bucketDisplayNameColumnIndex)
                 mediaCellDisplayModels.add(
                     MediaCellDisplayModel(
                         mediaUri = contentUri,
-                        bucketDisplayName = cursor.getString(bucketDisplayNameColumnIndex)
+                        bucketDisplayName = bucketDisplayName
                     )
                 )
             }
