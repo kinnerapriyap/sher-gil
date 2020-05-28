@@ -1,4 +1,4 @@
-package com.kinnerapriyap.sugar
+package com.kinnerapriyap.sugar.mediagallery
 
 import android.content.ContentUris
 import android.net.Uri
@@ -11,6 +11,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import com.kinnerapriyap.sugar.R
+import com.kinnerapriyap.sugar.ShergilViewModel
 import com.kinnerapriyap.sugar.choice.ChoiceSpec
 import com.kinnerapriyap.sugar.databinding.MediaCellListener
 import kotlinx.android.synthetic.main.fragment_media_gallery.*
@@ -26,7 +28,8 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
     }
 
     companion object {
-        fun newInstance() = MediaGalleryFragment()
+        fun newInstance() =
+            MediaGalleryFragment()
     }
 
     override fun onCreateView(

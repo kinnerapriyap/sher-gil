@@ -1,9 +1,10 @@
-package com.kinnerapriyap.sugar
+package com.kinnerapriyap.sugar.mediagallery
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.kinnerapriyap.sugar.R
 import com.kinnerapriyap.sugar.databinding.MediaCellDisplayModel
 import com.kinnerapriyap.sugar.databinding.MediaCellListener
 import com.kinnerapriyap.sugar.databinding.ViewMediaCellBinding
@@ -21,7 +22,7 @@ class MediaGalleryAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): MediaGalleryAdapter.MediaCellHolder {
+    ): MediaCellHolder {
         val binding = DataBindingUtil.inflate<ViewMediaCellBinding>(
             LayoutInflater.from(parent.context),
             R.layout.view_media_cell,
@@ -33,7 +34,7 @@ class MediaGalleryAdapter(
 
     override fun getItemCount(): Int = mediaCellDisplayModels.size
 
-    override fun onBindViewHolder(holder: MediaGalleryAdapter.MediaCellHolder, position: Int) =
+    override fun onBindViewHolder(holder: MediaCellHolder, position: Int) =
         holder.bind(mediaCellDisplayModels[position], mediaCellListener)
 
     inner class MediaCellHolder(
