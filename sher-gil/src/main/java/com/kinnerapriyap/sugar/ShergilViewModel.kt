@@ -34,7 +34,7 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
     fun getMediaCellDisplayModels(): LiveData<List<MediaCellDisplayModel>> =
         mediaCellDisplayModels
 
-    fun setCheckedMedia(uri: Uri) {
+    fun setMediaChecked(uri: Uri) {
         mediaCellDisplayModels.value =
             mediaCellDisplayModels.value?.map {
                 val isChecked =
