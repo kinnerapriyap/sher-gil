@@ -48,8 +48,8 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
             /**
              * getColumnIndexOrThrow is used since _ID column exists in [BaseColumns]
              */
-            val idColumn = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID)
-            val bucketDisplayNameColumn =
+            val idColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID)
+            val bucketDisplayNameColumnIndex =
                 cursor.getColumnIndex(MediaStore.MediaColumns.BUCKET_DISPLAY_NAME)
             while (cursor.moveToNext()) {
                 /**
@@ -58,10 +58,13 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
                  */
                 val contentUri: Uri = ContentUris.withAppendedId(
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    cursor.getLong(idColumn)
+                    cursor.getLong(idColumnIndex)
                 )
                 mediaCellDisplayModels.add(
-                    contentUri.toMediaCellDisplayModel(false)
+                    MediaCellDisplayModel(
+                        mediaUri = contentUri,
+                        bucketDisplayName = cursor.getString(bucketDisplayNameColumnIndex)
+                    )
                 )
             }
         }
