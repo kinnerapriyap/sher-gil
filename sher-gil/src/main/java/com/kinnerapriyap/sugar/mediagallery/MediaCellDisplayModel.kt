@@ -3,6 +3,7 @@ package com.kinnerapriyap.sugar.mediagallery
 import android.net.Uri
 
 data class MediaCellDisplayModel(
+    val id: Long,
     val mediaUri: Uri,
     val isChecked: Boolean = false,
     val bucketDisplayName: String
