@@ -1,10 +1,8 @@
 package com.kinnerapriyap.sugar.mediagallery
 
 import android.content.ContentResolver
-import android.content.ContentUris
-import android.net.Uri
+import android.database.Cursor
 import android.provider.MediaStore
-import android.provider.BaseColumns
 
 class MediaGalleryHandler(private val contentResolver: ContentResolver) {
 
@@ -36,40 +34,12 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
             "${MediaStore.MediaColumns.DATE_MODIFIED} DESC"
     }
 
-    fun fetchMedia(): List<MediaCellDisplayModel> {
-        val mediaCellDisplayModels: MutableList<MediaCellDisplayModel> = mutableListOf()
+    fun fetchMedia(): Cursor? =
         contentResolver.query(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
             PROJECTION,
             null,
             null,
             SORT_ORDER
-        )?.use { cursor ->
-            /**
-             * getColumnIndexOrThrow is used since _ID column exists in [BaseColumns]
-             */
-            val idColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID)
-            val bucketDisplayNameColumnIndex =
-                cursor.getColumnIndex(MediaStore.MediaColumns.BUCKET_DISPLAY_NAME)
-            while (cursor.moveToNext()) {
-                /**
-                 * Get a URI representing the media item and
-                 * append the id from the projection column to the base URI
-                 */
-                val id = cursor.getLong(idColumnIndex)
-                val contentUri: Uri = ContentUris.withAppendedId(
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    id
-                )
-                val bucketDisplayName = cursor.getString(bucketDisplayNameColumnIndex)
-                mediaCellDisplayModels.add(
-                    MediaCellDisplayModel(
-                        mediaUri = contentUri,
-                        bucketDisplayName = bucketDisplayName
-                    )
-                )
-            }
-        }
-        return mediaCellDisplayModels
-    }
+        )
 }
