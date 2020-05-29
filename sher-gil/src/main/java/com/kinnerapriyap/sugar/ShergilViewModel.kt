@@ -6,14 +6,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kinnerapriyap.sugar.mediagallery.MediaCellDisplayModel
+import com.kinnerapriyap.sugar.mediagallery.MediaCellUpdateModel
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
-
-data class MediaCellUpdateModel(
-    val position: Int,
-    val isChecked: Boolean
-)
 
 class ShergilViewModel(application: Application) : AndroidViewModel(application), CoroutineScope {
 

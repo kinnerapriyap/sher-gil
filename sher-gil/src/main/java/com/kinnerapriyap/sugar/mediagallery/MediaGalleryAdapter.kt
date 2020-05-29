@@ -13,7 +13,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.kinnerapriyap.sugar.R
 import android.provider.BaseColumns
-import com.kinnerapriyap.sugar.MediaCellUpdateModel
 import com.kinnerapriyap.sugar.databinding.MediaCellListener
 import com.kinnerapriyap.sugar.databinding.ViewMediaCellBinding
 
