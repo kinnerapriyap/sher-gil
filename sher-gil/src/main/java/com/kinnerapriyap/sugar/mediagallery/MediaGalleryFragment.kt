@@ -1,6 +1,5 @@
 package com.kinnerapriyap.sugar.mediagallery
 
-import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -22,7 +21,10 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
     private val viewModel: ShergilViewModel by activityViewModels()
 
     private val mediaGalleryAdapter: MediaGalleryAdapter by lazy {
-        MediaGalleryAdapter(this@MediaGalleryFragment)
+        MediaGalleryAdapter(
+            viewModel.fetchMediaCursor(),
+            this@MediaGalleryFragment
+        )
     }
 
     companion object {

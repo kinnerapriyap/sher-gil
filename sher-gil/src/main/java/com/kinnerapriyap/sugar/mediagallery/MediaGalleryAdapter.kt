@@ -1,22 +1,51 @@
 package com.kinnerapriyap.sugar.mediagallery
 
+import android.content.ContentUris
+import android.database.Cursor
+import android.net.Uri
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.FilterQueryProvider
+import android.widget.Filterable
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.kinnerapriyap.sugar.R
+import android.provider.BaseColumns
+import com.kinnerapriyap.sugar.MediaCellUpdateModel
 import com.kinnerapriyap.sugar.databinding.MediaCellListener
 import com.kinnerapriyap.sugar.databinding.ViewMediaCellBinding
 
 class MediaGalleryAdapter(
+    private var mediaCursor: Cursor?,
     private val mediaCellListener: MediaCellListener
-) : RecyclerView.Adapter<MediaGalleryAdapter.MediaCellHolder>() {
+) : RecyclerView.Adapter<MediaGalleryAdapter.MediaCellHolder>(), Filterable,
+    MediaGalleryCursorFilterListener {
 
-    var mediaCellDisplayModels: List<MediaCellDisplayModel> = emptyList()
+    private var isDataValid = mediaCursor != null
+
+    var updatedMediaCellPosition: MediaCellUpdateModel =
+        MediaCellUpdateModel(-1, false)
         set(value) {
             field = value
-            notifyDataSetChanged()
+            if (value.position != -1) {
+                notifyItemChanged(value.position)
+            }
         }
+
+    private var filterQueryProvider: FilterQueryProvider? = null
+
+    private val cursorFilter = MediaGalleryCursorFilter(this)
+
+    /**
+     * getColumnIndexOrThrow is used since _ID column exists in [BaseColumns]
+     */
+    private var idColumnIndex =
+        mediaCursor?.getColumnIndexOrThrow(MediaStore.MediaColumns._ID) ?: -1
+
+    private val bucketDisplayNameColumnIndex =
+        mediaCursor?.getColumnIndex(MediaStore.MediaColumns.BUCKET_DISPLAY_NAME) ?: -1
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -31,10 +60,45 @@ class MediaGalleryAdapter(
         return MediaCellHolder(binding)
     }
 
-    override fun getItemCount(): Int = mediaCellDisplayModels.size
+    override fun getItemCount(): Int = mediaCursor?.count ?: 0
 
-    override fun onBindViewHolder(holder: MediaCellHolder, position: Int) =
-        holder.bind(mediaCellDisplayModels[position], mediaCellListener)
+    /**
+     * [mediaCursor] is moved to the correct position
+     * so it is used to get the data
+     */
+    override fun onBindViewHolder(holder: MediaCellHolder, position: Int) {
+        if (mediaCursor?.moveToPosition(position) == false || !isDataValid) {
+            throw IllegalStateException("onBind $position")
+        }
+        val cursor = mediaCursor ?: throw IllegalStateException("invalid cursor")
+
+        /**
+         * Get a URI representing the media item and
+         * append the id from the projection column to the base URI
+         */
+        val id = cursor.getLong(idColumnIndex)
+        val contentUri: Uri = ContentUris.withAppendedId(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            id
+        )
+        val bucketDisplayName = cursor.getString(bucketDisplayNameColumnIndex)
+        var displayModel = MediaCellDisplayModel(
+            id = getItemId(position),
+            mediaUri = contentUri,
+            bucketDisplayName = bucketDisplayName
+        )
+        if (updatedMediaCellPosition.position == position) {
+            displayModel = displayModel.copy(
+                isChecked = updatedMediaCellPosition.isChecked
+            )
+        }
+        holder.bind(displayModel, mediaCellListener)
+    }
+
+    override fun getItemId(position: Int): Long =
+        if (isDataValid && mediaCursor?.moveToPosition(position) == true) {
+            mediaCursor?.getLong(idColumnIndex) ?: 0
+        } else 0
 
     inner class MediaCellHolder(
         private val binding: ViewMediaCellBinding
@@ -45,4 +109,49 @@ class MediaGalleryAdapter(
             binding.executePendingBindings()
         }
     }
+
+    /**
+     * Query with the specified constraint is
+     * requested by the attached [MediaGalleryCursorFilter],
+     * provided by the [FilterQueryProvider] and
+     * is always performed on IO thread
+     * The current cursor is returned unfiltered if provider is not specified
+     *
+     * @param constraint to filter the query
+     * @return [Cursor] for query results
+     */
+    override fun fetchMediaOnIO(constraint: CharSequence?): Cursor? =
+        filterQueryProvider?.runQuery(constraint) ?: getCursor()
+
+    override fun getCursor(): Cursor? = mediaCursor
+
+    /**
+     * Close existing cursor and update to new cursor from [swapCursor]
+     *
+     * @param cursor new
+     */
+    override fun changeCursor(cursor: Cursor?) {
+        val old = swapCursor(cursor)
+        old?.close()
+    }
+
+    /**
+     * The returned old Cursor is *not* closed here, but in [changeCursor]
+     *
+     * @param newCursor to be used
+     * @return previous [Cursor]
+     * or null if it is equal to newCursor/does not exist
+     */
+    private fun swapCursor(newCursor: Cursor?): Cursor? {
+        if (newCursor === mediaCursor) return null
+        val oldCursor = mediaCursor
+        mediaCursor = newCursor
+        isDataValid = newCursor != null
+        idColumnIndex =
+            newCursor?.getColumnIndex(MediaStore.MediaColumns._ID) ?: -1
+        notifyDataSetChanged()
+        return oldCursor
+    }
+
+    override fun getFilter(): Filter = cursorFilter
 }
