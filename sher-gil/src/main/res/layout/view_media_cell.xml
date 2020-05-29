@@ -25,7 +25,7 @@
             android:checked_state="@{displayModel.isChecked}"
             android:clickable="true"
             android:focusable="true"
-            android:onClick="@{() -> listener.onMediaCellClicked(displayModel.mediaUri)}"
+            android:onClick="@{() -> listener.onMediaCellClicked(displayModel)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="H, 1:1"
             app:layout_constraintEnd_toEndOf="parent"

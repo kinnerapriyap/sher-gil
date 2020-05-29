@@ -51,7 +51,7 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
         viewModel.setMediaCellDisplayModels()
     }
 
-    override fun onMediaCellClicked(uri: Uri) {
-        viewModel.setMediaChecked(uri)
+    override fun onMediaCellClicked(displayModel: MediaCellDisplayModel) {
+        viewModel.setMediaChecked(displayModel)
     }
 }

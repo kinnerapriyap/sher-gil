@@ -1,7 +1,7 @@
 package com.kinnerapriyap.sugar.databinding
 
-import android.net.Uri
+import com.kinnerapriyap.sugar.mediagallery.MediaCellDisplayModel
 
 interface MediaCellListener {
-    fun onMediaCellClicked(uri: Uri)
+    fun onMediaCellClicked(displayModel: MediaCellDisplayModel)
 }
