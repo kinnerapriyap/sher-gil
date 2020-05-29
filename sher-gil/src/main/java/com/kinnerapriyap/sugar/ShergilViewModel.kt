@@ -29,9 +29,10 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
         get() = job + Dispatchers.Main
 
     private val mediaCellDisplayModels =
-        MutableLiveData<List<MediaCellDisplayModel>>().apply { value = emptyList() }
+        MutableLiveData<MutableList<MediaCellDisplayModel>>()
+            .apply { value = mutableListOf() }
 
-    fun getMediaCellDisplayModels(): LiveData<List<MediaCellDisplayModel>> =
+    fun getMediaCellDisplayModels(): LiveData<MutableList<MediaCellDisplayModel>> =
         mediaCellDisplayModels
 
     private val updatedMediaCellPosition =
@@ -44,13 +45,19 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
         updatedMediaCellPosition.value =
             MediaCellUpdateModel(displayModel.position, !displayModel.isChecked)
         mediaCellDisplayModels.value =
-            mediaCellDisplayModels.value?.map {
-                val isChecked =
-                    if (it == displayModel) {
-                        !it.isChecked
-                    } else it.isChecked
-                it.copy(isChecked = isChecked)
-            }
+            if (mediaCellDisplayModels.value?.contains(displayModel) == true) {
+                mediaCellDisplayModels.value?.map {
+                    val isChecked =
+                        if (it == displayModel) {
+                            !it.isChecked
+                        } else it.isChecked
+                    it.copy(isChecked = isChecked)
+                }
+            } else {
+                val new = mediaCellDisplayModels.value
+                new?.add(displayModel.copy(isChecked = !displayModel.isChecked))
+                new
+            }?.toMutableList()
     }
 
     /*fun fetchMediaFilterQueryProvider(): FilterQueryProvider? =

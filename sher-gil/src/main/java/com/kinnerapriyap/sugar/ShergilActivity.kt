@@ -7,9 +7,11 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import com.kinnerapriyap.sugar.choice.ChoiceSpec
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryFragment
 import com.kinnerapriyap.sugar.resultlauncher.GetFromGalleryInput
@@ -40,6 +42,10 @@ internal class ShergilActivity : AppCompatActivity() {
         setContentView(R.layout.activity_shergil)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        viewModel.getMediaCellDisplayModels().observe(this, Observer {
+            Log.e("kin", it.filter { m -> m.isChecked }.size.toString())
+        })
 
         observer = ResultLauncherHandler(this, ::setGalleryResult, ::setPermissionResult)
         blah()
