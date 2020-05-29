@@ -46,11 +46,9 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
             adapter = mediaGalleryAdapter
         }
 
-        viewModel.getMediaCellDisplayModels().observe(requireActivity(), Observer {
-            mediaGalleryAdapter.mediaCellDisplayModels = it
+        viewModel.getUpdatedMediaCellPosition().observe(requireActivity(), Observer {
+            mediaGalleryAdapter.updatedMediaCellPosition = it
         })
-
-        viewModel.setMediaCellDisplayModels()
     }
 
     override fun onMediaCellClicked(displayModel: MediaCellDisplayModel) {

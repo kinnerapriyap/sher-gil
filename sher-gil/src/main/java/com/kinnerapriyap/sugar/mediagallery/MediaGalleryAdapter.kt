@@ -83,7 +83,7 @@ class MediaGalleryAdapter(
         )
         val bucketDisplayName = cursor.getString(bucketDisplayNameColumnIndex)
         var displayModel = MediaCellDisplayModel(
-            id = getItemId(position),
+            position = position,
             mediaUri = contentUri,
             bucketDisplayName = bucketDisplayName
         )
