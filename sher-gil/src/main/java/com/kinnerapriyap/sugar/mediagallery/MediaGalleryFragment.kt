@@ -59,4 +59,8 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
     override fun onMediaCellClicked(displayModel: MediaCellDisplayModel) {
         viewModel.setMediaChecked(displayModel)
     }
+
+    fun setSelectedSpinnerName(bucketDisplayName: String?) {
+        mediaGalleryAdapter.filter.filter(bucketDisplayName)
+    }
 }

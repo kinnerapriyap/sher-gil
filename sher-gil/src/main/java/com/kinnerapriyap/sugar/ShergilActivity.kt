@@ -9,6 +9,8 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -22,7 +24,7 @@ import com.kinnerapriyap.sugar.resultlauncher.ResultLauncherHandler
 import kotlinx.android.synthetic.main.activity_shergil.*
 import java.util.ArrayList
 
-internal class ShergilActivity : AppCompatActivity() {
+internal class ShergilActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private val choiceSpec: ChoiceSpec = ChoiceSpec.instance
 
@@ -121,5 +123,22 @@ internal class ShergilActivity : AppCompatActivity() {
             setResult(Activity.RESULT_CANCELED)
             finish()
         }
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+        setSelectedSpinnerName(null)
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        val cursor = mediaGalleryAlbumCursorAdapter.getItem(position) as? Cursor
+        val bucketDisplayName =
+            mediaGalleryAlbumCursorAdapter.convertToString(cursor).toString()
+        setSelectedSpinnerName(bucketDisplayName)
+    }
+
+    private fun setSelectedSpinnerName(bucketDisplayName: String?) {
+        val mediaGalleryFragment: MediaGalleryFragment? =
+            supportFragmentManager.findFragmentByTag(MEDIA_GALLERY_FRAGMENT_TAG) as? MediaGalleryFragment
+        mediaGalleryFragment?.setSelectedSpinnerName(bucketDisplayName)
     }
 }
