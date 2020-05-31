@@ -1,10 +1,12 @@
 package com.kinnerapriyap.sugar.mediagallery
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FilterQueryProvider
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -44,6 +46,10 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
         recyclerView.apply {
             layoutManager = GridLayoutManager(requireActivity(), choiceSpec.numOfColumns)
             adapter = mediaGalleryAdapter
+        }
+
+        mediaGalleryAdapter.filterQueryProvider = FilterQueryProvider {
+            viewModel.fetchMediaCursorByAlbum(it.toString())
         }
 
         viewModel.getUpdatedMediaCellPosition().observe(requireActivity(), Observer {
