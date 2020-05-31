@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellUpdateModel
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler
+import com.kinnerapriyap.sugar.mediagallery.media.MediaGalleryCursorWrapper
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
@@ -16,6 +17,8 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
     private val mediaGalleryHandler by lazy {
         MediaGalleryHandler(getApplication<Application>().contentResolver)
     }
+
+    private val cursor: Cursor? = mediaGalleryHandler.fetchMedia()
 
     /**
      * Providing [Dispatchers.Main] in coroutineContext as default
@@ -60,12 +63,8 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
             }?.toMutableList()
     }
 
-    fun fetchMediaCursor(bucketDisplayName: String? = null): Cursor? =
-        if (bucketDisplayName.isNullOrBlank()) {
-            mediaGalleryHandler.fetchMedia()
-        } else {
-            mediaGalleryHandler.fetchMediaByAlbum(bucketDisplayName.toString())
-        }
+    fun getCurrentMediaCursor(bucketDisplayName: String? = null): Cursor? =
+        MediaGalleryCursorWrapper(cursor, bucketDisplayName)
 
     fun fetchAlbumCursor(): Cursor? = mediaGalleryHandler.fetchAlbum()
 
