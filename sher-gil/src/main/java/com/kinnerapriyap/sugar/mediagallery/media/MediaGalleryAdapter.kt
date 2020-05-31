@@ -17,7 +17,7 @@ import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellListener
 import com.kinnerapriyap.sugar.databinding.ViewMediaCellBinding
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellUpdateModel
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 
 class MediaGalleryAdapter(
     private var mediaCursor: Cursor?,
@@ -142,7 +142,7 @@ class MediaGalleryAdapter(
 
     /**
      * The returned old Cursor is *not* closed here,
-     * but in [Fragment.onDestroyView]
+     * but in [AppCompatActivity.onDestroy]
      *
      * @param newCursor to be used
      * @return previous [Cursor]

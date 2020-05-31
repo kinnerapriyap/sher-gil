@@ -146,4 +146,9 @@ internal class ShergilActivity : AppCompatActivity(), AdapterView.OnItemSelected
             supportFragmentManager.findFragmentByTag(MEDIA_GALLERY_FRAGMENT_TAG) as? MediaGalleryFragment
         mediaGalleryFragment?.setSelectedSpinnerName(bucketDisplayName)
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.clear()
+    }
 }

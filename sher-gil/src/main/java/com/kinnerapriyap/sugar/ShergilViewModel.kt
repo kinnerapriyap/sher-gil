@@ -68,4 +68,7 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
 
     fun fetchAlbumCursor(): Cursor? = mediaGalleryHandler.fetchAlbum()
 
+    fun clear() {
+        cursor?.close()
+    }
 }
