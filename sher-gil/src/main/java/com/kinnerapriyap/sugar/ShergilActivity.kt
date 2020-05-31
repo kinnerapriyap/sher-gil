@@ -57,6 +57,7 @@ internal class ShergilActivity : AppCompatActivity(), AdapterView.OnItemSelected
         setContentView(R.layout.activity_shergil)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         albumSpinner.adapter = mediaGalleryAlbumCursorAdapter
         albumSpinner.onItemSelectedListener = this
