@@ -4,16 +4,18 @@ import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
 import android.widget.SimpleCursorAdapter
+import com.kinnerapriyap.sugar.R
+import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler
 
 class MediaGalleryAlbumCursorAdapter(
     context: Context,
     cursor: Cursor?
 ) : SimpleCursorAdapter(
     context,
-    android.R.layout.simple_spinner_item,
+    R.layout.album_spinner_item,
     cursor,
-    arrayOf(MediaStore.MediaColumns.BUCKET_DISPLAY_NAME),
-    intArrayOf(android.R.id.text1),
+    arrayOf(MediaStore.MediaColumns.BUCKET_DISPLAY_NAME, MediaGalleryHandler.ALBUM_MEDIA_COUNT),
+    intArrayOf(R.id.albumName, R.id.mediaCount),
     0
 ) {
 

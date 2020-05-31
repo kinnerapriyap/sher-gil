@@ -35,7 +35,7 @@ internal class ShergilActivity : AppCompatActivity(), AdapterView.OnItemSelected
     private val mediaGalleryAlbumCursorAdapter by lazy {
         MediaGalleryAlbumCursorAdapter(this, viewModel.fetchAlbumCursor())
             .also { adapter ->
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                adapter.setDropDownViewResource(R.layout.album_spinner_item)
             }
     }
 
