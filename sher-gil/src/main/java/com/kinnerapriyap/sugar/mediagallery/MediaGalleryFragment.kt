@@ -49,7 +49,11 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
         }
 
         mediaGalleryAdapter.filterQueryProvider = FilterQueryProvider {
-            viewModel.fetchMediaCursorByAlbum(it.toString())
+            if (it.isNullOrBlank()) {
+                viewModel.fetchMediaCursor()
+            } else {
+                viewModel.fetchMediaCursorByAlbum(it.toString())
+            }
         }
 
         viewModel.getUpdatedMediaCellPosition().observe(requireActivity(), Observer {
