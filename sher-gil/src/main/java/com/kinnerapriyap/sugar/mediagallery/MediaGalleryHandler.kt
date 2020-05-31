@@ -18,6 +18,7 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
      */
 
     companion object {
+        const val ALBUM_MEDIA_COUNT = "album_media_count"
         /**
          *  Retrieve Data._ID to use while binding the result Cursor
          *  and Data.MIMETYPE to identify each row data type
