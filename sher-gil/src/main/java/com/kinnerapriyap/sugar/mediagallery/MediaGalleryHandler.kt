@@ -23,6 +23,11 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
             MediaStore.MediaColumns.BUCKET_DISPLAY_NAME
         )
 
+        private val PROJECTION_ALBUM: Array<String> = arrayOf(
+            MediaStore.MediaColumns._ID,
+            MediaStore.MediaColumns.BUCKET_DISPLAY_NAME
+        )
+
         /**
          * Searches for a album that matches the search string
          */
@@ -31,6 +36,16 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
         private const val SORT_ORDER =
             "${MediaStore.MediaColumns.DATE_MODIFIED} DESC"
     }
+
+    fun fetchAlbum(): Cursor? =
+        contentResolver.query(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            PROJECTION_ALBUM,
+            null,
+            null,
+            SORT_ORDER
+        )
+
 
     fun fetchMediaByAlbum(bucketDisplayName: String): Cursor? =
         contentResolver.query(

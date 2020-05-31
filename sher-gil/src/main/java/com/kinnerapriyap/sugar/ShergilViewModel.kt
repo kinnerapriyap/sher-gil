@@ -63,5 +63,6 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
     fun fetchMediaCursorByAlbum(bucketDisplayName: String): Cursor? =
         mediaGalleryHandler.fetchMediaByAlbum(bucketDisplayName)
 
-    fun fetchMediaCursor(): Cursor? = mediaGalleryHandler.fetchMedia()
+    fun fetchAlbumCursor(): Cursor? = mediaGalleryHandler.fetchAlbum()
+
 }
