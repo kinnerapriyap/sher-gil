@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.kinnerapriyap.sugar.choice.ChoiceSpec
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryAlbumCursorAdapter
+import com.kinnerapriyap.sugar.mediagallery.MediaGalleryAlbumCursorWrapper
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryFragment
 import com.kinnerapriyap.sugar.resultlauncher.GetFromGalleryInput
 import com.kinnerapriyap.sugar.resultlauncher.GetMultipleFromGallery
@@ -33,7 +34,10 @@ internal class ShergilActivity : AppCompatActivity(), AdapterView.OnItemSelected
     private val viewModel: ShergilViewModel by viewModels()
 
     private val mediaGalleryAlbumCursorAdapter by lazy {
-        MediaGalleryAlbumCursorAdapter(this, viewModel.fetchAlbumCursor())
+        MediaGalleryAlbumCursorAdapter(
+            this,
+            MediaGalleryAlbumCursorWrapper(viewModel.fetchAlbumCursor())
+        )
             .also { adapter ->
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             }
