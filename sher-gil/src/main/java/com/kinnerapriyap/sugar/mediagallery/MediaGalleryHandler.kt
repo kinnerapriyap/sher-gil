@@ -12,8 +12,6 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
      *  However, the actual value of BUCKET_DISPLAY_NAME remains the sameA
      */
 
-    private val selectionArgs: Array<String> = arrayOf("")
-
     companion object {
         /**
          *  Retrieve Data._ID to use while binding the result Cursor
@@ -33,6 +31,15 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
         private const val SORT_ORDER =
             "${MediaStore.MediaColumns.DATE_MODIFIED} DESC"
     }
+
+    fun fetchMediaByAlbum(bucketDisplayName: String): Cursor? =
+        contentResolver.query(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            PROJECTION,
+            SELECTION,
+            arrayOf(bucketDisplayName),
+            SORT_ORDER
+        )
 
     fun fetchMedia(): Cursor? =
         contentResolver.query(

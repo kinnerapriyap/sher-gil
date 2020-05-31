@@ -60,8 +60,8 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
             }?.toMutableList()
     }
 
-    /*fun fetchMediaFilterQueryProvider(): FilterQueryProvider? =
-        mediaGalleryHandler.fetchMediaFilterQueryProvider()*/
+    fun fetchMediaCursorByAlbum(bucketDisplayName: String): Cursor? =
+        mediaGalleryHandler.fetchMediaByAlbum(bucketDisplayName)
 
     fun fetchMediaCursor(): Cursor? = mediaGalleryHandler.fetchMedia()
 }
