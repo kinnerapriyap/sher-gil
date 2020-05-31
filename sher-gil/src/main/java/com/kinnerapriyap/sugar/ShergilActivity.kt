@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.kinnerapriyap.sugar.choice.ChoiceSpec
-import com.kinnerapriyap.sugar.mediagallery.MediaGalleryAlbumCursorAdapter
+import com.kinnerapriyap.sugar.mediagallery.album.MediaGalleryAlbumCursorAdapter
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryFragment
 import com.kinnerapriyap.sugar.resultlauncher.GetFromGalleryInput
 import com.kinnerapriyap.sugar.resultlauncher.GetMultipleFromGallery

@@ -1,4 +1,4 @@
-package com.kinnerapriyap.sugar.mediagallery
+package com.kinnerapriyap.sugar.mediagallery.album
 
 import android.content.Context
 import android.database.Cursor
@@ -11,7 +11,9 @@ class MediaGalleryAlbumCursorAdapter(
 ) : SimpleCursorAdapter(
     context,
     android.R.layout.simple_spinner_item,
-    MediaGalleryAlbumCursorWrapper(cursor),
+    MediaGalleryAlbumCursorWrapper(
+        cursor
+    ),
     arrayOf(MediaStore.MediaColumns.BUCKET_DISPLAY_NAME),
     intArrayOf(android.R.id.text1),
     0

@@ -1,4 +1,4 @@
-package com.kinnerapriyap.sugar.mediagallery
+package com.kinnerapriyap.sugar.mediagallery.album
 
 import android.database.Cursor
 import android.database.CursorWrapper
