@@ -4,6 +4,7 @@ import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.kinnerapriyap.sugar.choice.ChoiceSpec
+import com.kinnerapriyap.sugar.mediagallery.MediaGalleryAlbumCursorAdapter
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryFragment
 import com.kinnerapriyap.sugar.resultlauncher.GetFromGalleryInput
 import com.kinnerapriyap.sugar.resultlauncher.GetMultipleFromGallery
@@ -28,6 +30,13 @@ internal class ShergilActivity : AppCompatActivity() {
 
     private val viewModel: ShergilViewModel by viewModels()
 
+    private val mediaGalleryAlbumCursorAdapter by lazy {
+        MediaGalleryAlbumCursorAdapter(this, viewModel.fetchAlbumCursor())
+            .also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            }
+    }
+
     private val getFromGalleryInput by lazy {
         GetFromGalleryInput(
             mimeTypes = choiceSpec.mimeTypes,
@@ -36,12 +45,19 @@ internal class ShergilActivity : AppCompatActivity() {
         )
     }
 
+    companion object {
+        private const val MEDIA_GALLERY_FRAGMENT_TAG = "mediaGalleryFragmentTag"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Shergil)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shergil)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        albumSpinner.adapter = mediaGalleryAlbumCursorAdapter
+        albumSpinner.onItemSelectedListener = this
 
         viewModel.getMediaCellDisplayModels().observe(this, Observer {
             Log.e("kin output count", it.filter { m -> m.isChecked }.size.toString())
@@ -62,7 +78,11 @@ internal class ShergilActivity : AppCompatActivity() {
                 //observer.openGallery(getFromGalleryInput)
                 supportFragmentManager
                     .beginTransaction()
-                    .replace(R.id.container, MediaGalleryFragment.newInstance())
+                    .replace(
+                        R.id.container,
+                        MediaGalleryFragment.newInstance(),
+                        MEDIA_GALLERY_FRAGMENT_TAG
+                    )
                     .commit()
             }
         }
