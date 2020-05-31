@@ -17,8 +17,11 @@ class MediaGalleryAlbumCursorAdapter(
     0
 ) {
 
-    override fun convertToString(cursor: Cursor?): CharSequence =
-        cursor?.getString(stringConversionColumn) as? CharSequence ?: ""
+    override fun convertToString(cursor: Cursor?): CharSequence {
+        val str = cursor?.getString(stringConversionColumn) as? CharSequence
+        return if (str != "All" && !str.isNullOrBlank()) str
+        else ""
+    }
 
     override fun getStringConversionColumn(): Int =
         cursor.getColumnIndex(MediaStore.MediaColumns.BUCKET_DISPLAY_NAME)
