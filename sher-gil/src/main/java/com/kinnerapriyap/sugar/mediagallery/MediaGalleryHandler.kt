@@ -5,6 +5,8 @@ import android.database.Cursor
 import android.database.MatrixCursor
 import android.database.MergeCursor
 import android.provider.MediaStore
+import com.kinnerapriyap.sugar.choice.MimeType
+import com.kinnerapriyap.sugar.mediagallery.album.MediaGalleryAlbumCursorWrapper
 
 
 class MediaGalleryHandler(private val contentResolver: ContentResolver) {
@@ -26,34 +28,18 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
             MediaStore.MediaColumns.BUCKET_DISPLAY_NAME
         )
 
-        private val PROJECTION_ALBUM: Array<String> = arrayOf(
-            MediaStore.MediaColumns._ID,
-            MediaStore.MediaColumns.BUCKET_DISPLAY_NAME
-        )
-
-        /**
-         * Searches for a album that matches the search string
-         */
-        private val SELECTION = "${MediaStore.MediaColumns.BUCKET_DISPLAY_NAME} = ?"
-
         private const val SORT_ORDER =
             "${MediaStore.MediaColumns.DATE_MODIFIED} DESC"
     }
 
-    private fun getAlbumsCursor(): Cursor? =
-        contentResolver.query(
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            PROJECTION_ALBUM,
-            null,
-            null,
-            SORT_ORDER
-        )
+    private fun getAlbumsCursor(cursor: Cursor?): Cursor? =
+        MediaGalleryAlbumCursorWrapper(cursor)
 
-    fun fetchAlbum(): Cursor? {
-        val extras = MatrixCursor(PROJECTION_ALBUM)
-        extras.addRow(arrayOf("-1", "All"))
+    fun fetchAlbum(cursor: Cursor?): Cursor? {
+        val extras = MatrixCursor(PROJECTION)
+        extras.addRow(arrayOf("-1", MimeType.IMAGES ,"All"))
         val cursors =
-            arrayOf(extras, getAlbumsCursor())
+            arrayOf(extras, getAlbumsCursor(cursor))
         return MergeCursor(cursors)
     }
 
