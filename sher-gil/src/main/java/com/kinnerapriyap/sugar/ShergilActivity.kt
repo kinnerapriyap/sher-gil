@@ -44,7 +44,7 @@ internal class ShergilActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         viewModel.getMediaCellDisplayModels().observe(this, Observer {
-            Log.e("kin", it.filter { m -> m.isChecked }.size.toString())
+            Log.e("kin output count", it.filter { m -> m.isChecked }.size.toString())
         })
 
         observer = ResultLauncherHandler(this, ::setGalleryResult, ::setPermissionResult)
