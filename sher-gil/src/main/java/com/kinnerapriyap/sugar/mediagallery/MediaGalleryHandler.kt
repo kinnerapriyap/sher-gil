@@ -57,16 +57,6 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
         return MergeCursor(cursors)
     }
 
-
-    fun fetchMediaByAlbum(bucketDisplayName: String): Cursor? =
-        contentResolver.query(
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            PROJECTION,
-            SELECTION,
-            arrayOf(bucketDisplayName),
-            SORT_ORDER
-        )
-
     fun fetchMedia(): Cursor? =
         contentResolver.query(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
