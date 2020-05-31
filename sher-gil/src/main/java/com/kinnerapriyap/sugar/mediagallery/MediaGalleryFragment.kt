@@ -14,6 +14,7 @@ import com.kinnerapriyap.sugar.ShergilViewModel
 import com.kinnerapriyap.sugar.choice.ChoiceSpec
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellListener
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
+import com.kinnerapriyap.sugar.mediagallery.media.MediaGalleryAdapter
 import kotlinx.android.synthetic.main.fragment_media_gallery.*
 
 class MediaGalleryFragment : Fragment(), MediaCellListener {
