@@ -32,15 +32,12 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
             "${MediaStore.MediaColumns.DATE_MODIFIED} DESC"
     }
 
-    private fun getAlbumsCursor(cursor: Cursor?): Cursor? =
-        MediaGalleryAlbumCursorWrapper(cursor)
-
     fun fetchAlbum(cursor: Cursor?): Cursor? {
         val extras = MatrixCursor(PROJECTION)
         extras.addRow(arrayOf("-1", MimeType.IMAGES ,"All"))
         val cursors =
-            arrayOf(extras, getAlbumsCursor(cursor))
-        return MergeCursor(cursors)
+            arrayOf(extras, cursor)
+        return MediaGalleryAlbumCursorWrapper(MergeCursor(cursors))
     }
 
     fun fetchMedia(): Cursor? =
