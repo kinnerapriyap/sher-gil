@@ -8,7 +8,7 @@ class MediaGalleryAlbumCursorWrapper(cursor: Cursor?) : CursorWrapper(cursor) {
 
     private val origCount = super.getCount()
     private var filterMap = IntArray(origCount)
-    private var fPosition = -1
+    private var fPosition = -2
     private var fCount = 0
     private var addedNames: MutableList<String> = mutableListOf()
 
@@ -41,7 +41,7 @@ class MediaGalleryAlbumCursorWrapper(cursor: Cursor?) : CursorWrapper(cursor) {
         moveToPosition(fPosition + offset)
 
     override fun moveToFirst(): Boolean =
-        moveToPosition(0)
+        moveToPosition(-1)
 
     override fun moveToLast(): Boolean =
         moveToPosition(count - 1)
@@ -53,7 +53,7 @@ class MediaGalleryAlbumCursorWrapper(cursor: Cursor?) : CursorWrapper(cursor) {
         moveToPosition(fPosition - 1)
 
     override fun isFirst(): Boolean =
-        fPosition == 0 && count != 0
+        fPosition == -1 && count != 0
 
     override fun isLast(): Boolean =
         fPosition == count - 1 && count != 0

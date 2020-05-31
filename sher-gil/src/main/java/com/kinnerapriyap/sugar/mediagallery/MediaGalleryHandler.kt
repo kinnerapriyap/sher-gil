@@ -2,7 +2,10 @@ package com.kinnerapriyap.sugar.mediagallery
 
 import android.content.ContentResolver
 import android.database.Cursor
+import android.database.MatrixCursor
+import android.database.MergeCursor
 import android.provider.MediaStore
+
 
 class MediaGalleryHandler(private val contentResolver: ContentResolver) {
 
@@ -37,7 +40,7 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
             "${MediaStore.MediaColumns.DATE_MODIFIED} DESC"
     }
 
-    fun fetchAlbum(): Cursor? =
+    private fun getAlbumsCursor(): Cursor? =
         contentResolver.query(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
             PROJECTION_ALBUM,
@@ -45,6 +48,14 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
             null,
             SORT_ORDER
         )
+
+    fun fetchAlbum(): Cursor? {
+        val extras = MatrixCursor(PROJECTION_ALBUM)
+        extras.addRow(arrayOf("-1", "All"))
+        val cursors =
+            arrayOf(extras, getAlbumsCursor())
+        return MergeCursor(cursors)
+    }
 
 
     fun fetchMediaByAlbum(bucketDisplayName: String): Cursor? =
