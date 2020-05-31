@@ -3,6 +3,7 @@ package com.kinnerapriyap.sugar.mediagallery
 import android.content.ContentUris
 import android.database.Cursor
 import android.net.Uri
+import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,7 +13,6 @@ import android.widget.Filterable
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.kinnerapriyap.sugar.R
-import android.provider.BaseColumns
 import com.kinnerapriyap.sugar.databinding.MediaCellListener
 import com.kinnerapriyap.sugar.databinding.ViewMediaCellBinding
 
@@ -33,7 +33,11 @@ class MediaGalleryAdapter(
             }
         }
 
-    private var filterQueryProvider: FilterQueryProvider? = null
+    var filterQueryProvider: FilterQueryProvider? = null
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     private val cursorFilter = MediaGalleryCursorFilter(this)
 
