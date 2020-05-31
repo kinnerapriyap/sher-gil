@@ -25,7 +25,7 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
 
     private val mediaGalleryAdapter: MediaGalleryAdapter by lazy {
         MediaGalleryAdapter(
-            viewModel.fetchMediaCursor(),
+            viewModel.getCurrentMediaCursor(),
             this@MediaGalleryFragment
         )
     }
@@ -50,7 +50,7 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
         }
 
         mediaGalleryAdapter.filterQueryProvider = FilterQueryProvider {
-            viewModel.fetchMediaCursor(it.toString())
+            viewModel.getCurrentMediaCursor(it.toString())
         }
 
         viewModel.getUpdatedMediaCellPosition().observe(requireActivity(), Observer {
