@@ -3,6 +3,7 @@ package com.kinnerapriyap.sugar.mediagallery.album
 import android.database.Cursor
 import android.database.CursorWrapper
 import android.provider.MediaStore
+import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler.Companion.ALBUM_MEDIA_COUNT
 
 class MediaGalleryAlbumCursorWrapper(cursor: Cursor?) : CursorWrapper(cursor) {
 
@@ -11,16 +12,21 @@ class MediaGalleryAlbumCursorWrapper(cursor: Cursor?) : CursorWrapper(cursor) {
     private var fPosition = -1
     private var fCount = 0
     private var addedNames: MutableList<String> = mutableListOf()
+    private var addedNamesCount: MutableMap<String, Int> = mutableMapOf()
 
     init {
         for (i in 0 until origCount) {
             super.moveToPosition(i)
             val name = getString(getColumnIndexOrThrow(MediaStore.MediaColumns.BUCKET_DISPLAY_NAME))
             if (!addedNames.contains(name)) {
+                addedNamesCount[name] = 1
                 filterMap[fCount++] = i
                 addedNames.add(name)
+            } else {
+                addedNamesCount[name] = (addedNamesCount[name] ?: 0) + 1
             }
         }
+        addedNamesCount["All"] = origCount
         moveToFirst()
     }
 
@@ -67,4 +73,47 @@ class MediaGalleryAlbumCursorWrapper(cursor: Cursor?) : CursorWrapper(cursor) {
         else fPosition == count
 
     override fun getPosition(): Int = fPosition
+
+    // Add column for media count
+
+    val origColumnCount = super.getColumnCount()
+
+    override fun getColumnCount(): Int =
+        origColumnCount + 1
+
+    override fun getColumnIndex(columnName: String?): Int =
+        if (columnName != null && columnName == ALBUM_MEDIA_COUNT) {
+            origColumnCount
+        } else {
+            wrappedCursor.getColumnIndex(columnName)
+        }
+
+    @Throws(IllegalArgumentException::class)
+    override fun getColumnIndexOrThrow(columnName: String?): Int =
+        if (columnName != null && columnName == ALBUM_MEDIA_COUNT) {
+            origColumnCount
+        } else {
+            wrappedCursor.getColumnIndexOrThrow(columnName)
+        }
+
+    override fun getColumnName(columnIndex: Int): String =
+        if (columnIndex == origColumnCount) {
+            ALBUM_MEDIA_COUNT
+        } else {
+            wrappedCursor.getColumnName(columnIndex)
+        }
+
+    override fun getColumnNames(): Array<String> {
+        val result = wrappedCursor.columnNames.toMutableList()
+        result.add(origColumnCount, ALBUM_MEDIA_COUNT)
+        return result.toTypedArray()
+    }
+
+    override fun getString(columnIndex: Int): String {
+        if (columnIndex == origColumnCount) {
+            val name = getString(getColumnIndexOrThrow(MediaStore.MediaColumns.BUCKET_DISPLAY_NAME))
+            return addedNamesCount[name].toString()
+        }
+        return wrappedCursor.getString(columnIndex)
+    }
 }
