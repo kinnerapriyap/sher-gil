@@ -1,7 +1,6 @@
 package com.kinnerapriyap.sugar.mediagallery
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -49,11 +48,7 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
         }
 
         mediaGalleryAdapter.filterQueryProvider = FilterQueryProvider {
-            if (it.isNullOrBlank()) {
-                viewModel.fetchMediaCursor()
-            } else {
-                viewModel.fetchMediaCursorByAlbum(it.toString())
-            }
+            viewModel.fetchMediaCursor(it.toString())
         }
 
         viewModel.getUpdatedMediaCellPosition().observe(requireActivity(), Observer {

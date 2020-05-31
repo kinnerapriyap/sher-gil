@@ -60,8 +60,12 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
             }?.toMutableList()
     }
 
-    fun fetchMediaCursorByAlbum(bucketDisplayName: String): Cursor? =
-        mediaGalleryHandler.fetchMediaByAlbum(bucketDisplayName)
+    fun fetchMediaCursor(bucketDisplayName: String? = null): Cursor? =
+        if (bucketDisplayName.isNullOrBlank()) {
+            mediaGalleryHandler.fetchMedia()
+        } else {
+            mediaGalleryHandler.fetchMediaByAlbum(bucketDisplayName.toString())
+        }
 
     fun fetchAlbumCursor(): Cursor? = mediaGalleryHandler.fetchAlbum()
 
