@@ -13,8 +13,10 @@ import android.widget.Filterable
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.kinnerapriyap.sugar.R
-import com.kinnerapriyap.sugar.databinding.MediaCellListener
+import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellListener
 import com.kinnerapriyap.sugar.databinding.ViewMediaCellBinding
+import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
+import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellUpdateModel
 
 class MediaGalleryAdapter(
     private var mediaCursor: Cursor?,

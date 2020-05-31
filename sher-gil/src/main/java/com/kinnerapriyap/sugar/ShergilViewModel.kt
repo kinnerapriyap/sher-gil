@@ -5,8 +5,8 @@ import android.database.Cursor
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.kinnerapriyap.sugar.mediagallery.MediaCellDisplayModel
-import com.kinnerapriyap.sugar.mediagallery.MediaCellUpdateModel
+import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
+import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellUpdateModel
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext

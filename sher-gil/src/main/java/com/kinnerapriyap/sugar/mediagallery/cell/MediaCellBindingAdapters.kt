@@ -1,4 +1,4 @@
-package com.kinnerapriyap.sugar.databinding
+package com.kinnerapriyap.sugar.mediagallery.cell
 
 import android.net.Uri
 import android.widget.ImageView

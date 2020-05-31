@@ -1,4 +1,4 @@
-package com.kinnerapriyap.sugar.mediagallery
+package com.kinnerapriyap.sugar.mediagallery.cell
 
 import android.net.Uri
 

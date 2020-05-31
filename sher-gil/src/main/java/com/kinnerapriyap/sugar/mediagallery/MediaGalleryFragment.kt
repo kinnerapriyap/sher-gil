@@ -12,7 +12,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.kinnerapriyap.sugar.R
 import com.kinnerapriyap.sugar.ShergilViewModel
 import com.kinnerapriyap.sugar.choice.ChoiceSpec
-import com.kinnerapriyap.sugar.databinding.MediaCellListener
+import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellListener
+import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
 import kotlinx.android.synthetic.main.fragment_media_gallery.*
 
 class MediaGalleryFragment : Fragment(), MediaCellListener {

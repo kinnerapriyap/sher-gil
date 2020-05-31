@@ -6,11 +6,11 @@
 
         <variable
             name="listener"
-            type="com.kinnerapriyap.sugar.databinding.MediaCellListener" />
+            type="com.kinnerapriyap.sugar.mediagallery.cell.MediaCellListener" />
 
         <variable
             name="displayModel"
-            type="com.kinnerapriyap.sugar.mediagallery.MediaCellDisplayModel" />
+            type="com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
