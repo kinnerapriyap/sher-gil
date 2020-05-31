@@ -11,7 +11,7 @@ class MediaGalleryAlbumCursorAdapter(
 ) : SimpleCursorAdapter(
     context,
     android.R.layout.simple_spinner_item,
-    cursor,
+    MediaGalleryAlbumCursorWrapper(cursor),
     arrayOf(MediaStore.MediaColumns.BUCKET_DISPLAY_NAME),
     intArrayOf(android.R.id.text1),
     0
