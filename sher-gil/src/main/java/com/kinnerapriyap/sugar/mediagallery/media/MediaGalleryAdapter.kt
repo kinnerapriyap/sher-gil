@@ -17,6 +17,7 @@ import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellListener
 import com.kinnerapriyap.sugar.databinding.ViewMediaCellBinding
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellUpdateModel
+import androidx.fragment.app.Fragment
 
 class MediaGalleryAdapter(
     private var mediaCursor: Cursor?,
@@ -131,31 +132,29 @@ class MediaGalleryAdapter(
     override fun getCursor(): Cursor? = mediaCursor
 
     /**
-     * Close existing cursor and update to new cursor from [swapCursor]
+     * Update to new cursor with [swapCursor]
      *
      * @param cursor new
      */
     override fun changeCursor(cursor: Cursor?) {
-        val old = swapCursor(cursor)
-        old?.close()
+        swapCursor(cursor)
     }
 
     /**
-     * The returned old Cursor is *not* closed here, but in [changeCursor]
+     * The returned old Cursor is *not* closed here,
+     * but in [Fragment.onDestroyView]
      *
      * @param newCursor to be used
      * @return previous [Cursor]
      * or null if it is equal to newCursor/does not exist
      */
-    private fun swapCursor(newCursor: Cursor?): Cursor? {
-        if (newCursor === mediaCursor) return null
-        val oldCursor = mediaCursor
+    private fun swapCursor(newCursor: Cursor?) {
+        if (newCursor === mediaCursor) return
         mediaCursor = newCursor
         isDataValid = newCursor != null
         idColumnIndex =
             newCursor?.getColumnIndex(MediaStore.MediaColumns._ID) ?: -1
         notifyDataSetChanged()
-        return oldCursor
     }
 
     override fun getFilter(): Filter = cursorFilter
