@@ -79,14 +79,7 @@ internal class ShergilActivity : AppCompatActivity(), AdapterView.OnItemSelected
                 observer.askPermission()
             else -> {
                 //observer.openGallery(getFromGalleryInput)
-                supportFragmentManager
-                    .beginTransaction()
-                    .replace(
-                        R.id.container,
-                        MediaGalleryFragment.newInstance(),
-                        MEDIA_GALLERY_FRAGMENT_TAG
-                    )
-                    .commit()
+                openMediaGalleryFragment()
             }
         }
     }
@@ -119,11 +112,22 @@ internal class ShergilActivity : AppCompatActivity(), AdapterView.OnItemSelected
 
     private fun setPermissionResult(allowed: Boolean) {
         if (allowed) {
-            observer.openGallery(getFromGalleryInput)
+            openMediaGalleryFragment()
         } else {
             setResult(Activity.RESULT_CANCELED)
             finish()
         }
+    }
+
+    private fun openMediaGalleryFragment() {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(
+                R.id.container,
+                MediaGalleryFragment.newInstance(),
+                MEDIA_GALLERY_FRAGMENT_TAG
+            )
+            .commit()
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
