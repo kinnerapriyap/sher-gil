@@ -2,6 +2,7 @@ package com.kinnerapriyap.sugar
 
 import android.app.Application
 import android.database.Cursor
+import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -31,12 +32,10 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
 
-    private val mediaCellDisplayModels =
-        MutableLiveData<MutableList<MediaCellDisplayModel>>()
-            .apply { value = mutableListOf() }
+    private var mediaCellDisplayModels: MutableList<MediaCellDisplayModel> = mutableListOf()
 
-    fun getMediaCellDisplayModels(): LiveData<MutableList<MediaCellDisplayModel>> =
-        mediaCellDisplayModels
+    fun getSelectedMediaUriList(): List<Uri> =
+        mediaCellDisplayModels.map { it.mediaUri }
 
     private val updatedMediaCellPosition =
         MutableLiveData<MediaCellUpdateModel>()
@@ -47,9 +46,9 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
     fun setMediaChecked(displayModel: MediaCellDisplayModel) {
         updatedMediaCellPosition.value =
             MediaCellUpdateModel(displayModel.position, !displayModel.isChecked)
-        mediaCellDisplayModels.value =
-            if (mediaCellDisplayModels.value?.contains(displayModel) == true) {
-                mediaCellDisplayModels.value?.map {
+        mediaCellDisplayModels =
+            if (mediaCellDisplayModels.contains(displayModel)) {
+                mediaCellDisplayModels.map {
                     val isChecked =
                         if (it == displayModel) {
                             !it.isChecked
@@ -57,10 +56,10 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
                     it.copy(isChecked = isChecked)
                 }
             } else {
-                val new = mediaCellDisplayModels.value
-                new?.add(displayModel.copy(isChecked = !displayModel.isChecked))
+                val new = mediaCellDisplayModels
+                new.add(displayModel.copy(isChecked = !displayModel.isChecked))
                 new
-            }?.toMutableList()
+            }.toMutableList()
     }
 
     fun getCurrentMediaCursor(bucketDisplayName: String? = null): Cursor? =
