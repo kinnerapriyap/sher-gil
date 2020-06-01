@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -16,8 +15,6 @@ import androidx.core.content.ContextCompat
 import com.kinnerapriyap.sugar.choice.ChoiceSpec
 import com.kinnerapriyap.sugar.mediagallery.album.MediaGalleryAlbumCursorAdapter
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryFragment
-import com.kinnerapriyap.sugar.resultlauncher.GetFromGalleryInput
-import com.kinnerapriyap.sugar.resultlauncher.GetMultipleFromGallery
 import com.kinnerapriyap.sugar.resultlauncher.ResultLauncherHandler
 import kotlinx.android.synthetic.main.activity_shergil.*
 import java.util.ArrayList
@@ -37,15 +34,8 @@ internal class ShergilActivity : AppCompatActivity(), AdapterView.OnItemSelected
             }
     }
 
-    private val getFromGalleryInput by lazy {
-        GetFromGalleryInput(
-            mimeTypes = choiceSpec.mimeTypes,
-            allowOnlyLocalStorage = choiceSpec.allowOnlyLocalStorage,
-            allowMultipleSelection = choiceSpec.allowMultipleSelection
-        )
-    }
-
     companion object {
+        const val RESULT_URIS = "resultUris"
         private const val MEDIA_GALLERY_FRAGMENT_TAG = "mediaGalleryFragmentTag"
     }
 
@@ -62,7 +52,7 @@ internal class ShergilActivity : AppCompatActivity(), AdapterView.OnItemSelected
 
         applyButton.setOnClickListener { setShergilResult() }
 
-        observer = ResultLauncherHandler(this, ::setGalleryResult, ::setPermissionResult)
+        observer = ResultLauncherHandler(this, ::setPermissionResult)
         askPermissionAndOpenGallery()
     }
 
@@ -74,7 +64,6 @@ internal class ShergilActivity : AppCompatActivity(), AdapterView.OnItemSelected
             ) != PackageManager.PERMISSION_GRANTED ->
                 observer.askPermission()
             else -> {
-                //observer.openGallery(getFromGalleryInput)
                 openMediaGalleryFragment()
             }
         }
@@ -90,15 +79,11 @@ internal class ShergilActivity : AppCompatActivity(), AdapterView.OnItemSelected
         super.onBackPressed()
     }
 
-    private fun setGalleryResult(mediaUriList: List<Uri>) {
-        // viewModel.initialiseMediaCellDisplayModels(mediaUriList)
-    }
-
     private fun setShergilResult() {
         val resultIntent =
             Intent().apply {
                 putParcelableArrayListExtra(
-                    GetMultipleFromGallery.RESULT_URIS,
+                    RESULT_URIS,
                     viewModel.getSelectedMediaUriList() as? ArrayList
                 )
             }

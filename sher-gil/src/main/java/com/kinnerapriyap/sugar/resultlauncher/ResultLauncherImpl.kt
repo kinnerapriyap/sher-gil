@@ -13,17 +13,8 @@ import androidx.lifecycle.OnLifecycleEvent
 internal class ResultLauncherImpl(
     private val registry: ActivityResultRegistry,
     lifecycleOwner: LifecycleOwner,
-    private val setGalleryResult: ((List<Uri>) -> Unit),
     private val setPermissionResult: (Boolean) -> Unit
 ) : LifecycleObserver, ResultLauncher {
-
-    private val getFromGallery: ActivityResultLauncher<GetFromGalleryInput> =
-        registry.register(
-            REQUEST_GALLERY,
-            GetMultipleFromGallery()
-        ) { mediaUriList ->
-            setGalleryResult(mediaUriList)
-        }
 
     private val askReadStoragePermission: ActivityResultLauncher<String> =
         registry.register(
@@ -44,22 +35,12 @@ internal class ResultLauncherImpl(
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun onDestroy() {
-        getFromGallery.unregister()
         askReadStoragePermission.unregister()
     }
 
     override fun askPermission() {
         askReadStoragePermission.launch(
             Manifest.permission.READ_EXTERNAL_STORAGE
-        )
-    }
-
-    override fun openGallery(input: GetFromGalleryInput) {
-        getFromGallery.launch(
-            GetFromGalleryInput(
-                allowOnlyLocalStorage = input.allowOnlyLocalStorage,
-                allowMultipleSelection = input.allowMultipleSelection
-            )
         )
     }
 }

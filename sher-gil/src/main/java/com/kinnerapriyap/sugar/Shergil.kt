@@ -4,8 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import androidx.fragment.app.Fragment
-import com.kinnerapriyap.sugar.resultlauncher.GetMultipleFromGallery
 import androidx.activity.result.ActivityResultCallback
+import com.kinnerapriyap.sugar.ShergilActivity.Companion.RESULT_URIS
 import com.kinnerapriyap.sugar.choice.ChoiceBuilder
 
 
@@ -43,6 +43,6 @@ open class Shergil {
          * @return List<Uri> for selected media or emptyList if none were selected
          */
         fun getMediaUris(data: Intent?): List<Uri> =
-            data?.getParcelableArrayListExtra(GetMultipleFromGallery.RESULT_URIS) ?: emptyList()
+            data?.getParcelableArrayListExtra(RESULT_URIS) ?: emptyList()
     }
 }
