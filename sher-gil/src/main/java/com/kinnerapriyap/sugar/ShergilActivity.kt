@@ -62,9 +62,7 @@ internal class ShergilActivity : AppCompatActivity(), AdapterView.OnItemSelected
         albumSpinner.adapter = mediaGalleryAlbumCursorAdapter
         albumSpinner.onItemSelectedListener = this
 
-        viewModel.getMediaCellDisplayModels().observe(this, Observer {
-            Log.e("kin output count", it.filter { m -> m.isChecked }.size.toString())
-        })
+        applyButton.setOnClickListener { setShergilResult() }
 
         observer = ResultLauncherHandler(this, ::setGalleryResult, ::setPermissionResult)
         blah()
@@ -98,12 +96,12 @@ internal class ShergilActivity : AppCompatActivity(), AdapterView.OnItemSelected
         // viewModel.initialiseMediaCellDisplayModels(mediaUriList)
     }
 
-    private fun setShergilResult(mediaUriList: List<Uri>) {
+    private fun setShergilResult() {
         val resultIntent =
             Intent().apply {
                 putParcelableArrayListExtra(
                     GetMultipleFromGallery.RESULT_URIS,
-                    mediaUriList as? ArrayList
+                    viewModel.getSelectedMediaUriList() as? ArrayList
                 )
             }
         setResult(Activity.RESULT_OK, resultIntent)
