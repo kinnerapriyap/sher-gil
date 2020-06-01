@@ -8,13 +8,11 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import com.kinnerapriyap.sugar.choice.ChoiceSpec
 import com.kinnerapriyap.sugar.mediagallery.album.MediaGalleryAlbumCursorAdapter
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryFragment
@@ -65,10 +63,10 @@ internal class ShergilActivity : AppCompatActivity(), AdapterView.OnItemSelected
         applyButton.setOnClickListener { setShergilResult() }
 
         observer = ResultLauncherHandler(this, ::setGalleryResult, ::setPermissionResult)
-        blah()
+        askPermissionAndOpenGallery()
     }
 
-    fun blah() {
+    private fun askPermissionAndOpenGallery() {
         when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(
                 this,
