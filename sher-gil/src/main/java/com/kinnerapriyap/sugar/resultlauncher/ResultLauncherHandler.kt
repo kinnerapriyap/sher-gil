@@ -1,6 +1,5 @@
 package com.kinnerapriyap.sugar.resultlauncher
 
-import android.net.Uri
 import androidx.activity.ComponentActivity
 
 class ResultLauncherHandler(

@@ -47,12 +47,12 @@ internal class ShergilActivity : AppCompatActivity(), AdapterView.OnItemSelected
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
+        observer = ResultLauncherHandler(this, ::setPermissionResult)
+
         albumSpinner.adapter = mediaGalleryAlbumCursorAdapter
         albumSpinner.onItemSelectedListener = this
 
         applyButton.setOnClickListener { setShergilResult() }
-
-        observer = ResultLauncherHandler(this, ::setPermissionResult)
         askPermissionAndOpenGallery()
     }
 

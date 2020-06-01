@@ -1,7 +1,6 @@
 package com.kinnerapriyap.sugar.resultlauncher
 
 import android.Manifest
-import android.net.Uri
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.ActivityResultRegistry
 import androidx.activity.result.contract.ActivityResultContracts
@@ -11,7 +10,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 
 internal class ResultLauncherImpl(
-    private val registry: ActivityResultRegistry,
+    registry: ActivityResultRegistry,
     lifecycleOwner: LifecycleOwner,
     private val setPermissionResult: (Boolean) -> Unit
 ) : LifecycleObserver, ResultLauncher {
@@ -25,7 +24,6 @@ internal class ResultLauncherImpl(
         }
 
     companion object {
-        private const val REQUEST_GALLERY = "request_gallery"
         private const val REQUEST_PERMISSION = "request_permission"
     }
 
