@@ -26,7 +26,10 @@ class MediaGalleryAlbumCursorWrapper(cursor: Cursor?) : CursorWrapper(cursor) {
                 addedNamesCount[name] = (addedNamesCount[name] ?: 0) + 1
             }
         }
-        addedNamesCount["All"] = origCount
+        /**
+         * origCount - 1 is used for All count since the inserted row is not to be counted
+         */
+        addedNamesCount["All"] = origCount - 1
         moveToFirst()
     }
 
