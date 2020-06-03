@@ -1,5 +1,5 @@
 # sher-gil
-### Image Picker library in kotlin for Android 🥳
+### Media Picker library in kotlin for Android 🥳
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md)
 ![kotlin](https://img.shields.io/badge/language-kotlin-orange)
@@ -33,5 +33,5 @@ I wanted to write a media library for Android with Android arch components in ko
 #### Inspired by 
 The [Matisse](https://github.com/zhihu/Matisse) library
 
-#### Sugar tho?
+#### com.kinnerapriyap.sugar?
 🍭 I like sugar. 🍭
