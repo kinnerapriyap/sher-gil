@@ -5,7 +5,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-apply from: 'upload.gradle'
+// apply from: 'upload.gradle'
 
 android {
     compileSdkVersion 29
@@ -73,4 +73,96 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.3'
+}
+
+/**
+ * https://github.com/bintray/gradle-bintray-plugin
+ */
+
+ext {
+    repoName = 'sher-gil'
+    artifact = 'sher-gil'
+    publishedGroupId = 'com.kinnerapriyap'
+    desc = 'Media picker library in kotlin for Android'
+
+    githubUrl = 'https://github.com/kinnerapriyap/sher-gil'
+    gitUrl = 'https://github.com/kinnerapriyap/sher-gil.git'
+
+    developerName = 'Kinnera Priya'
+}
+
+group = publishedGroupId
+
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            name repoName
+            description desc
+            url githubUrl
+            inceptionYear '2020'
+
+            packaging 'aar'
+            groupId publishedGroupId
+            artifactId artifact
+
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+            scm {
+                connection gitUrl
+                developerConnection gitUrl
+                url githubUrl
+
+            }
+            developers {
+                developer {
+                    name developerName
+                }
+            }
+        }
+    }
+}
+
+tasks.withType(Javadoc) {
+    enabled = false
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    archiveClassifier.set("sources")
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    archiveClassifier.set("javadoc")
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_API_KEY')
+    configurations = ['archives']
+    pkg {
+        repo = repoName
+        name = repoName
+        licenses = ['Apache-2.0']
+        vcsUrl = gitUrl
+        websiteUrl = githubUrl
+
+        githubRepo = 'kinnerapriyap/sher-gil'
+        githubReleaseNotesFile = 'README.md'
+    }
 }
