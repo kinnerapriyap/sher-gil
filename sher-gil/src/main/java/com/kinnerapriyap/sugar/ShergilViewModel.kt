@@ -36,9 +36,7 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
     fun getSelectedMediaUriList(): List<Uri> =
         mediaCellDisplayModels.map { it.mediaUri }
 
-    private val updatedMediaCellPosition =
-        MutableLiveData<MediaCellUpdateModel>()
-            .apply { value = MediaCellUpdateModel(-1, false) }
+    private val updatedMediaCellPosition = MutableLiveData<MediaCellUpdateModel>()
 
     fun getUpdatedMediaCellPosition(): LiveData<MediaCellUpdateModel> = updatedMediaCellPosition
 
