@@ -30,12 +30,7 @@ internal class ShergilActivity : AppCompatActivity(), AdapterView.OnItemSelected
 
     private val viewModel: ShergilViewModel by viewModels()
 
-    private val mediaGalleryAlbumCursorAdapter by lazy {
-        MediaGalleryAlbumCursorAdapter(this, viewModel.fetchAlbumCursor())
-            .also { adapter ->
-                adapter.setDropDownViewResource(R.layout.album_spinner_item)
-            }
-    }
+    private lateinit var mediaGalleryAlbumCursorAdapter: MediaGalleryAlbumCursorAdapter
 
     companion object {
         const val RESULT_URIS = "resultUris"
@@ -107,6 +102,11 @@ internal class ShergilActivity : AppCompatActivity(), AdapterView.OnItemSelected
     }
 
     override fun setToolbarSpinner() {
+        mediaGalleryAlbumCursorAdapter =
+            MediaGalleryAlbumCursorAdapter(this, viewModel.fetchAlbumCursor())
+                .also { adapter ->
+                    adapter.setDropDownViewResource(R.layout.album_spinner_item)
+                }
         albumSpinner.adapter = mediaGalleryAlbumCursorAdapter
         albumSpinner.onItemSelectedListener = this
     }
