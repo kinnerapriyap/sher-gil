@@ -5,6 +5,8 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
+apply from: 'upload.gradle'
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -72,5 +74,3 @@ dependencies {
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.3'
 }
-
-apply from: 'upload.gradle'
