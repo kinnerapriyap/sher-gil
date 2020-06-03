@@ -7,6 +7,8 @@ import android.database.MergeCursor
 import android.provider.MediaStore
 import com.kinnerapriyap.sugar.choice.MimeType
 import com.kinnerapriyap.sugar.mediagallery.album.MediaGalleryAlbumCursorWrapper
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 
 class MediaGalleryHandler(private val contentResolver: ContentResolver) {
@@ -41,12 +43,14 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
         return MediaGalleryAlbumCursorWrapper(MergeCursor(cursors))
     }
 
-    fun fetchMedia(): Cursor? =
-        contentResolver.query(
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            PROJECTION,
-            null,
-            null,
-            SORT_ORDER
-        )
+    suspend fun fetchMedia(): Cursor? =
+        withContext(Dispatchers.IO) {
+            contentResolver.query(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                PROJECTION,
+                null,
+                null,
+                SORT_ORDER
+            )
+        }
 }
