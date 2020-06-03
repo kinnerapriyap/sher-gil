@@ -26,8 +26,8 @@ android {
     }
 
     // dataBinding should be enabled to use sher-gil
-    dataBinding {
-        enabled = true
+    buildFeatures {
+        dataBinding = true
     }
 }
 
