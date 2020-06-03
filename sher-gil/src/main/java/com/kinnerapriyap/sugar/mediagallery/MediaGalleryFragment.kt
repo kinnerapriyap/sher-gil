@@ -23,12 +23,7 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
 
     private val viewModel: ShergilViewModel by activityViewModels()
 
-    private val mediaGalleryAdapter: MediaGalleryAdapter by lazy {
-        MediaGalleryAdapter(
-            viewModel.getCurrentMediaCursor(),
-            this@MediaGalleryFragment
-        )
-    }
+    private lateinit var mediaGalleryAdapter: MediaGalleryAdapter
 
     private var listener: MediaGalleryFragmentListener? = null
 
@@ -46,18 +41,24 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recyclerView.apply {
-            layoutManager = GridLayoutManager(requireActivity(), choiceSpec.numOfColumns)
-            adapter = mediaGalleryAdapter
-        }
-        listener?.setToolbarSpinner()
-
-        mediaGalleryAdapter.filterQueryProvider = FilterQueryProvider {
-            viewModel.getCurrentMediaCursor(it.toString())
-        }
+        recyclerView.layoutManager =
+            GridLayoutManager(requireActivity(), choiceSpec.numOfColumns)
 
         viewModel.getUpdatedMediaCellPosition().observe(requireActivity(), Observer {
             mediaGalleryAdapter.updatedMediaCellPosition = it
+        })
+
+        viewModel.getCursor().observe(requireActivity(), Observer {
+            it ?: return@Observer
+            mediaGalleryAdapter = MediaGalleryAdapter(
+                viewModel.getCurrentMediaCursor(),
+                this@MediaGalleryFragment
+            )
+            recyclerView.adapter = mediaGalleryAdapter
+            mediaGalleryAdapter.filterQueryProvider = FilterQueryProvider { filter ->
+                viewModel.getCurrentMediaCursor(filter.toString())
+            }
+            listener?.setToolbarSpinner()
         })
     }
 
