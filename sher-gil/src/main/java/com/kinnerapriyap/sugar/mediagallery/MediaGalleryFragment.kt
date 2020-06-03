@@ -30,6 +30,8 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
         )
     }
 
+    private var listener: MediaGalleryFragmentListener? = null
+
     companion object {
         fun newInstance() =
             MediaGalleryFragment()
@@ -48,6 +50,7 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
             layoutManager = GridLayoutManager(requireActivity(), choiceSpec.numOfColumns)
             adapter = mediaGalleryAdapter
         }
+        listener?.setToolbarSpinner()
 
         mediaGalleryAdapter.filterQueryProvider = FilterQueryProvider {
             viewModel.getCurrentMediaCursor(it.toString())
@@ -64,5 +67,9 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
 
     fun setSelectedSpinnerName(bucketDisplayName: String?) {
         mediaGalleryAdapter.filter.filter(bucketDisplayName)
+    }
+
+    fun setMediaGalleryFragmentListener(listener: MediaGalleryFragmentListener) {
+        this.listener = listener
     }
 }
