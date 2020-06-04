@@ -14,13 +14,12 @@ jobs:
     - uses: actions/setup-java@v1
       with:
         java-version: 1.8
-
-    - run: echo Setup done!
+        
+    - name: Grant permission
+      run: chmod +x gradlew
         
     - name: Upload library
       env:
         bintrayUser: ${{ secrets.BINTRAY_USER }}
         bintrayApiKey: ${{ secrets.BINTRAY_API_KEY }}
       run: ./gradlew bintrayUpload --stacktrace
-      
-    - run: echo Upload done!
