@@ -3,6 +3,8 @@
  */
 
 ext {
+    bintrayRepo = 'maven-android'
+
     repoName = 'sher-gil'
     artifact = 'sher-gil'
     publishedGroupId = 'com.kinnerapriyap'
@@ -41,7 +43,7 @@ install {
                 developerConnection gitUrl
                 url githubUrl
             }
-            
+
             developers {
                 developer {
                     name developerName
@@ -80,7 +82,7 @@ bintray {
     key = System.getenv('BINTRAY_API_KEY')
     configurations = ['archives']
     pkg {
-        repo = repoName
+        repo = bintrayRepo
         name = repoName
         userOrg = user
         licenses = ['Apache-2.0']
