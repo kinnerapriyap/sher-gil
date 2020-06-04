@@ -15,8 +15,7 @@ ext {
 
     developerName = 'Kinnera Priya'
 
-    // TODO: Increment
-    libVersion = 'v0.1.0'
+    libVersion = System.getenv('LIBRARY_VERSION')
 }
 
 group = publishedGroupId
