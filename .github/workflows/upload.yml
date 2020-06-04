@@ -19,12 +19,11 @@ jobs:
       run: chmod +x gradlew
 
     - name: Release tag
-        id: release_tag
-        run: echo ::set-output name=SOURCE_TAG::${GITHUB_REF#refs/tags/}
+      run: echo '::set-output name=SOURCE_TAG::${GITHUB_REF#refs/tags/}'
         
     - name: Upload library
       env:
         BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
         BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
-        LIBRARY_VERSION: ${{ steps.release_tag.outputs.SOURCE_TAG }}
+        LIBRARY_VERSION: $SOURCE_TAG
       run: ./gradlew clean install bintrayUpload --stacktrace
