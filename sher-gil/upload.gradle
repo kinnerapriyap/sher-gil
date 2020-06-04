@@ -35,12 +35,13 @@ install {
                     distribution 'repo'
                 }
             }
+
             scm {
                 connection gitUrl
                 developerConnection gitUrl
                 url githubUrl
-
             }
+            
             developers {
                 developer {
                     name developerName
@@ -88,5 +89,7 @@ bintray {
 
         githubRepo = 'kinnerapriyap/sher-gil'
         githubReleaseNotesFile = 'README.md'
+
+        publish = true
     }
 }
