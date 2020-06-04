@@ -91,7 +91,5 @@ bintray {
 
         githubRepo = 'kinnerapriyap/sher-gil'
         githubReleaseNotesFile = 'README.md'
-
-        publish = true
     }
 }
