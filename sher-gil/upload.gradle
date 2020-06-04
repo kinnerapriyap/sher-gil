@@ -81,6 +81,7 @@ bintray {
     pkg {
         repo = repoName
         name = repoName
+        userOrg = user
         licenses = ['Apache-2.0']
         vcsUrl = gitUrl
         websiteUrl = githubUrl
