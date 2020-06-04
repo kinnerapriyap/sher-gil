@@ -97,6 +97,8 @@ bintray {
         githubRepo = 'kinnerapriyap/sher-gil'
         githubReleaseNotesFile = 'README.md'
 
+        publish = true
+
         version {
             name = libVersion
             released = new Date()
