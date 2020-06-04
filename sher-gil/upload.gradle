@@ -14,9 +14,13 @@ ext {
     gitUrl = 'https://github.com/kinnerapriyap/sher-gil.git'
 
     developerName = 'Kinnera Priya'
+
+    // TODO: Increment
+    libVersion = 'v0.1.0'
 }
 
 group = publishedGroupId
+version = libVersion
 
 install {
     repositories.mavenInstaller {
@@ -29,6 +33,7 @@ install {
             packaging 'aar'
             groupId publishedGroupId
             artifactId artifact
+            version libVersion
 
             licenses {
                 license {
@@ -91,5 +96,11 @@ bintray {
 
         githubRepo = 'kinnerapriyap/sher-gil'
         githubReleaseNotesFile = 'README.md'
+
+        version {
+            name = libVersion
+            released = new Date()
+            vcsTag = libVersion
+        }
     }
 }
