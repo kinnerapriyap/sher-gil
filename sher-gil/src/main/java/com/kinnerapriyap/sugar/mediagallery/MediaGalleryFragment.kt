@@ -19,8 +19,6 @@ import kotlinx.android.synthetic.main.fragment_media_gallery.*
 
 class MediaGalleryFragment : Fragment(), MediaCellListener {
 
-    private val choiceSpec: ChoiceSpec = ChoiceSpec.instance
-
     private val viewModel: ShergilViewModel by activityViewModels()
 
     private lateinit var mediaGalleryAdapter: MediaGalleryAdapter
@@ -42,7 +40,7 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerView.layoutManager =
-            GridLayoutManager(requireActivity(), choiceSpec.numOfColumns)
+            GridLayoutManager(requireActivity(), viewModel.getChoiceSpec().numOfColumns)
 
         viewModel.getUpdatedMediaCellPosition().observe(requireActivity(), Observer {
             mediaGalleryAdapter.updatedMediaCellPosition = it
