@@ -20,6 +20,14 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
         MediaGalleryHandler(getApplication<Application>().contentResolver)
     }
 
+    private var mediaCellDisplayModels: MutableList<MediaCellDisplayModel> = mutableListOf()
+
+    private val updatedMediaCellPosition = MutableLiveData<MediaCellUpdateModel>()
+
+    private var cursor: LiveData<Cursor?> = liveData {
+        emit(mediaGalleryHandler.fetchMedia())
+    }
+
     /**
      * Providing [Dispatchers.Main] in coroutineContext as default
      * to use [launch], which is an extension function of [CoroutineScope],
@@ -31,12 +39,8 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
 
-    private var mediaCellDisplayModels: MutableList<MediaCellDisplayModel> = mutableListOf()
-
     fun getSelectedMediaUriList(): List<Uri> =
         mediaCellDisplayModels.map { it.mediaUri }
-
-    private val updatedMediaCellPosition = MutableLiveData<MediaCellUpdateModel>()
 
     fun getUpdatedMediaCellPosition(): LiveData<MediaCellUpdateModel> = updatedMediaCellPosition
 
@@ -57,10 +61,6 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
                 new.add(displayModel.copy(isChecked = !displayModel.isChecked))
                 new
             }.toMutableList()
-    }
-
-    private var cursor: LiveData<Cursor?> = liveData {
-        emit(mediaGalleryHandler.fetchMedia())
     }
 
     fun getCursor(): LiveData<Cursor?> = cursor
