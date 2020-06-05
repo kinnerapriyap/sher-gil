@@ -21,6 +21,7 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
 
     companion object {
         const val ALBUM_MEDIA_COUNT = "album_media_count"
+
         /**
          *  Retrieve Data._ID to use while binding the result Cursor
          *  and Data.MIMETYPE to identify each row data type
@@ -31,26 +32,38 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
             MediaStore.MediaColumns.BUCKET_DISPLAY_NAME
         )
 
+        private const val SELECTION =
+            "${MediaStore.MediaColumns.MIME_TYPE} IN "
+
         private const val SORT_ORDER =
             "${MediaStore.MediaColumns.DATE_MODIFIED} DESC"
     }
 
     fun fetchAlbum(cursor: Cursor?): Cursor? {
         val extras = MatrixCursor(PROJECTION)
-        extras.addRow(arrayOf("-1", MimeType.IMAGES ,"All"))
+        extras.addRow(arrayOf("-1", MimeType.IMAGES, "All"))
         val cursors =
             arrayOf(extras, cursor)
         return MediaGalleryAlbumCursorWrapper(MergeCursor(cursors))
     }
 
-    suspend fun fetchMedia(): Cursor? =
+    suspend fun fetchMedia(mimeTypes: List<MimeType>): Cursor? =
         withContext(Dispatchers.IO) {
             contentResolver.query(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 PROJECTION,
-                null,
+                getSelection(mimeTypes),
                 null,
                 SORT_ORDER
             )
         }
+
+    private fun getSelection(mimeTypes: List<MimeType>): String =
+        SELECTION +
+                mimeTypes.joinToString(
+                    prefix = "('",
+                    separator = "' , '",
+                    postfix = "')"
+                ) { it.value }
+
 }

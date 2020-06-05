@@ -1,10 +1,11 @@
 package com.kinnerapriyap.sugar.choice
 
-/** Only supports images
+/**
+ * Currently only supports images
  * Reference for MIME types supported by Android:
- * @see <a href="https://android.googlesource.com/platform/frameworks/base/+/refs/heads/master/media/java/android/media/MediaFile.java/>
+ * See [MediaFile.java](https://android.googlesource.com/platform/frameworks/base/+/refs/heads/master/media/java/android/media/MediaFile.java/)
  */
-enum class MimeType(s: String) {
+enum class MimeType(val value: String) {
     // Images
     JPEG("image/jpeg"),
     GIF("image/gif"),

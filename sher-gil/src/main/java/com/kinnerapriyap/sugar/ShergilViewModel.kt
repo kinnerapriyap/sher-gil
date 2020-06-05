@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
+import com.kinnerapriyap.sugar.choice.ChoiceSpec
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellUpdateModel
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler
@@ -15,6 +16,8 @@ import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
 class ShergilViewModel(application: Application) : AndroidViewModel(application), CoroutineScope {
+
+    private val choiceSpec: ChoiceSpec = ChoiceSpec.instance
 
     private val mediaGalleryHandler by lazy {
         MediaGalleryHandler(getApplication<Application>().contentResolver)
@@ -25,7 +28,7 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
     private val updatedMediaCellPosition = MutableLiveData<MediaCellUpdateModel>()
 
     private var cursor: LiveData<Cursor?> = liveData {
-        emit(mediaGalleryHandler.fetchMedia())
+        emit(mediaGalleryHandler.fetchMedia(choiceSpec.mimeTypes))
     }
 
     /**
@@ -38,6 +41,8 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
     private val job = Job()
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
+
+    fun getChoiceSpec() = choiceSpec
 
     fun getSelectedMediaUriList(): List<Uri> =
         mediaCellDisplayModels.map { it.mediaUri }
