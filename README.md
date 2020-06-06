@@ -1,8 +1,9 @@
 # sher-gil
-### Media Picker library in kotlin for Android 🥳
+### Media picker library in kotlin for Android 🥳
+[ ![Download](https://api.bintray.com/packages/kinnerapriyap/maven-android/sher-gil/images/download.svg) ](https://bintray.com/kinnerapriyap/maven-android/sher-gil/_latestVersion)
+![kotlin](https://img.shields.io/badge/language-kotlin-orange)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md)
-![kotlin](https://img.shields.io/badge/language-kotlin-orange)
 
 Written in kotlin with Android architecture components, `sher-gil` aims to be a reliable library resource for media picking.
 
