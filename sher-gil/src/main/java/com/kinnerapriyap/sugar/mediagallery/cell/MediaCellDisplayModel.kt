@@ -5,6 +5,7 @@ import com.kinnerapriyap.sugar.choice.MimeType
 
 data class MediaCellDisplayModel(
     val position: Int,
+    val id: Long,
     val mediaUri: Uri,
     val isChecked: Boolean = false,
     val isEnabled: Boolean,

@@ -3,14 +3,11 @@ package com.kinnerapriyap.sugar
 import android.app.Application
 import android.database.Cursor
 import android.net.Uri
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.liveData
+import androidx.lifecycle.*
 import com.kinnerapriyap.sugar.choice.ChoiceSpec
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
-import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellUpdateModel
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler
+import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellUpdateModel
 import com.kinnerapriyap.sugar.mediagallery.media.MediaGalleryCursorWrapper
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
@@ -23,9 +20,11 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
         MediaGalleryHandler(getApplication<Application>().contentResolver)
     }
 
-    private var mediaCellDisplayModels: MutableList<MediaCellDisplayModel> = mutableListOf()
+    private val selectedMediaCellDisplayModels by lazy {
+        MutableLiveData<List<MediaCellDisplayModel>>()
+    }
 
-    private val updatedMediaCellPosition = MutableLiveData<MediaCellUpdateModel>()
+    private var updatedMediaCellPosition: Int = -1
 
     private var cursor: LiveData<Cursor?> = liveData {
         emit(
@@ -49,28 +48,23 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
 
     fun getChoiceSpec() = choiceSpec
 
-    fun getSelectedMediaUriList(): List<Uri> =
-        mediaCellDisplayModels.map { it.mediaUri }
+    fun getMediaCellUpdateModel(): LiveData<MediaCellUpdateModel> =
+        Transformations.map(selectedMediaCellDisplayModels) { models ->
+            MediaCellUpdateModel(updatedMediaCellPosition, models)
+        }
 
-    fun getUpdatedMediaCellPosition(): LiveData<MediaCellUpdateModel> = updatedMediaCellPosition
+    fun getSelectedMediaUriList(): List<Uri> =
+        selectedMediaCellDisplayModels.value?.map { it.mediaUri } ?: emptyList()
 
     fun setMediaChecked(displayModel: MediaCellDisplayModel) {
-        updatedMediaCellPosition.value =
-            MediaCellUpdateModel(displayModel.position, !displayModel.isChecked)
-        mediaCellDisplayModels =
-            if (mediaCellDisplayModels.contains(displayModel)) {
-                mediaCellDisplayModels.map {
-                    val isChecked =
-                        if (it == displayModel) {
-                            !it.isChecked
-                        } else it.isChecked
-                    it.copy(isChecked = isChecked)
-                }
-            } else {
-                val new = mediaCellDisplayModels
-                new.add(displayModel.copy(isChecked = !displayModel.isChecked))
-                new
-            }.toMutableList()
+        updatedMediaCellPosition = displayModel.position
+        val new = selectedMediaCellDisplayModels.value?.toMutableList() ?: mutableListOf()
+        if (new.any { it.id == displayModel.id }) {
+            new.removeAll { it.id == displayModel.id }
+        } else {
+            new.add(displayModel)
+        }
+        selectedMediaCellDisplayModels.value = new
     }
 
     fun getCursor(): LiveData<Cursor?> = cursor

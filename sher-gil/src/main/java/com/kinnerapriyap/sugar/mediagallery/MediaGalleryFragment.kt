@@ -41,8 +41,8 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
         recyclerView.layoutManager =
             GridLayoutManager(requireActivity(), viewModel.getChoiceSpec().numOfColumns)
 
-        viewModel.getUpdatedMediaCellPosition().observe(requireActivity(), Observer {
-            mediaGalleryAdapter.updatedMediaCellPosition = it
+        viewModel.getMediaCellUpdateModel().observe(requireActivity(), Observer {
+            mediaGalleryAdapter.mediaCellUpdateModel = it
         })
 
         viewModel.getCursor().observe(requireActivity(), Observer {
