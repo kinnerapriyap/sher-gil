@@ -47,12 +47,15 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
         return MediaGalleryAlbumCursorWrapper(MergeCursor(cursors))
     }
 
-    suspend fun fetchMedia(mimeTypes: List<MimeType>): Cursor? =
+    suspend fun fetchMedia(
+        mimeTypes: List<MimeType>,
+        showDisallowedMimeTypes: Boolean
+    ): Cursor? =
         withContext(Dispatchers.IO) {
             contentResolver.query(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 PROJECTION,
-                getSelection(mimeTypes),
+                if (showDisallowedMimeTypes) null else getSelection(mimeTypes),
                 null,
                 SORT_ORDER
             )
