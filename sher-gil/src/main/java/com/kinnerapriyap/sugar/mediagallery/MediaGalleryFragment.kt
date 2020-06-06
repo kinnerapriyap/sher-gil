@@ -49,7 +49,8 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
             it ?: return@Observer
             mediaGalleryAdapter = MediaGalleryAdapter(
                 viewModel.getCurrentMediaCursor(),
-                this@MediaGalleryFragment
+                this@MediaGalleryFragment,
+                viewModel.getChoiceSpec().mimeTypes
             )
             recyclerView.adapter = mediaGalleryAdapter
             mediaGalleryAdapter.filterQueryProvider = FilterQueryProvider { filter ->

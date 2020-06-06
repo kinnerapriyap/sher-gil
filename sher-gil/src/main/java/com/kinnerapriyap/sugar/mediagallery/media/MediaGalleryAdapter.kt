@@ -22,7 +22,8 @@ import com.kinnerapriyap.sugar.choice.MimeType
 
 class MediaGalleryAdapter(
     private var mediaCursor: Cursor?,
-    private val mediaCellListener: MediaCellListener
+    private val mediaCellListener: MediaCellListener,
+    private val mimeTypes: List<MimeType>
 ) : RecyclerView.Adapter<MediaGalleryAdapter.MediaCellHolder>(), Filterable,
     MediaGalleryCursorFilterListener {
 
@@ -92,12 +93,13 @@ class MediaGalleryAdapter(
             id
         )
         val bucketDisplayName = cursor.getString(bucketDisplayNameColumnIndex)
-        val mimeType = cursor.getString(mimeTypeColumnIndex)
+        val mimeType = MimeType.fromValue(cursor.getString(mimeTypeColumnIndex))
         var displayModel = MediaCellDisplayModel(
             position = position,
             mediaUri = contentUri,
             bucketDisplayName = bucketDisplayName,
-            mimeType = MimeType.fromValue(mimeType)
+            mimeType = mimeType,
+            isEnabled = mimeTypes.contains(mimeType)
         )
         if (updatedMediaCellPosition.position == position) {
             displayModel = displayModel.copy(
