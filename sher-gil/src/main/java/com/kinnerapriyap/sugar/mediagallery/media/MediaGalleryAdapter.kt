@@ -16,9 +16,9 @@ import com.kinnerapriyap.sugar.R
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellListener
 import com.kinnerapriyap.sugar.databinding.ViewMediaCellBinding
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
-import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellUpdateModel
 import androidx.appcompat.app.AppCompatActivity
 import com.kinnerapriyap.sugar.choice.MimeType
+import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellUpdateModel
 
 class MediaGalleryAdapter(
     private var mediaCursor: Cursor?,
@@ -29,8 +29,8 @@ class MediaGalleryAdapter(
 
     private var isDataValid = mediaCursor != null
 
-    var updatedMediaCellPosition: MediaCellUpdateModel =
-        MediaCellUpdateModel(-1, false)
+    var mediaCellUpdateModel: MediaCellUpdateModel =
+        MediaCellUpdateModel(-1, listOf())
         set(value) {
             field = value
             if (value.position != -1) {
@@ -94,18 +94,15 @@ class MediaGalleryAdapter(
         )
         val bucketDisplayName = cursor.getString(bucketDisplayNameColumnIndex)
         val mimeType = MimeType.fromValue(cursor.getString(mimeTypeColumnIndex))
-        var displayModel = MediaCellDisplayModel(
+        val displayModel = MediaCellDisplayModel(
             position = position,
+            id = id,
             mediaUri = contentUri,
+            isChecked = mediaCellUpdateModel.selectedMediaCellDisplayModels.any { it.id == id },
             bucketDisplayName = bucketDisplayName,
             mimeType = mimeType,
             isEnabled = mimeTypes.contains(mimeType)
         )
-        if (updatedMediaCellPosition.position == position) {
-            displayModel = displayModel.copy(
-                isChecked = updatedMediaCellPosition.isChecked
-            )
-        }
         holder.bind(displayModel, mediaCellListener)
     }
 
