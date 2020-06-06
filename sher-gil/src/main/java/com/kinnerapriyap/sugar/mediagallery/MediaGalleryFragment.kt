@@ -11,7 +11,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.kinnerapriyap.sugar.R
 import com.kinnerapriyap.sugar.ShergilViewModel
-import com.kinnerapriyap.sugar.choice.ChoiceSpec
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellListener
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
 import com.kinnerapriyap.sugar.mediagallery.media.MediaGalleryAdapter
@@ -50,7 +49,8 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
             it ?: return@Observer
             mediaGalleryAdapter = MediaGalleryAdapter(
                 viewModel.getCurrentMediaCursor(),
-                this@MediaGalleryFragment
+                this@MediaGalleryFragment,
+                viewModel.getChoiceSpec().mimeTypes
             )
             recyclerView.adapter = mediaGalleryAdapter
             mediaGalleryAdapter.filterQueryProvider = FilterQueryProvider { filter ->

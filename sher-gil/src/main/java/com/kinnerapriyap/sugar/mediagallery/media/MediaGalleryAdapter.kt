@@ -18,10 +18,12 @@ import com.kinnerapriyap.sugar.databinding.ViewMediaCellBinding
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellUpdateModel
 import androidx.appcompat.app.AppCompatActivity
+import com.kinnerapriyap.sugar.choice.MimeType
 
 class MediaGalleryAdapter(
     private var mediaCursor: Cursor?,
-    private val mediaCellListener: MediaCellListener
+    private val mediaCellListener: MediaCellListener,
+    private val mimeTypes: List<MimeType>
 ) : RecyclerView.Adapter<MediaGalleryAdapter.MediaCellHolder>(), Filterable,
     MediaGalleryCursorFilterListener {
 
@@ -52,6 +54,9 @@ class MediaGalleryAdapter(
 
     private val bucketDisplayNameColumnIndex =
         mediaCursor?.getColumnIndex(MediaStore.MediaColumns.BUCKET_DISPLAY_NAME) ?: -1
+
+    private val mimeTypeColumnIndex =
+        mediaCursor?.getColumnIndex(MediaStore.MediaColumns.MIME_TYPE) ?: -1
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -88,10 +93,13 @@ class MediaGalleryAdapter(
             id
         )
         val bucketDisplayName = cursor.getString(bucketDisplayNameColumnIndex)
+        val mimeType = MimeType.fromValue(cursor.getString(mimeTypeColumnIndex))
         var displayModel = MediaCellDisplayModel(
             position = position,
             mediaUri = contentUri,
-            bucketDisplayName = bucketDisplayName
+            bucketDisplayName = bucketDisplayName,
+            mimeType = mimeType,
+            isEnabled = mimeTypes.contains(mimeType)
         )
         if (updatedMediaCellPosition.position == position) {
             displayModel = displayModel.copy(

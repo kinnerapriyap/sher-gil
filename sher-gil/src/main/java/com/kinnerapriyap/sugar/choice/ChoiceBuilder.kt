@@ -16,7 +16,8 @@ class ChoiceBuilder private constructor(
 
     /**
      * Selects the MIME types allowed to be chosen by the user
-     * MIME types not included will be shown but cannot be chosen
+     * MIME types not included will be shown but
+     * cannot be chosen if showUnallowedMimeTypes is true
      *
      * @param mimeTypes  List<[MimeType]> default is MimeType.IMAGES (all image types)
      * @return [ChoiceBuilder] instance
@@ -24,6 +25,18 @@ class ChoiceBuilder private constructor(
     fun mimeTypes(mimeTypes: List<MimeType>): ChoiceBuilder =
         apply {
             choiceSpec.mimeTypes = mimeTypes
+        }
+
+    /**
+     * Determines whether or not to show the MIME types
+     * not allowed to be chosen by the user
+     *
+     * @param showDisallowedMimeTypes Boolean default is false
+     * @return [ChoiceBuilder] instance
+     */
+    fun showDisallowedMimeTypes(showDisallowedMimeTypes: Boolean): ChoiceBuilder =
+        apply {
+            choiceSpec.showDisallowedMimeTypes = showDisallowedMimeTypes
         }
 
     /**

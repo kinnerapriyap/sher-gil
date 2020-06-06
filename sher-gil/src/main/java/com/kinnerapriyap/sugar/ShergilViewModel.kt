@@ -28,7 +28,12 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
     private val updatedMediaCellPosition = MutableLiveData<MediaCellUpdateModel>()
 
     private var cursor: LiveData<Cursor?> = liveData {
-        emit(mediaGalleryHandler.fetchMedia(choiceSpec.mimeTypes))
+        emit(
+            mediaGalleryHandler.fetchMedia(
+                mimeTypes = choiceSpec.mimeTypes,
+                showDisallowedMimeTypes = choiceSpec.showDisallowedMimeTypes
+            )
+        )
     }
 
     /**

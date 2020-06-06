@@ -17,5 +17,8 @@ enum class MimeType(val value: String) {
     companion object {
         // All supported image types
         val IMAGES: List<MimeType> = values().toList()
+
+        private val map = values().associateBy(MimeType::value)
+        fun fromValue(value: String): MimeType? = map[value]
     }
 }

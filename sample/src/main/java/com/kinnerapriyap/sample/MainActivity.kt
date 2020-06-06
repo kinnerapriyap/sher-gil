@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.hello).setOnClickListener {
             Shergil.create(this)
                 .mimeTypes(MimeType.IMAGES)
+                .showDisallowedMimeTypes(true)
                 .allowOnlyLocalStorage(false)
                 .allowMultipleSelection(true)
                 .numOfColumns(3)
