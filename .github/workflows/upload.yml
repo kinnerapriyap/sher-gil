@@ -1,4 +1,4 @@
-name: Upload to Bintray
+name: Upload to Bintray workflow
 
 on:
   release:
