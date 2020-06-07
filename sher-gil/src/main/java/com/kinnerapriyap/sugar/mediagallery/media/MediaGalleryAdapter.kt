@@ -10,21 +10,22 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.FilterQueryProvider
 import android.widget.Filterable
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.kinnerapriyap.sugar.R
-import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellListener
+import com.kinnerapriyap.sugar.choice.MimeType
 import com.kinnerapriyap.sugar.databinding.ViewMediaCellBinding
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
-import androidx.appcompat.app.AppCompatActivity
-import com.kinnerapriyap.sugar.choice.MimeType
+import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellListener
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellUpdateModel
 
 class MediaGalleryAdapter(
     private var mediaCursor: Cursor?,
     private val mediaCellListener: MediaCellListener,
     private val mimeTypes: List<MimeType>
-) : RecyclerView.Adapter<MediaGalleryAdapter.MediaCellHolder>(), Filterable,
+) : RecyclerView.Adapter<MediaGalleryAdapter.MediaCellHolder>(),
+    Filterable,
     MediaGalleryCursorFilterListener {
 
     private var isDataValid = mediaCursor != null
@@ -32,11 +33,11 @@ class MediaGalleryAdapter(
     var mediaCellUpdateModel: MediaCellUpdateModel =
         MediaCellUpdateModel(-1, listOf())
         set(value) {
-            field = value
-            if (value.position != -1) {
-                notifyItemChanged(value.position)
+                field = value
+                if (value.position != -1) {
+                    notifyItemChanged(value.position)
+                }
             }
-        }
 
     var filterQueryProvider: FilterQueryProvider? = null
         set(value) {

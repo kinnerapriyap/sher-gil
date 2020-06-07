@@ -10,7 +10,6 @@ import com.kinnerapriyap.sugar.mediagallery.album.MediaGalleryAlbumCursorWrapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-
 class MediaGalleryHandler(private val contentResolver: ContentResolver) {
 
     /**
@@ -63,10 +62,9 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
 
     private fun getSelection(mimeTypes: List<MimeType>): String =
         SELECTION +
-                mimeTypes.joinToString(
-                    prefix = "('",
-                    separator = "' , '",
-                    postfix = "')"
-                ) { it.value }
-
+            mimeTypes.joinToString(
+                prefix = "('",
+                separator = "' , '",
+                postfix = "')"
+            ) { it.value }
 }

@@ -13,14 +13,16 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.kinnerapriyap.sugar.mediagallery.album.MediaGalleryAlbumCursorAdapter
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryFragment
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryFragmentListener
+import com.kinnerapriyap.sugar.mediagallery.album.MediaGalleryAlbumCursorAdapter
 import com.kinnerapriyap.sugar.resultlauncher.ResultLauncherHandler
 import kotlinx.android.synthetic.main.activity_shergil.*
 import java.util.ArrayList
 
-internal class ShergilActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
+internal class ShergilActivity :
+    AppCompatActivity(),
+    AdapterView.OnItemSelectedListener,
     MediaGalleryFragmentListener {
 
     private lateinit var observer: ResultLauncherHandler

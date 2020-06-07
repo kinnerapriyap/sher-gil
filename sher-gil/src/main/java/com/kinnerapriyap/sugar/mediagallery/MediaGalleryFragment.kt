@@ -1,18 +1,18 @@
 package com.kinnerapriyap.sugar.mediagallery
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FilterQueryProvider
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.kinnerapriyap.sugar.R
 import com.kinnerapriyap.sugar.ShergilViewModel
-import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellListener
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
+import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellListener
 import com.kinnerapriyap.sugar.mediagallery.media.MediaGalleryAdapter
 import kotlinx.android.synthetic.main.fragment_media_gallery.*
 
@@ -41,23 +41,29 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
         recyclerView.layoutManager =
             GridLayoutManager(requireActivity(), viewModel.getChoiceSpec().numOfColumns)
 
-        viewModel.getMediaCellUpdateModel().observe(requireActivity(), Observer {
-            mediaGalleryAdapter.mediaCellUpdateModel = it
-        })
-
-        viewModel.getCursor().observe(requireActivity(), Observer {
-            it ?: return@Observer
-            mediaGalleryAdapter = MediaGalleryAdapter(
-                viewModel.getCurrentMediaCursor(),
-                this@MediaGalleryFragment,
-                viewModel.getChoiceSpec().mimeTypes
-            )
-            recyclerView.adapter = mediaGalleryAdapter
-            mediaGalleryAdapter.filterQueryProvider = FilterQueryProvider { filter ->
-                viewModel.getCurrentMediaCursor(filter.toString())
+        viewModel.getMediaCellUpdateModel().observe(
+            requireActivity(),
+            Observer {
+                mediaGalleryAdapter.mediaCellUpdateModel = it
             }
-            listener?.setToolbarSpinner()
-        })
+        )
+
+        viewModel.getCursor().observe(
+            requireActivity(),
+            Observer {
+                it ?: return@Observer
+                mediaGalleryAdapter = MediaGalleryAdapter(
+                    viewModel.getCurrentMediaCursor(),
+                    this@MediaGalleryFragment,
+                    viewModel.getChoiceSpec().mimeTypes
+                )
+                recyclerView.adapter = mediaGalleryAdapter
+                mediaGalleryAdapter.filterQueryProvider = FilterQueryProvider { filter ->
+                    viewModel.getCurrentMediaCursor(filter.toString())
+                }
+                listener?.setToolbarSpinner()
+            }
+        )
     }
 
     override fun onMediaCellClicked(displayModel: MediaCellDisplayModel) {

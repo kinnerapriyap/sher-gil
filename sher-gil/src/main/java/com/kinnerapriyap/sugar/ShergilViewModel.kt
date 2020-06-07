@@ -5,8 +5,8 @@ import android.database.Cursor
 import android.net.Uri
 import androidx.lifecycle.*
 import com.kinnerapriyap.sugar.choice.ChoiceSpec
-import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler
+import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellUpdateModel
 import com.kinnerapriyap.sugar.mediagallery.media.MediaGalleryCursorWrapper
 import kotlinx.coroutines.*

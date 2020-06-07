@@ -6,7 +6,7 @@ class ResultLauncherHandler(
     private val activity: ComponentActivity,
     private val setPermissionResult: (Boolean) -> Unit
 ) : ResultLauncher by ResultLauncherImpl(
-    activity.activityResultRegistry,
-    activity,
-    setPermissionResult
-)
+        activity.activityResultRegistry,
+        activity,
+        setPermissionResult
+    )

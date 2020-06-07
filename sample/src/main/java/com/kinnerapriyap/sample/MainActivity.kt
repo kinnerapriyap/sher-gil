@@ -2,11 +2,11 @@ package com.kinnerapriyap.sample
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
-import com.kinnerapriyap.sugar.choice.MimeType
+import androidx.appcompat.app.AppCompatActivity
 import com.kinnerapriyap.sugar.Shergil
+import com.kinnerapriyap.sugar.choice.MimeType
 
 class MainActivity : AppCompatActivity() {
 

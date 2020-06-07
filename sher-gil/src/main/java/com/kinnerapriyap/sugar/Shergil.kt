@@ -3,11 +3,10 @@ package com.kinnerapriyap.sugar
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import androidx.fragment.app.Fragment
 import androidx.activity.result.ActivityResultCallback
+import androidx.fragment.app.Fragment
 import com.kinnerapriyap.sugar.ShergilActivity.Companion.RESULT_URIS
 import com.kinnerapriyap.sugar.choice.ChoiceBuilder
-
 
 open class Shergil {
 
