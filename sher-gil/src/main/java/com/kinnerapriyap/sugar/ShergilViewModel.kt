@@ -21,7 +21,7 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
     }
 
     private val selectedMediaCellDisplayModels by lazy {
-        MutableLiveData<MutableList<MediaCellDisplayModel>>()
+        MutableLiveData<MutableList<MediaCellDisplayModel>>().apply { value = mutableListOf() }
     }
 
     private var updatedMediaCellPosition: Int = -1
