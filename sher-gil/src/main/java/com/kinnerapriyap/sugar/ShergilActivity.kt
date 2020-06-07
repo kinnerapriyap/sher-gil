@@ -24,8 +24,6 @@ import java.util.ArrayList
 internal class ShergilActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
     MediaGalleryFragmentListener {
 
-    private val choiceSpec: ChoiceSpec = ChoiceSpec.instance
-
     private lateinit var observer: ResultLauncherHandler
 
     private val viewModel: ShergilViewModel by viewModels()
