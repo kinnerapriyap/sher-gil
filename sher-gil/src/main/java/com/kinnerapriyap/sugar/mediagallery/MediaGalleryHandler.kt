@@ -24,7 +24,7 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
 
         /**
          *  Retrieve Data._ID to use while binding the result Cursor
-         *  and Data.MIMETYPE to identify each row data type
+         *  and Data.MIME_TYPE to identify each row data type
          */
         private val PROJECTION: Array<String> = arrayOf(
             MediaStore.MediaColumns._ID,
