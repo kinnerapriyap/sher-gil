@@ -21,7 +21,7 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
     }
 
     private val selectedMediaCellDisplayModels by lazy {
-        MutableLiveData<List<MediaCellDisplayModel>>()
+        MutableLiveData<MutableList<MediaCellDisplayModel>>()
     }
 
     private var updatedMediaCellPosition: Int = -1
@@ -58,7 +58,7 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
 
     fun setMediaChecked(displayModel: MediaCellDisplayModel) {
         updatedMediaCellPosition = displayModel.position
-        val new = selectedMediaCellDisplayModels.value?.toMutableList() ?: mutableListOf()
+        val new = selectedMediaCellDisplayModels.value ?: mutableListOf()
         if (new.any { it.id == displayModel.id }) {
             new.removeAll { it.id == displayModel.id }
         } else {
