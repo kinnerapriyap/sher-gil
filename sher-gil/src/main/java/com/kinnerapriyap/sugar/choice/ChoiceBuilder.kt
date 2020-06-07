@@ -17,7 +17,7 @@ class ChoiceBuilder private constructor(
     /**
      * Selects the MIME types allowed to be chosen by the user
      * MIME types not included will be shown but
-     * cannot be chosen if showUnallowedMimeTypes is true
+     * cannot be chosen if showDisallowedMimeTypes is true
      *
      * @param mimeTypes  List<[MimeType]> default is MimeType.IMAGES (all image types)
      * @return [ChoiceBuilder] instance
