@@ -18,7 +18,7 @@ jobs:
     - name: Grant permission
       run: chmod +x gradlew
 
-    - name: Release version
+    - name: Get release version
       id: get_version
       run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
         
