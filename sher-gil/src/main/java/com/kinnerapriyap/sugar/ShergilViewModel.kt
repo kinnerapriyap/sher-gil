@@ -17,7 +17,7 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
     private val choiceSpec: ChoiceSpec = ChoiceSpec.instance
 
     private val mediaGalleryHandler by lazy {
-        MediaGalleryHandler(getApplication<Application>().contentResolver)
+        MediaGalleryHandler(application.contentResolver)
     }
 
     private val selectedMediaCellDisplayModels by lazy {
