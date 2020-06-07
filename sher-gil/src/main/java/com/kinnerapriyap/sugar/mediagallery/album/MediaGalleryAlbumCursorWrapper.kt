@@ -79,7 +79,7 @@ class MediaGalleryAlbumCursorWrapper(cursor: Cursor?) : CursorWrapper(cursor) {
 
     // Add column for media count
 
-    val origColumnCount = super.getColumnCount()
+    private val origColumnCount = super.getColumnCount()
 
     override fun getColumnCount(): Int =
         origColumnCount + 1
