@@ -77,7 +77,7 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
 
 If you're on `API level > R`, you can use `registerForActivityResult(ActivityResultContract, ActivityResultCallback)` with the appropriate ActivityResultContract and handle the result in the callback.
 
-**Min SDK:** sher-gil supports a minimum SDK of 14.
+**Min SDK:** sher-gil supports a minimum SDK of 18.
 
 ## Contributing
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md)
