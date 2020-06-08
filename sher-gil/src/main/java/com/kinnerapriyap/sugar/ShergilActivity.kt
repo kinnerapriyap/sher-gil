@@ -58,7 +58,11 @@ internal class ShergilActivity :
 
         observer = ResultLauncherHandler(this, ::setPermissionResult)
 
-        applyButton.setOnClickListener { setShergilResult() }
+        viewModel.getSelectedMediaCount().observe(
+            this,
+            Observer(binding::setSelectedCount)
+        )
+
         askPermissionAndOpenGallery()
     }
 
