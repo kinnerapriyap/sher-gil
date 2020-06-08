@@ -12,7 +12,10 @@ import android.widget.AdapterView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import com.kinnerapriyap.sugar.databinding.ActivityShergilBinding
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryFragment
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryFragmentListener
 import com.kinnerapriyap.sugar.mediagallery.album.MediaGalleryAlbumCursorAdapter
@@ -23,7 +26,7 @@ import java.util.ArrayList
 internal class ShergilActivity :
     AppCompatActivity(),
     AdapterView.OnItemSelectedListener,
-    MediaGalleryFragmentListener {
+    MediaGalleryFragmentListener, ShergilActivityListener {
 
     private lateinit var observer: ResultLauncherHandler
 
@@ -45,14 +48,21 @@ internal class ShergilActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Shergil)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_shergil)
+        val binding: ActivityShergilBinding =
+            DataBindingUtil.setContentView(this, R.layout.activity_shergil)
+        binding.listener = this
+
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         observer = ResultLauncherHandler(this, ::setPermissionResult)
 
-        applyButton.setOnClickListener { setShergilResult() }
+        viewModel.getSelectedMediaCount().observe(
+            this,
+            Observer(binding::setSelectedCount)
+        )
+
         askPermissionAndOpenGallery()
     }
 
@@ -141,5 +151,9 @@ internal class ShergilActivity :
     override fun onDestroy() {
         super.onDestroy()
         viewModel.clear()
+    }
+
+    override fun onApplyClicked() {
+        setShergilResult()
     }
 }
