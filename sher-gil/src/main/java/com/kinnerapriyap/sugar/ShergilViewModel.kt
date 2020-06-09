@@ -65,6 +65,7 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
         if (new.any { it.id == displayModel.id }) {
             new.removeAll { it.id == displayModel.id }
         } else {
+            if (!choiceSpec.allowMultipleSelection) new.removeAll(new)
             new.add(displayModel)
         }
         selectedMediaCellDisplayModels.value = new
