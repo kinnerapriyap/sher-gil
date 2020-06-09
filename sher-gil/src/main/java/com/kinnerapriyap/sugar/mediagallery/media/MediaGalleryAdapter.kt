@@ -33,14 +33,14 @@ class MediaGalleryAdapter(
     var mediaCellUpdateModel: MediaCellUpdateModel =
         MediaCellUpdateModel(Pair(-1, -1), listOf())
         set(value) {
-            field = value
-            if (value.positions.first != -1) {
-                notifyItemChanged(value.positions.first)
+                field = value
+                if (value.positions.first != -1) {
+                    notifyItemChanged(value.positions.first)
+                }
+                if (value.positions.second != -1) {
+                    notifyItemChanged(value.positions.second)
+                }
             }
-            if (value.positions.second != -1) {
-                notifyItemChanged(value.positions.second)
-            }
-        }
 
     var filterQueryProvider: FilterQueryProvider? = null
         set(value) {
