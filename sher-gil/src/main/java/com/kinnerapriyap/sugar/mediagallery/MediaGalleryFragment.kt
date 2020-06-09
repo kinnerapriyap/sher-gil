@@ -43,9 +43,9 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
 
         viewModel.getMediaCellUpdateModel().observe(
             requireActivity(),
-            Observer {
-                if (it.position == -1) return@Observer
-                mediaGalleryAdapter.mediaCellUpdateModel = it
+            Observer { updateModel ->
+                if (updateModel.positions.first == -1) return@Observer
+                mediaGalleryAdapter.mediaCellUpdateModel = updateModel
             }
         )
 
