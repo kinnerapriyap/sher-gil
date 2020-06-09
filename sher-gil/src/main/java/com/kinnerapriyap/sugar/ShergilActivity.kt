@@ -26,7 +26,8 @@ import java.util.ArrayList
 internal class ShergilActivity :
     AppCompatActivity(),
     AdapterView.OnItemSelectedListener,
-    MediaGalleryFragmentListener, ShergilActivityListener {
+    MediaGalleryFragmentListener,
+    ShergilActivityListener {
 
     private lateinit var observer: ResultLauncherHandler
 

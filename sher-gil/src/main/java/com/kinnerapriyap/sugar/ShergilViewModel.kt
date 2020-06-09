@@ -24,7 +24,7 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
         MutableLiveData<MutableList<MediaCellDisplayModel>>().apply { value = mutableListOf() }
     }
 
-    private var updatedMediaCellPosition: Int = -1
+    private var updatedMediaCellPositions: Pair<Int, Int> = Pair(-1, -1)
 
     private var cursor: LiveData<Cursor?> = liveData {
         emit(
@@ -50,7 +50,7 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
 
     fun getMediaCellUpdateModel(): LiveData<MediaCellUpdateModel> =
         Transformations.map(selectedMediaCellDisplayModels) { models ->
-            MediaCellUpdateModel(updatedMediaCellPosition, models)
+            MediaCellUpdateModel(updatedMediaCellPositions, models)
         }
 
     fun getSelectedMediaCount(): LiveData<Int> =
@@ -60,11 +60,12 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
         selectedMediaCellDisplayModels.value?.map { it.mediaUri } ?: emptyList()
 
     fun setMediaChecked(displayModel: MediaCellDisplayModel) {
-        updatedMediaCellPosition = displayModel.position
+        updatedMediaCellPositions = Pair(displayModel.position, updatedMediaCellPositions.first)
         val new = selectedMediaCellDisplayModels.value ?: mutableListOf()
         if (new.any { it.id == displayModel.id }) {
             new.removeAll { it.id == displayModel.id }
         } else {
+            if (!choiceSpec.allowMultipleSelection) new.removeAll(new)
             new.add(displayModel)
         }
         selectedMediaCellDisplayModels.value = new

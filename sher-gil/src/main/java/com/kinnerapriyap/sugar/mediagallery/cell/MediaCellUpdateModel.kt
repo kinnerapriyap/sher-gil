@@ -1,6 +1,6 @@
 package com.kinnerapriyap.sugar.mediagallery.cell
 
 data class MediaCellUpdateModel(
-    val position: Int,
+    val positions: Pair<Int, Int>,
     val selectedMediaCellDisplayModels: List<MediaCellDisplayModel>
 )

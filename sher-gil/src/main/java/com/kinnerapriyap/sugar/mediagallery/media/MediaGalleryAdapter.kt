@@ -31,11 +31,14 @@ class MediaGalleryAdapter(
     private var isDataValid = mediaCursor != null
 
     var mediaCellUpdateModel: MediaCellUpdateModel =
-        MediaCellUpdateModel(-1, listOf())
+        MediaCellUpdateModel(Pair(-1, -1), listOf())
         set(value) {
                 field = value
-                if (value.position != -1) {
-                    notifyItemChanged(value.position)
+                if (value.positions.first != -1) {
+                    notifyItemChanged(value.positions.first)
+                }
+                if (value.positions.second != -1) {
+                    notifyItemChanged(value.positions.second)
                 }
             }
 
