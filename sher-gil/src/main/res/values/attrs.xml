@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- CardView -->
+    <attr name="shergil_mediaCheckedColor" format="reference|color" />
+    <attr name="shergil_mediaCheckedAlpha" format="reference|float" />
+    <attr name="shergil_mediaCheckedIconTintColor" format="reference|color" />
+    <attr name="shergil_disabledMediaColor" format="reference|color" />
+    <attr name="shergil_disabledMediaAlpha" format="reference|float" />
+
+    <!-- Toolbar -->
+    <attr name="shergil_toolbar" format="reference" />
+
+    <!-- BottomBar -->
+    <attr name="shergil_bottomBar" format="reference" />
+    <attr name="shergil_applyButtonText" format="reference|color" />
+    <attr name="shergil_applyButtonDisabledText" format="reference|color" />
+</resources>
