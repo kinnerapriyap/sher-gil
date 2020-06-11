@@ -23,7 +23,8 @@ import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellUpdateModel
 class MediaGalleryAdapter(
     private var mediaCursor: Cursor?,
     private val mediaCellListener: MediaCellListener,
-    private val mimeTypes: List<MimeType>
+    private val mimeTypes: List<MimeType>,
+    private val allowMultipleSelection: Boolean
 ) : RecyclerView.Adapter<MediaGalleryAdapter.MediaCellHolder>(),
     Filterable,
     MediaGalleryCursorFilterListener {
@@ -37,7 +38,7 @@ class MediaGalleryAdapter(
                 if (value.positions.first != -1) {
                     notifyItemChanged(value.positions.first)
                 }
-                if (value.positions.second != -1) {
+                if (value.positions.second != -1 && !allowMultipleSelection) {
                     notifyItemChanged(value.positions.second)
                 }
             }

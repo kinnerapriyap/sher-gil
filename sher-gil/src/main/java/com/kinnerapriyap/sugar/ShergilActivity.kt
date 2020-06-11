@@ -47,11 +47,12 @@ internal class ShergilActivity :
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.Shergil)
+        theme.applyStyle(viewModel.getChoiceSpec().theme, true)
         super.onCreate(savedInstanceState)
         val binding: ActivityShergilBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_shergil)
         binding.listener = this
+        binding.lifecycleOwner = this
 
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

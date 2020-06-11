@@ -3,6 +3,7 @@ package com.kinnerapriyap.sugar.choice
 import android.app.Activity
 import android.content.Intent
 import androidx.fragment.app.Fragment
+import com.kinnerapriyap.sugar.R
 import com.kinnerapriyap.sugar.ShergilActivity
 
 class ChoiceBuilder private constructor(
@@ -70,6 +71,17 @@ class ChoiceBuilder private constructor(
     fun numOfColumns(numOfColumns: Int): ChoiceBuilder =
         apply {
             choiceSpec.numOfColumns = numOfColumns
+        }
+
+    /**
+     * Sets the custom theme for Shergil
+     *
+     * @param theme Int default is [R.style.Shergil]
+     * @return [ChoiceBuilder] instance
+     */
+    fun theme(theme: Int): ChoiceBuilder =
+        apply {
+            choiceSpec.theme = theme
         }
 
     /**

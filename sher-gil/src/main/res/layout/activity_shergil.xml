@@ -21,6 +21,7 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
+            style="?attr/shergil_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -44,6 +45,7 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/bottombar"
+            style="?attr/shergil_bottomBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -69,9 +71,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
-                    android:textColor="@color/colorPrimary"
                     android:onClick="@{() -> listener.onApplyClicked()}"
-                    android:text="@string/apply" />
+                    android:text="@string/apply"
+                    android:textColor="?attr/shergil_applyButtonText" />
 
             </LinearLayout>
 

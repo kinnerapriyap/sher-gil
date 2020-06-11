@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- https://github.com/material-components/material-components-android/blob/master/lib/java/com/google/android/material/card/res/color/mtrl_card_view_foreground.xml -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:alpha="0.6" android:color="@android:color/secondary_text_dark" android:state_enabled="false" />
+    <item android:alpha="?attr/shergil_disabledMediaAlpha" android:color="?attr/shergil_disabledMediaColor" android:state_enabled="false" />
     <item android:color="@android:color/transparent" android:state_checked="false" />
-    <item android:alpha="0.08" android:color="?attr/colorPrimary" android:state_checked="true" />
+    <item android:alpha="?attr/shergil_mediaCheckedAlpha" android:color="?attr/shergil_mediaCheckedColor" android:state_checked="true" />
 </selector>
