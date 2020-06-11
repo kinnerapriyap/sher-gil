@@ -1,14 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Shergil" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="Shergil" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- CardView -->
+        <item name="shergil_mediaCheckedColor">#8BC34A</item>
+        <item name="shergil_mediaCheckedAlpha">0.1</item>
+        <item name="shergil_mediaCheckedIconTintColor">#6b9b36</item>
+        <item name="shergil_disabledMediaColor">@android:color/secondary_text_dark</item>
+        <item name="shergil_disabledMediaAlpha">0.6</item>
         <item name="materialCardViewStyle">@style/Shergil.CardView</item>
+
+        <!-- Toolbar -->
+        <item name="shergil_toolbar">@style/Shergil.Toolbar</item>
+
+        <!-- BottomBar -->
+        <item name="shergil_bottomBar">@style/Shergil.BottomBar</item>
+        <item name="shergil_applyButtonText">#000000</item>
+        <item name="shergil_applyButtonDisabledText">@android:color/secondary_text_dark</item>
     </style>
 
+    <!-- https://github.com/material-components/material-components-android/blob/master/docs/components/Card.md -->
     <style name="Shergil.CardView" parent="Widget.MaterialComponents.CardView">
         <item name="cardForegroundColor">@color/card_view_foreground</item>
+        <item name="checkedIconTint">?attr/shergil_mediaCheckedIconTintColor</item>
+    </style>
+
+    <style name="Shergil.Toolbar">
+        <item name="popupTheme">@style/ThemeOverlay.MaterialComponents.Dark</item>
+        <item name="android:background">#8BC34A</item>
+        <item name="android:textColorPrimary">@android:color/black</item>
+    </style>
+
+    <style name="Shergil.BottomBar">
+        <item name="popupTheme">@style/ThemeOverlay.MaterialComponents.Dark</item>
+        <item name="android:background">#8BC34A</item>
     </style>
 </resources>
