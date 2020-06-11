@@ -61,6 +61,7 @@ Shergil.create(this)
     .showDisallowedMimeTypes(false) // Default: false 
     .allowMultipleSelection(true) // Default: true
     .numOfColumns(3) // Default: 2
+    .theme(R.style.Shergil) // Set custom theme with sher-gil attrs
     .withRequestCode(REQUEST_SHERGIL) // Opens media selection with the requestCode provided
 ```
 
