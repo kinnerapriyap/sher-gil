@@ -3,8 +3,8 @@ package com.kinnerapriyap.sugar.choice
 import android.app.Activity
 import android.content.Intent
 import androidx.fragment.app.Fragment
-import com.kinnerapriyap.sugar.ShergilActivity
 import com.kinnerapriyap.sugar.R
+import com.kinnerapriyap.sugar.ShergilActivity
 
 class ChoiceBuilder private constructor(
     private val activity: Activity? = null,
