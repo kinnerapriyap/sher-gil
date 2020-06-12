@@ -14,4 +14,10 @@
     <attr name="shergil_bottomBar" format="reference" />
     <attr name="shergil_applyButtonText" format="reference|color" />
     <attr name="shergil_applyButtonDisabledText" format="reference|color" />
+    <attr name="shergil_previewButtonText" format="reference|color" />
+    <attr name="shergil_previewButtonDisabledText" format="reference|color" />
+
+    <!-- Preview -->
+    <attr name="shergil_previewSelectedDotColor" format="reference|color" />
+    <attr name="shergil_previewDotColor" format="reference|color" />
 </resources>
