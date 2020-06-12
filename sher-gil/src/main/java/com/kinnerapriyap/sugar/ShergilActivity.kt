@@ -174,6 +174,7 @@ internal class ShergilActivity :
                 MediaPreviewFragment.newInstance(),
                 MEDIA_GALLERY_FRAGMENT_TAG
             )
+            .addToBackStack(null)
             .commit()
     }
 
