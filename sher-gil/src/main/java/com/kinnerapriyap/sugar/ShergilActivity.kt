@@ -42,6 +42,7 @@ internal class ShergilActivity :
     companion object {
         const val RESULT_URIS = "resultUris"
         private const val MEDIA_GALLERY_FRAGMENT_TAG = "mediaGalleryFragmentTag"
+        private const val MEDIA_PREVIEW_FRAGMENT_TAG = "mediaPreviewFragmentTag"
     }
 
     override fun onAttachFragment(fragment: Fragment) {
@@ -172,7 +173,7 @@ internal class ShergilActivity :
             .replace(
                 R.id.container,
                 MediaPreviewFragment.newInstance(),
-                MEDIA_GALLERY_FRAGMENT_TAG
+                MEDIA_PREVIEW_FRAGMENT_TAG
             )
             .addToBackStack(null)
             .commit()
