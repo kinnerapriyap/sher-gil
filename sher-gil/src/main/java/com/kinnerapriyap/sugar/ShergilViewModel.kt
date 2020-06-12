@@ -53,6 +53,9 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
             MediaCellUpdateModel(updatedMediaCellPositions, models)
         }
 
+    fun getSelectedMedia(): LiveData<MutableList<MediaCellDisplayModel>> =
+        selectedMediaCellDisplayModels
+
     fun getSelectedMediaCount(): LiveData<Int> =
         Transformations.map(selectedMediaCellDisplayModels) { it.size }
 
