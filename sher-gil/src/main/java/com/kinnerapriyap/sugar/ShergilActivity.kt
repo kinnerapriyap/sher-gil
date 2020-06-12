@@ -12,6 +12,7 @@ import android.widget.AdapterView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -19,6 +20,8 @@ import com.kinnerapriyap.sugar.databinding.ActivityShergilBinding
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryFragment
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryFragmentListener
 import com.kinnerapriyap.sugar.mediagallery.album.MediaGalleryAlbumCursorAdapter
+import com.kinnerapriyap.sugar.mediapreview.MediaPreviewFragment
+import com.kinnerapriyap.sugar.mediapreview.MediaPreviewFragmentListener
 import com.kinnerapriyap.sugar.resultlauncher.ResultLauncherHandler
 import kotlinx.android.synthetic.main.activity_shergil.*
 import java.util.ArrayList
@@ -27,6 +30,7 @@ internal class ShergilActivity :
     AppCompatActivity(),
     AdapterView.OnItemSelectedListener,
     MediaGalleryFragmentListener,
+    MediaPreviewFragmentListener,
     ShergilActivityListener {
 
     private lateinit var observer: ResultLauncherHandler
@@ -41,8 +45,11 @@ internal class ShergilActivity :
     }
 
     override fun onAttachFragment(fragment: Fragment) {
-        if (fragment is MediaGalleryFragment) {
-            fragment.setMediaGalleryFragmentListener(this)
+        when (fragment) {
+            is MediaGalleryFragment ->
+                fragment.setMediaGalleryFragmentListener(this)
+            is MediaPreviewFragment ->
+                fragment.setMediaPreviewFragmentListener(this)
         }
     }
 
@@ -157,5 +164,26 @@ internal class ShergilActivity :
 
     override fun onApplyClicked() {
         setShergilResult()
+    }
+
+    override fun onPreviewClicked() {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(
+                R.id.container,
+                MediaPreviewFragment.newInstance(),
+                MEDIA_GALLERY_FRAGMENT_TAG
+            )
+            .commit()
+    }
+
+    override fun hideToolbars() {
+        toolbar.isVisible = false
+        bottombar.isVisible = false
+    }
+
+    override fun showToolbars() {
+        toolbar.isVisible = true
+        bottombar.isVisible = true
     }
 }
