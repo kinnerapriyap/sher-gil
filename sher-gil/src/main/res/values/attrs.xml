@@ -20,4 +20,6 @@
     <!-- Preview -->
     <attr name="shergil_previewSelectedDotColor" format="reference|color" />
     <attr name="shergil_previewDotColor" format="reference|color" />
+    <attr name="shergil_previewSelectedDotThickness" format="reference|dimension" />
+    <attr name="shergil_previewDotThickness" format="reference|dimension" />
 </resources>

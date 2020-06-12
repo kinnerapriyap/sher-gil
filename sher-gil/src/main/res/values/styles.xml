@@ -23,6 +23,8 @@
         <!-- Preview -->
         <item name="shergil_previewSelectedDotColor">#6b9b36</item>
         <item name="shergil_previewDotColor">@android:color/holo_green_light</item>
+        <item name="shergil_previewSelectedDotThickness">4dp</item>
+        <item name="shergil_previewDotThickness">3dp</item>
     </style>
 
     <!-- https://github.com/material-components/material-components-android/blob/master/docs/components/Card.md -->
