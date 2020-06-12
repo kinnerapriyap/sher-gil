@@ -35,7 +35,7 @@ class MediaPreviewFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        listener?.hideToolbars()
+        listener?.hideToolbarAndPreviewButton()
 
         viewPager.adapter = mediaPreviewAdapter
 
@@ -51,7 +51,7 @@ class MediaPreviewFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        listener?.showToolbars()
+        listener?.showToolbarAndPreviewButton()
         super.onDestroyView()
     }
 

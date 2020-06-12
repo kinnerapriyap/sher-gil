@@ -178,13 +178,13 @@ internal class ShergilActivity :
             .commit()
     }
 
-    override fun hideToolbars() {
+    override fun hideToolbarAndPreviewButton() {
         toolbar.isVisible = false
-        bottombar.isVisible = false
+        previewButton.isVisible = false
     }
 
-    override fun showToolbars() {
+    override fun showToolbarAndPreviewButton() {
         toolbar.isVisible = true
-        bottombar.isVisible = true
+        previewButton.isVisible = true
     }
 }
