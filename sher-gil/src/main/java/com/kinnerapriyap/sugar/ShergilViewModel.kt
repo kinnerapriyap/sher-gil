@@ -48,6 +48,8 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
 
     fun getChoiceSpec() = choiceSpec
 
+    fun allowMultipleSelection() = choiceSpec.maxSelectable > 1
+
     fun getMediaCellUpdateModel(): LiveData<MediaCellUpdateModel> =
         Transformations.map(selectedMediaCellDisplayModels) { models ->
             MediaCellUpdateModel(updatedMediaCellPositions, models)
