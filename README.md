@@ -13,7 +13,7 @@ Written in kotlin with Android architecture components, `sher-gil` aims to be a 
 * Custom MIME types
 * Handles runtime permissions
 * Returns media selection as `List<Uri>`
-* Custom theme - *Coming soon*
+* Custom theme
 
 ## Download
 
