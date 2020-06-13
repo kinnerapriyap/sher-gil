@@ -61,6 +61,7 @@ internal class ShergilActivity :
             DataBindingUtil.setContentView(this, R.layout.activity_shergil)
         binding.listener = this
         binding.lifecycleOwner = this
+        binding.previewButton.isVisible = viewModel.getChoiceSpec().allowPreview
 
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
