@@ -1,12 +1,14 @@
 package com.kinnerapriyap.sugar.mediapreview
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.viewpager2.adapter.FragmentStateAdapter
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.RecyclerView
+import com.kinnerapriyap.sugar.R
+import com.kinnerapriyap.sugar.databinding.ViewMediaObjectPreviewBinding
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
-import com.kinnerapriyap.sugar.mediapreview.MediaObjectPreviewFragment.Companion.MEDIA_OBJECT_PREVIEW
 
-class MediaPreviewAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
+class MediaPreviewAdapter : RecyclerView.Adapter<MediaPreviewAdapter.MediaPreviewObjectHolder>() {
 
     var selectedMedia: List<MediaCellDisplayModel> = listOf()
         set(value) {
@@ -16,10 +18,29 @@ class MediaPreviewAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int = selectedMedia.size
 
-    override fun createFragment(position: Int): Fragment =
-        MediaObjectPreviewFragment().apply {
-            arguments = Bundle().apply {
-                putSerializable(MEDIA_OBJECT_PREVIEW, selectedMedia[position])
-            }
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): MediaPreviewObjectHolder {
+        val binding = DataBindingUtil.inflate<ViewMediaObjectPreviewBinding>(
+            LayoutInflater.from(parent.context),
+            R.layout.view_media_object_preview,
+            parent,
+            false
+        )
+        return MediaPreviewObjectHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: MediaPreviewObjectHolder, position: Int) {
+        holder.bind(selectedMedia[position])
+    }
+
+    inner class MediaPreviewObjectHolder(
+        private val binding: ViewMediaObjectPreviewBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(displayModel: MediaCellDisplayModel) {
+            binding.displayModel = displayModel
+            binding.executePendingBindings()
         }
+    }
 }

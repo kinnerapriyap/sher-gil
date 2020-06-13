@@ -17,7 +17,7 @@ class MediaPreviewFragment : Fragment() {
     private val viewModel: ShergilViewModel by activityViewModels()
 
     private val mediaPreviewAdapter by lazy {
-        MediaPreviewAdapter(this)
+        MediaPreviewAdapter()
     }
 
     private var listener: MediaPreviewFragmentListener? = null
