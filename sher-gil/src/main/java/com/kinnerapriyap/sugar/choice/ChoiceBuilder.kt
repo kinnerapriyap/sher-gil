@@ -52,17 +52,6 @@ class ChoiceBuilder private constructor(
         }
 
     /**
-     * Determines whether or not to allow multiple media selection
-     *
-     * @param allowMultipleSelection Boolean default is true
-     * @return [ChoiceBuilder] instance
-     */
-    fun allowMultipleSelection(allowMultipleSelection: Boolean): ChoiceBuilder =
-        apply {
-            choiceSpec.allowMultipleSelection = allowMultipleSelection
-        }
-
-    /**
      * Determines the number of columns in which media is displayed
      *
      * @param numOfColumns Int default is 2
@@ -93,6 +82,21 @@ class ChoiceBuilder private constructor(
     fun allowPreview(allowPreview: Boolean): ChoiceBuilder =
         apply {
             choiceSpec.allowPreview = allowPreview
+        }
+
+    /**
+     * Sets the maximum limit for media selection
+     * Throws IllegalArgumentException
+     * if the value passed is not greater than 0
+     *
+     * @param maxSelectable Int default is [Integer.MAX_VALUE]
+     * @return [ChoiceBuilder] instance
+     */
+    fun maxSelectable(maxSelectable: Int): ChoiceBuilder =
+        apply {
+            if (maxSelectable <= 0)
+                throw IllegalArgumentException("maxSelectable must be greater than 0")
+            choiceSpec.maxSelectable = maxSelectable
         }
 
     /**
