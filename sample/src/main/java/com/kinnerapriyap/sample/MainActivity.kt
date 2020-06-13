@@ -24,10 +24,10 @@ class MainActivity : AppCompatActivity() {
                 .mimeTypes(MimeType.IMAGES)
                 .showDisallowedMimeTypes(true)
                 .allowOnlyLocalStorage(false)
-                .allowMultipleSelection(true)
                 .numOfColumns(3)
                 .theme(R.style.Shergil)
                 .allowPreview(true)
+                .maxSelectable(3)
                 .withRequestCode(REQUEST_SHERGIL)
         }
     }
