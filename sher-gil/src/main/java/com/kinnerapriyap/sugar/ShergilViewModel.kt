@@ -69,7 +69,7 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
             new.removeAll { it.id == displayModel.id }
         } else {
             if (!choiceSpec.allowMultipleSelection) new.removeAll(new)
-            new.add(displayModel)
+            new.add(displayModel.copy(isChecked = true))
         }
         selectedMediaCellDisplayModels.value = new
     }
