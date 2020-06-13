@@ -25,8 +25,9 @@ class MainActivity : AppCompatActivity() {
                 .showDisallowedMimeTypes(true)
                 .allowOnlyLocalStorage(false)
                 .allowMultipleSelection(true)
-                .theme(R.style.Shergil)
                 .numOfColumns(3)
+                .theme(R.style.Shergil)
+                .allowPreview(true)
                 .withRequestCode(REQUEST_SHERGIL)
         }
     }
