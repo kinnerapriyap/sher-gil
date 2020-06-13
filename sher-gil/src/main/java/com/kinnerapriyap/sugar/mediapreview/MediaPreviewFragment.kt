@@ -53,6 +53,7 @@ class MediaPreviewFragment : Fragment() {
     override fun onDestroyView() {
         listener?.showToolbarAndPreviewButton()
         super.onDestroyView()
+        listener = null
     }
 
     fun setMediaPreviewFragmentListener(listener: MediaPreviewFragmentListener) {

@@ -68,6 +68,11 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
         )
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        listener = null
+    }
+
     override fun onMediaCellClicked(displayModel: MediaCellDisplayModel) {
         viewModel.setMediaChecked(displayModel)
     }
