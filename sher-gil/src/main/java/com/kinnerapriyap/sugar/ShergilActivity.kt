@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -72,6 +73,14 @@ internal class ShergilActivity :
         viewModel.getSelectedMediaCount().observe(
             this,
             Observer(binding::setSelectedCount)
+        )
+
+        viewModel.getErrorMessage().observe(
+            this,
+            Observer {
+                it ?: return@Observer
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            }
         )
 
         askPermissionAndOpenGallery()

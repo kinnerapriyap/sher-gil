@@ -13,7 +13,7 @@ Written in kotlin with Android architecture components, `sher-gil` aims to be a 
 * Custom MIME types
 * Handles runtime permissions
 * Returns media selection as `List<Uri>`
-* Custom theme - *Coming soon*
+* Custom theme
 
 ## Download
 
@@ -59,10 +59,10 @@ Sher-gil may be started from either an Activity or a Fragment.
 Shergil.create(this)
     .mimeTypes(MimeType.IMAGES)
     .showDisallowedMimeTypes(false)
-    .allowMultipleSelection(true)
     .numOfColumns(2)
     .theme(R.style.Shergil)
     .allowPreview(true)
+    .maxSelectable(Integer.MAX_VALUE)
     .withRequestCode(REQUEST_SHERGIL)
 ```
 

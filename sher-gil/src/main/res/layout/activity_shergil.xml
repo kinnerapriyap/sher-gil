@@ -52,11 +52,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="16dp">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/previewButton"
@@ -65,8 +63,12 @@
                     android:layout_weight="1"
                     android:enabled="@{selectedCount != 0}"
                     android:onClick="@{() -> listener.onPreviewClicked()}"
+                    android:padding="16dp"
                     android:text="@string/preview"
-                    android:textColor="@drawable/preview_button_text" />
+                    android:textColor="@drawable/preview_button_text"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/applyButton"
@@ -77,10 +79,13 @@
                     android:enabled="@{selectedCount != 0}"
                     android:gravity="end"
                     android:onClick="@{() -> listener.onApplyClicked()}"
+                    android:padding="16dp"
                     android:text="@string/apply"
-                    android:textColor="@drawable/apply_button_text" />
+                    android:textColor="@drawable/apply_button_text"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.appcompat.widget.Toolbar>
 

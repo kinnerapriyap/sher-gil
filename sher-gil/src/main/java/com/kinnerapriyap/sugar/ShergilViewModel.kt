@@ -35,6 +35,10 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
         )
     }
 
+    private val errorMessage by lazy {
+        MutableLiveData<String?>().apply { value = null }
+    }
+
     /**
      * Providing [Dispatchers.Main] in coroutineContext as default
      * to use [launch], which is an extension function of [CoroutineScope],
@@ -47,6 +51,8 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
         get() = job + Dispatchers.Main
 
     fun getChoiceSpec() = choiceSpec
+
+    fun allowMultipleSelection() = choiceSpec.maxSelectable > 1
 
     fun getMediaCellUpdateModel(): LiveData<MediaCellUpdateModel> =
         Transformations.map(selectedMediaCellDisplayModels) { models ->
@@ -62,17 +68,32 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
     fun getSelectedMediaUriList(): List<Uri> =
         selectedMediaCellDisplayModels.value?.map { it.mediaUri } ?: emptyList()
 
+    fun getErrorMessage(): LiveData<String?> = errorMessage
+
     fun setMediaChecked(displayModel: MediaCellDisplayModel) {
-        updatedMediaCellPositions = Pair(displayModel.position, updatedMediaCellPositions.first)
-        val new = selectedMediaCellDisplayModels.value ?: mutableListOf()
-        if (new.any { it.id == displayModel.id }) {
-            new.removeAll { it.id == displayModel.id }
+        val selected = selectedMediaCellDisplayModels.value ?: mutableListOf()
+        if (selected.any { it.id == displayModel.id }) {
+            selected.removeAll { it.id == displayModel.id }
         } else {
-            if (!choiceSpec.allowMultipleSelection) new.removeAll(new)
-            new.add(displayModel.copy(isChecked = true))
+            if (isSelectedOverMax()) {
+                errorMessage.value =
+                    getApplication<Application>().resources.getString(
+                        R.string.max_selectable_error,
+                        choiceSpec.maxSelectable
+                    )
+                return
+            }
+            if (!allowMultipleSelection()) selected.removeAll(selected)
+            selected.add(displayModel.copy(isChecked = true))
         }
-        selectedMediaCellDisplayModels.value = new
+        updatedMediaCellPositions = Pair(displayModel.position, updatedMediaCellPositions.first)
+        selectedMediaCellDisplayModels.value = selected
     }
+
+    private fun isSelectedOverMax(): Boolean =
+        selectedMediaCellDisplayModels.value?.size?.let {
+            it >= choiceSpec.maxSelectable && it != 1
+        } ?: false
 
     fun getCursor(): LiveData<Cursor?> = cursor
 

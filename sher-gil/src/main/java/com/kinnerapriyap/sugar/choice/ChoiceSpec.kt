@@ -6,10 +6,10 @@ class ChoiceSpec private constructor() {
     var mimeTypes: List<MimeType> = MimeType.IMAGES
     var showDisallowedMimeTypes: Boolean = false
     var allowOnlyLocalStorage: Boolean = false
-    var allowMultipleSelection: Boolean = true
     var numOfColumns: Int = 2
     var theme: Int = R.style.Shergil
     var allowPreview: Boolean = true
+    var maxSelectable: Int = Integer.MAX_VALUE
 
     private object InstanceHolder {
         val INSTANCE = ChoiceSpec()
@@ -31,9 +31,9 @@ class ChoiceSpec private constructor() {
         mimeTypes = MimeType.IMAGES
         showDisallowedMimeTypes = false
         allowOnlyLocalStorage = false
-        allowMultipleSelection = true
         numOfColumns = 2
         theme = R.style.Shergil
         allowPreview = true
+        maxSelectable = Integer.MAX_VALUE
     }
 }
