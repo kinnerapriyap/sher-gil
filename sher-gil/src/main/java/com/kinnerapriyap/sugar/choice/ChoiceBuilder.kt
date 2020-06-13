@@ -85,6 +85,17 @@ class ChoiceBuilder private constructor(
         }
 
     /**
+     * Determines whether or not to allow selected media preview
+     *
+     * @param allowPreview Boolean default is true
+     * @return [ChoiceBuilder] instance
+     */
+    fun allowPreview(allowPreview: Boolean): ChoiceBuilder =
+        apply {
+            choiceSpec.allowPreview = allowPreview
+        }
+
+    /**
      * Opens media selection with the requestCode provided
      *
      * @param requestCode Request code to be returned in onActivityResult

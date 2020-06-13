@@ -9,6 +9,7 @@ class ChoiceSpec private constructor() {
     var allowMultipleSelection: Boolean = true
     var numOfColumns: Int = 2
     var theme: Int = R.style.Shergil
+    var allowPreview: Boolean = true
 
     private object InstanceHolder {
         val INSTANCE = ChoiceSpec()
@@ -33,5 +34,6 @@ class ChoiceSpec private constructor() {
         allowMultipleSelection = true
         numOfColumns = 2
         theme = R.style.Shergil
+        allowPreview = true
     }
 }
