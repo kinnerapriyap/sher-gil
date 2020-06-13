@@ -59,10 +59,14 @@
                 android:padding="16dp">
 
                 <TextView
+                    android:id="@+id/previewButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    tools:text="One" />
+                    android:enabled="@{selectedCount != 0}"
+                    android:onClick="@{() -> listener.onPreviewClicked()}"
+                    android:text="@string/preview"
+                    android:textColor="@drawable/preview_button_text" />
 
                 <TextView
                     android:id="@+id/applyButton"
@@ -70,10 +74,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:enabled="@{selectedCount != 0}"
                     android:gravity="end"
                     android:onClick="@{() -> listener.onApplyClicked()}"
                     android:text="@string/apply"
-                    android:textColor="?attr/shergil_applyButtonText" />
+                    android:textColor="@drawable/apply_button_text" />
 
             </LinearLayout>
 

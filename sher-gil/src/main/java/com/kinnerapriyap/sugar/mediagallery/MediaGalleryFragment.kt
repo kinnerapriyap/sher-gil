@@ -41,14 +41,6 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
         recyclerView.layoutManager =
             GridLayoutManager(requireActivity(), viewModel.getChoiceSpec().numOfColumns)
 
-        viewModel.getMediaCellUpdateModel().observe(
-            requireActivity(),
-            Observer { updateModel ->
-                if (updateModel.positions.first == -1) return@Observer
-                mediaGalleryAdapter.mediaCellUpdateModel = updateModel
-            }
-        )
-
         viewModel.getCursor().observe(
             requireActivity(),
             Observer {
@@ -66,6 +58,19 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
                 listener?.setToolbarSpinner()
             }
         )
+
+        viewModel.getMediaCellUpdateModel().observe(
+            requireActivity(),
+            Observer { updateModel ->
+                if (updateModel.positions.first == -1) return@Observer
+                mediaGalleryAdapter.mediaCellUpdateModel = updateModel
+            }
+        )
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        listener = null
     }
 
     override fun onMediaCellClicked(displayModel: MediaCellDisplayModel) {

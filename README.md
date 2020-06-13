@@ -57,12 +57,13 @@ Sher-gil may be started from either an Activity or a Fragment.
 
 ```
 Shergil.create(this)
-    .mimeTypes(MimeType.IMAGES) // List of MIME types allowed to be chosen
-    .showDisallowedMimeTypes(false) // Default: false 
-    .allowMultipleSelection(true) // Default: true
-    .numOfColumns(3) // Default: 2
-    .theme(R.style.Shergil) // Set custom theme with sher-gil attrs
-    .withRequestCode(REQUEST_SHERGIL) // Opens media selection with the requestCode provided
+    .mimeTypes(MimeType.IMAGES)
+    .showDisallowedMimeTypes(false)
+    .allowMultipleSelection(true)
+    .numOfColumns(2)
+    .theme(R.style.Shergil)
+    .allowPreview(true)
+    .withRequestCode(REQUEST_SHERGIL)
 ```
 
 #### Get result

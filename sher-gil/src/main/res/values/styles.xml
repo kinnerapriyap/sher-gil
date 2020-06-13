@@ -16,7 +16,15 @@
         <!-- BottomBar -->
         <item name="shergil_bottomBar">@style/Shergil.BottomBar</item>
         <item name="shergil_applyButtonText">#000000</item>
-        <item name="shergil_applyButtonDisabledText">@android:color/secondary_text_dark</item>
+        <item name="shergil_applyButtonDisabledText">@android:color/holo_green_light</item>
+        <item name="shergil_previewButtonText">#000000</item>
+        <item name="shergil_previewButtonDisabledText">@android:color/holo_green_light</item>
+
+        <!-- Preview -->
+        <item name="shergil_previewSelectedDotColor">#6b9b36</item>
+        <item name="shergil_previewDotColor">@android:color/holo_green_light</item>
+        <item name="shergil_previewSelectedDotThickness">4dp</item>
+        <item name="shergil_previewDotThickness">3dp</item>
     </style>
 
     <!-- https://github.com/material-components/material-components-android/blob/master/docs/components/Card.md -->

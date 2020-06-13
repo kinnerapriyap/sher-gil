@@ -2,6 +2,7 @@ package com.kinnerapriyap.sugar.mediagallery.cell
 
 import android.net.Uri
 import com.kinnerapriyap.sugar.choice.MimeType
+import java.io.Serializable
 
 data class MediaCellDisplayModel(
     val position: Int,
@@ -11,4 +12,4 @@ data class MediaCellDisplayModel(
     val isEnabled: Boolean,
     val bucketDisplayName: String,
     val mimeType: MimeType?
-)
+) : Serializable
