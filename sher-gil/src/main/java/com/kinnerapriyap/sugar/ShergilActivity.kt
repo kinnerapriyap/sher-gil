@@ -68,7 +68,11 @@ internal class ShergilActivity :
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        observer = ResultLauncherHandler(this, ::setPermissionResult)
+        observer = ResultLauncherHandler(
+            this,
+            ::setPermissionResult,
+            ::setCameraCaptureResult
+        )
 
         viewModel.getSelectedMediaCount().observe(
             this,
@@ -128,6 +132,10 @@ internal class ShergilActivity :
             setResult(Activity.RESULT_CANCELED)
             finish()
         }
+    }
+
+    private fun setCameraCaptureResult(result: Boolean) {
+
     }
 
     override fun setToolbarSpinner() {
