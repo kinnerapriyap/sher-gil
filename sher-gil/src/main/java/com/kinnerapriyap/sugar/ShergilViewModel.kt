@@ -30,7 +30,8 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
         emit(
             mediaGalleryHandler.fetchMedia(
                 mimeTypes = choiceSpec.mimeTypes,
-                showDisallowedMimeTypes = choiceSpec.showDisallowedMimeTypes
+                showDisallowedMimeTypes = choiceSpec.showDisallowedMimeTypes,
+                allowCamera = choiceSpec.allowCamera
             )
         )
     }
