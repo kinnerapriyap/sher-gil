@@ -130,13 +130,13 @@ class MediaGalleryAdapter(
      * Query with the specified constraint is
      * requested by the attached [MediaGalleryCursorFilter],
      * provided by the [FilterQueryProvider] and
-     * is always performed on IO thread
+     * is always performed asynchronously when [Filter.filter] is called
      * The current cursor is returned unfiltered if provider is not specified
      *
      * @param constraint to filter the query
      * @return [Cursor] for query results
      */
-    override fun fetchMediaOnIO(constraint: CharSequence?): Cursor? =
+    override fun fetchMediaAsync(constraint: CharSequence?): Cursor? =
         filterQueryProvider?.runQuery(constraint) ?: getCursor()
 
     override fun getCursor(): Cursor? = mediaCursor
