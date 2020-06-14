@@ -5,7 +5,10 @@ import android.database.CursorWrapper
 import android.provider.MediaStore
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler.Companion.ALBUM_MEDIA_COUNT
 
-class MediaGalleryAlbumCursorWrapper(cursor: Cursor?) : CursorWrapper(cursor) {
+class MediaGalleryAlbumCursorWrapper(
+    cursor: Cursor?,
+    allowCamera: Boolean
+) : CursorWrapper(cursor) {
 
     private val origCount = super.getCount()
     private var filterMap = IntArray(origCount)
@@ -30,6 +33,9 @@ class MediaGalleryAlbumCursorWrapper(cursor: Cursor?) : CursorWrapper(cursor) {
          * origCount - 1 is used for All count since the inserted row is not to be counted
          */
         addedNamesCount["All"] = origCount - 1
+        if (allowCamera) {
+            addedNamesCount["All"] = addedNamesCount["All"]?.minus(1) ?: 0
+        }
         moveToFirst()
     }
 

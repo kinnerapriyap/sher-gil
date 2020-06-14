@@ -109,7 +109,8 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
     fun getCurrentMediaCursor(bucketDisplayName: String? = null): Cursor? =
         MediaGalleryCursorWrapper(cursor.value, bucketDisplayName)
 
-    fun fetchAlbumCursor(): Cursor? = mediaGalleryHandler.fetchAlbum(cursor.value)
+    fun fetchAlbumCursor(): Cursor? =
+        mediaGalleryHandler.fetchAlbum(cursor.value, choiceSpec.allowCamera)
 
     fun closeCursor() {
         cursor.value?.close()
