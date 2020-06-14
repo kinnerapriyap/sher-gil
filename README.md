@@ -30,27 +30,6 @@ dependencies {
 ```
 Latest version: [ ![Download](https://api.bintray.com/packages/kinnerapriyap/maven-android/sher-gil/images/download.svg) ](https://bintray.com/kinnerapriyap/maven-android/sher-gil/_latestVersion)
 
-#### Data binding should be enabled to use sher-gil
-
-If your project uses a Android Gradle Plugin version **after 4.0.0-alpha05**:
-```
-android {
-    ...
-    buildFeatures {
-        dataBinding = true
-    }
-}
-```
-If your project uses a Android Gradle Plugin version **before 4.0.0-alpha05**:
-```
-android {
-    ...
-    dataBinding {
-        enabled = true
-    }
-}
-```
-
 ## Usage
 
 Sher-gil may be started from either an Activity or a Fragment.
@@ -81,6 +60,40 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
 If you're on `API level > R`, you can use `registerForActivityResult(ActivityResultContract, ActivityResultCallback)` with the appropriate ActivityResultContract and handle the result in the callback.
 
 **Min SDK:** sher-gil supports a minimum SDK of 18.
+
+#### dataBinding should be enabled to use sher-gil
+
+If your project uses a Android Gradle Plugin version **after 4.0.0-alpha05**:
+```
+android {
+    ...
+    buildFeatures {
+        dataBinding = true
+    }
+}
+```
+If your project uses a Android Gradle Plugin version **before 4.0.0-alpha05**:
+```
+android {
+    ...
+    dataBinding {
+        enabled = true
+    }
+}
+```
+
+#### compileOptions should be applied in the android closure
+
+```
+android {
+    ...
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+Ref: [Java 8 support](https://developer.android.com/studio/write/java8-support)
 
 ## Contributing
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md)
