@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kinnerapriyap.sugar.R
 import com.kinnerapriyap.sugar.choice.MimeType
 import com.kinnerapriyap.sugar.databinding.ViewMediaCellBinding
+import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler.Companion.CAMERA_CAPTURE_ID
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellListener
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellUpdateModel
@@ -106,10 +107,12 @@ class MediaGalleryAdapter(
             isChecked = mediaCellUpdateModel.selectedMediaCellDisplayModels.any { it.id == id },
             bucketDisplayName = bucketDisplayName,
             mimeType = mimeType,
-            isEnabled = mimeTypes.contains(mimeType)
+            isEnabled = mimeTypes.contains(mimeType) || isCameraCapture(id)
         )
         holder.bind(displayModel, mediaCellListener)
     }
+
+    private fun isCameraCapture(id: Long) = id == CAMERA_CAPTURE_ID
 
     override fun getItemId(position: Int): Long =
         if (isDataValid && mediaCursor?.moveToPosition(position) == true) {
