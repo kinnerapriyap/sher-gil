@@ -70,9 +70,9 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
 
     private fun getSelection(mimeTypes: List<MimeType>): String =
         SELECTION +
-                mimeTypes.joinToString(
-                    prefix = "('",
-                    separator = "' , '",
-                    postfix = "')"
-                ) { it.value }
+            mimeTypes.joinToString(
+                prefix = "('",
+                separator = "' , '",
+                postfix = "')"
+            ) { it.value }
 }
