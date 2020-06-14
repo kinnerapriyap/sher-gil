@@ -63,6 +63,7 @@ Shergil.create(this)
     .theme(R.style.Shergil)
     .allowPreview(true)
     .maxSelectable(Integer.MAX_VALUE)
+    .allowCamera(true)
     .withRequestCode(REQUEST_SHERGIL)
 ```
 

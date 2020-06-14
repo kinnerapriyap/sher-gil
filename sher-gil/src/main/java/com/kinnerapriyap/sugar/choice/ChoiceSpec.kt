@@ -10,6 +10,7 @@ class ChoiceSpec private constructor() {
     var theme: Int = R.style.Shergil
     var allowPreview: Boolean = true
     var maxSelectable: Int = Integer.MAX_VALUE
+    var allowCamera: Boolean = true
 
     private object InstanceHolder {
         val INSTANCE = ChoiceSpec()
@@ -35,5 +36,6 @@ class ChoiceSpec private constructor() {
         theme = R.style.Shergil
         allowPreview = true
         maxSelectable = Integer.MAX_VALUE
+        allowCamera = true
     }
 }
