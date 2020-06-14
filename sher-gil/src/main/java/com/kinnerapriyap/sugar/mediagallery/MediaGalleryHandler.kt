@@ -20,6 +20,7 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
 
     companion object {
         const val ALL_ALBUM_BUCKET_DISPLAY_NAME = "All"
+        const val CAMERA_CAPTURE_ID: Long = -3
 
         const val ALBUM_MEDIA_COUNT = "album_media_count"
 
@@ -56,7 +57,13 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
         withContext(Dispatchers.IO) {
             val extras = MatrixCursor(PROJECTION)
             if (allowCamera) {
-                extras.addRow(arrayOf("-1", MimeType.IMAGES, ALL_ALBUM_BUCKET_DISPLAY_NAME))
+                extras.addRow(
+                    arrayOf(
+                        CAMERA_CAPTURE_ID.toString(),
+                        MimeType.IMAGES,
+                        ALL_ALBUM_BUCKET_DISPLAY_NAME
+                    )
+                )
             }
             val cursor = contentResolver.query(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
