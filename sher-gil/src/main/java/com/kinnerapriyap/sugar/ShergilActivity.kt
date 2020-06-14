@@ -182,7 +182,7 @@ internal class ShergilActivity :
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.clear()
+        viewModel.closeCursor()
     }
 
     override fun onApplyClicked() {
