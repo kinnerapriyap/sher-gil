@@ -19,6 +19,8 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
      */
 
     companion object {
+        const val ALL_ALBUM_BUCKET_DISPLAY_NAME = "All"
+
         const val ALBUM_MEDIA_COUNT = "album_media_count"
 
         /**
@@ -40,7 +42,7 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
 
     fun fetchAlbum(cursor: Cursor?): Cursor? {
         val extras = MatrixCursor(PROJECTION)
-        extras.addRow(arrayOf("-1", MimeType.IMAGES, "All"))
+        extras.addRow(arrayOf("-1", MimeType.IMAGES, ALL_ALBUM_BUCKET_DISPLAY_NAME))
         val cursors =
             arrayOf(extras, cursor)
         return MediaGalleryAlbumCursorWrapper(MergeCursor(cursors))
@@ -48,23 +50,29 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
 
     suspend fun fetchMedia(
         mimeTypes: List<MimeType>,
-        showDisallowedMimeTypes: Boolean
+        showDisallowedMimeTypes: Boolean,
+        allowCamera: Boolean
     ): Cursor? =
         withContext(Dispatchers.IO) {
-            contentResolver.query(
+            val extras = MatrixCursor(PROJECTION)
+            if (allowCamera) {
+                extras.addRow(arrayOf("-1", MimeType.IMAGES, ALL_ALBUM_BUCKET_DISPLAY_NAME))
+            }
+            val cursor = contentResolver.query(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 PROJECTION,
                 if (showDisallowedMimeTypes) null else getSelection(mimeTypes),
                 null,
                 SORT_ORDER
             )
+            MergeCursor(arrayOf(extras, cursor))
         }
 
     private fun getSelection(mimeTypes: List<MimeType>): String =
         SELECTION +
-            mimeTypes.joinToString(
-                prefix = "('",
-                separator = "' , '",
-                postfix = "')"
-            ) { it.value }
+                mimeTypes.joinToString(
+                    prefix = "('",
+                    separator = "' , '",
+                    postfix = "')"
+                ) { it.value }
 }
