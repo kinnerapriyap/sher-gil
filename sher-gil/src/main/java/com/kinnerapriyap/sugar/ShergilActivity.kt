@@ -189,13 +189,13 @@ internal class ShergilActivity :
             .commit()
     }
 
-    override fun hideToolbarAndPreviewButton() {
-        toolbar.isVisible = false
+    override fun hideSpinnerAndPreviewButton() {
+        albumSpinner.isVisible = false
         previewButton.isVisible = false
     }
 
-    override fun showToolbarAndPreviewButton() {
-        toolbar.isVisible = true
+    override fun showSpinnerAndPreviewButton() {
+        albumSpinner.isVisible = true
         previewButton.isVisible = true
     }
 }
