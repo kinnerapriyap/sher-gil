@@ -1,8 +1,10 @@
 package com.kinnerapriyap.sugar
 
 import android.app.Application
+import android.content.ContentValues
 import android.database.Cursor
 import android.net.Uri
+import android.provider.MediaStore
 import androidx.lifecycle.*
 import com.kinnerapriyap.sugar.choice.ChoiceSpec
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler
@@ -39,6 +41,12 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
     private val errorMessage by lazy {
         MutableLiveData<String?>().apply { value = null }
     }
+
+    var mediaUri: Uri? =
+        application.contentResolver?.insert(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            ContentValues()
+        )
 
     /**
      * Providing [Dispatchers.Main] in coroutineContext as default
