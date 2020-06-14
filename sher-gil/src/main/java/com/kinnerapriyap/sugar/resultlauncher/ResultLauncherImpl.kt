@@ -17,14 +17,14 @@ internal class ResultLauncherImpl(
 
     private val askReadStoragePermission: ActivityResultLauncher<String> =
         registry.register(
-            REQUEST_PERMISSION,
+            REQUEST_READ_STORAGE_PERMISSION,
             ActivityResultContracts.RequestPermission()
         ) { allowed ->
             setPermissionResult(allowed)
         }
 
     companion object {
-        private const val REQUEST_PERMISSION = "request_permission"
+        private const val REQUEST_READ_STORAGE_PERMISSION = "request_permission"
     }
 
     init {
@@ -36,7 +36,7 @@ internal class ResultLauncherImpl(
         askReadStoragePermission.unregister()
     }
 
-    override fun askPermission() {
+    override fun askReadStoragePermission() {
         askReadStoragePermission.launch(
             Manifest.permission.READ_EXTERNAL_STORAGE
         )

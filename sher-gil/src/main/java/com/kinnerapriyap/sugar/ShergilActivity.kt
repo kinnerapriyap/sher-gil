@@ -92,7 +92,7 @@ internal class ShergilActivity :
                 this,
                 READ_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED ->
-                observer.askPermission()
+                observer.askReadStoragePermission()
             else -> {
                 openMediaGalleryFragment()
             }
