@@ -148,6 +148,10 @@ internal class ShergilActivity :
         albumSpinner.onItemSelectedListener = this
     }
 
+    override fun openCameraCapture() {
+        observer.cameraCapture(viewModel.mediaUri)
+    }
+
     private fun openMediaGalleryFragment() {
         supportFragmentManager
             .beginTransaction()
