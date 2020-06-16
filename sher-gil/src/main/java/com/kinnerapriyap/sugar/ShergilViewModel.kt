@@ -11,10 +11,8 @@ import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellUpdateModel
 import com.kinnerapriyap.sugar.mediagallery.media.MediaGalleryCursorWrapper
-import kotlinx.coroutines.*
-import kotlin.coroutines.CoroutineContext
 
-class ShergilViewModel(application: Application) : AndroidViewModel(application), CoroutineScope {
+class ShergilViewModel(application: Application) : AndroidViewModel(application) {
 
     private val choiceSpec: ChoiceSpec = ChoiceSpec.instance
 
@@ -28,8 +26,10 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
 
     private var updatedMediaCellPositions: Pair<Int, Int> = Pair(-1, -1)
 
-    private var cursor: LiveData<Cursor?> = liveData {
-        emit(
+    private var cursor: MutableLiveData<Cursor?> = MutableLiveData<Cursor?>()
+
+    fun fetchCursor() {
+        cursor.postValue(
             mediaGalleryHandler.fetchMedia(
                 mimeTypes = choiceSpec.mimeTypes,
                 showDisallowedMimeTypes = choiceSpec.showDisallowedMimeTypes,
@@ -47,17 +47,6 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
             ContentValues()
         )
-
-    /**
-     * Providing [Dispatchers.Main] in coroutineContext as default
-     * to use [launch], which is an extension function of [CoroutineScope],
-     * without specifying the thread each time
-     * [Dispatchers.IO] or [Dispatchers.Default] may be used
-     * when required to change the thread
-     */
-    private val job = Job()
-    override val coroutineContext: CoroutineContext
-        get() = job + Dispatchers.Main
 
     fun getChoiceSpec() = choiceSpec
 

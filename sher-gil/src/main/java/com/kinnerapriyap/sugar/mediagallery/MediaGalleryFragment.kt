@@ -67,6 +67,8 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
                 mediaGalleryAdapter.mediaCellUpdateModel = updateModel
             }
         )
+
+        viewModel.fetchCursor()
     }
 
     override fun onDestroyView() {

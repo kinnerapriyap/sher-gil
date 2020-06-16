@@ -135,7 +135,7 @@ internal class ShergilActivity :
     }
 
     private fun setCameraCaptureResult(result: Boolean) {
-
+        if(result) viewModel.fetchCursor()
     }
 
     override fun setToolbarSpinner() {

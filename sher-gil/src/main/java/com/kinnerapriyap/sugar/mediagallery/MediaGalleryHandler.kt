@@ -52,31 +52,30 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
         return MediaGalleryAlbumCursorWrapper(MergeCursor(cursors), allowCamera)
     }
 
-    suspend fun fetchMedia(
+    fun fetchMedia(
         mimeTypes: List<MimeType>,
         showDisallowedMimeTypes: Boolean,
         allowCamera: Boolean
-    ): Cursor? =
-        withContext(Dispatchers.IO) {
-            val extras = MatrixCursor(PROJECTION)
-            if (allowCamera) {
-                extras.addRow(
-                    arrayOf(
-                        CAMERA_CAPTURE_ID.toString(),
-                        MimeType.IMAGES,
-                        ALL_ALBUM_BUCKET_DISPLAY_NAME
-                    )
+    ): Cursor? {
+        val extras = MatrixCursor(PROJECTION)
+        if (allowCamera) {
+            extras.addRow(
+                arrayOf(
+                    CAMERA_CAPTURE_ID.toString(),
+                    MimeType.IMAGES,
+                    ALL_ALBUM_BUCKET_DISPLAY_NAME
                 )
-            }
-            val cursor = contentResolver.query(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                PROJECTION,
-                if (showDisallowedMimeTypes) null else getSelection(mimeTypes),
-                null,
-                SORT_ORDER
             )
-            MergeCursor(arrayOf(extras, cursor))
         }
+        val cursor = contentResolver.query(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            PROJECTION,
+            if (showDisallowedMimeTypes) null else getSelection(mimeTypes),
+            null,
+            SORT_ORDER
+        )
+        return MergeCursor(arrayOf(extras, cursor))
+    }
 
     private fun getSelection(mimeTypes: List<MimeType>): String =
         SELECTION +
