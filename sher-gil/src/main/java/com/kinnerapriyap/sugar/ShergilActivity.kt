@@ -149,7 +149,7 @@ internal class ShergilActivity :
     }
 
     override fun openCameraCapture() {
-        observer.cameraCapture(viewModel.mediaUri)
+        observer.cameraCapture(viewModel.cameraCaptureUri)
     }
 
     private fun openMediaGalleryFragment() {

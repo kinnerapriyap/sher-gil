@@ -42,7 +42,7 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
         MutableLiveData<String?>().apply { value = null }
     }
 
-    var mediaUri: Uri? =
+    var cameraCaptureUri: Uri? =
         application.contentResolver?.insert(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
             ContentValues()
