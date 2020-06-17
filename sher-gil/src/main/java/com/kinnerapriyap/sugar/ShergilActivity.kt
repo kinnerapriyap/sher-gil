@@ -1,5 +1,6 @@
 package com.kinnerapriyap.sugar
 
+import android.Manifest.permission.CAMERA
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.app.Activity
 import android.content.Intent
@@ -71,6 +72,7 @@ internal class ShergilActivity :
         observer = ResultLauncherHandler(
             this,
             ::setReadStoragePermissionResult,
+            ::setCameraPermissionResult,
             ::setCameraCaptureResult
         )
 
@@ -134,8 +136,14 @@ internal class ShergilActivity :
         }
     }
 
+    private fun setCameraPermissionResult(allowed: Boolean) {
+        if (allowed) {
+            openCameraCapture()
+        }
+    }
+
     private fun setCameraCaptureResult(result: Boolean) {
-        if(result) viewModel.fetchCursor()
+        if (result) viewModel.fetchCursor()
     }
 
     override fun setToolbarSpinner() {
@@ -148,7 +156,20 @@ internal class ShergilActivity :
         albumSpinner.onItemSelectedListener = this
     }
 
-    override fun openCameraCapture() {
+    override fun askPermissionAndOpenCameraCapture() {
+        when {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(
+                this,
+                CAMERA
+            ) != PackageManager.PERMISSION_GRANTED ->
+                observer.askCameraPermission()
+            else -> {
+                openCameraCapture()
+            }
+        }
+    }
+
+    private fun openCameraCapture() {
         viewModel.resetCameraCaptureUri()
         observer.cameraCapture(viewModel.getCameraCaptureUri())
     }

@@ -7,8 +7,6 @@ import android.database.MergeCursor
 import android.provider.MediaStore
 import com.kinnerapriyap.sugar.choice.MimeType
 import com.kinnerapriyap.sugar.mediagallery.album.MediaGalleryAlbumCursorWrapper
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class MediaGalleryHandler(private val contentResolver: ContentResolver) {
 
