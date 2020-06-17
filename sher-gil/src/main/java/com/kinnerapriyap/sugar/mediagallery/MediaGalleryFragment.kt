@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.kinnerapriyap.sugar.R
 import com.kinnerapriyap.sugar.ShergilViewModel
+import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler.Companion.CAMERA_CAPTURE_ID
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellListener
 import com.kinnerapriyap.sugar.mediagallery.media.MediaGalleryAdapter
@@ -66,6 +67,8 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
                 mediaGalleryAdapter.mediaCellUpdateModel = updateModel
             }
         )
+
+        viewModel.fetchCursor()
     }
 
     override fun onDestroyView() {
@@ -74,7 +77,10 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
     }
 
     override fun onMediaCellClicked(displayModel: MediaCellDisplayModel) {
-        viewModel.setMediaChecked(displayModel)
+        if (displayModel.id == CAMERA_CAPTURE_ID)
+            listener?.askPermissionAndOpenCameraCapture()
+        else
+            viewModel.setMediaChecked(displayModel)
     }
 
     fun setSelectedSpinnerName(bucketDisplayName: String?) {

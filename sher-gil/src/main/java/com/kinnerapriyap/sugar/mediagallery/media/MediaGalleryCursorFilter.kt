@@ -8,7 +8,7 @@ class MediaGalleryCursorFilter(
 ) : Filter() {
 
     override fun performFiltering(constraint: CharSequence?): FilterResults {
-        val cursor = listener.fetchMediaOnIO(constraint)
+        val cursor = listener.fetchMediaAsync(constraint)
         return FilterResults().apply {
             count = cursor?.count ?: 0
             values = cursor

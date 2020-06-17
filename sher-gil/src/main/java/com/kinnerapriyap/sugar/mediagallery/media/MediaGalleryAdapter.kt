@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kinnerapriyap.sugar.R
 import com.kinnerapriyap.sugar.choice.MimeType
 import com.kinnerapriyap.sugar.databinding.ViewMediaCellBinding
+import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler.Companion.CAMERA_CAPTURE_ID
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellListener
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellUpdateModel
@@ -106,10 +107,12 @@ class MediaGalleryAdapter(
             isChecked = mediaCellUpdateModel.selectedMediaCellDisplayModels.any { it.id == id },
             bucketDisplayName = bucketDisplayName,
             mimeType = mimeType,
-            isEnabled = mimeTypes.contains(mimeType)
+            isEnabled = mimeTypes.contains(mimeType) || isCameraCapture(id)
         )
         holder.bind(displayModel, mediaCellListener)
     }
+
+    private fun isCameraCapture(id: Long) = id == CAMERA_CAPTURE_ID
 
     override fun getItemId(position: Int): Long =
         if (isDataValid && mediaCursor?.moveToPosition(position) == true) {
@@ -130,13 +133,13 @@ class MediaGalleryAdapter(
      * Query with the specified constraint is
      * requested by the attached [MediaGalleryCursorFilter],
      * provided by the [FilterQueryProvider] and
-     * is always performed on IO thread
+     * is always performed asynchronously when [Filter.filter] is called
      * The current cursor is returned unfiltered if provider is not specified
      *
      * @param constraint to filter the query
      * @return [Cursor] for query results
      */
-    override fun fetchMediaOnIO(constraint: CharSequence?): Cursor? =
+    override fun fetchMediaAsync(constraint: CharSequence?): Cursor? =
         filterQueryProvider?.runQuery(constraint) ?: getCursor()
 
     override fun getCursor(): Cursor? = mediaCursor

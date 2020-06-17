@@ -1,5 +1,6 @@
 package com.kinnerapriyap.sugar
 
+import android.Manifest.permission.CAMERA
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.app.Activity
 import android.content.Intent
@@ -68,7 +69,12 @@ internal class ShergilActivity :
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        observer = ResultLauncherHandler(this, ::setPermissionResult)
+        observer = ResultLauncherHandler(
+            this,
+            ::setReadStoragePermissionResult,
+            ::setCameraPermissionResult,
+            ::setCameraCaptureResult
+        )
 
         viewModel.getSelectedMediaCount().observe(
             this,
@@ -92,7 +98,7 @@ internal class ShergilActivity :
                 this,
                 READ_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED ->
-                observer.askPermission()
+                observer.askReadStoragePermission()
             else -> {
                 openMediaGalleryFragment()
             }
@@ -121,13 +127,23 @@ internal class ShergilActivity :
         finish()
     }
 
-    private fun setPermissionResult(allowed: Boolean) {
+    private fun setReadStoragePermissionResult(allowed: Boolean) {
         if (allowed) {
             openMediaGalleryFragment()
         } else {
             setResult(Activity.RESULT_CANCELED)
             finish()
         }
+    }
+
+    private fun setCameraPermissionResult(allowed: Boolean) {
+        if (allowed) {
+            openCameraCapture()
+        }
+    }
+
+    private fun setCameraCaptureResult(result: Boolean) {
+        if (result) viewModel.fetchCursor()
     }
 
     override fun setToolbarSpinner() {
@@ -138,6 +154,24 @@ internal class ShergilActivity :
                 }
         albumSpinner.adapter = mediaGalleryAlbumCursorAdapter
         albumSpinner.onItemSelectedListener = this
+    }
+
+    override fun askPermissionAndOpenCameraCapture() {
+        when {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(
+                this,
+                CAMERA
+            ) != PackageManager.PERMISSION_GRANTED ->
+                observer.askCameraPermission()
+            else -> {
+                openCameraCapture()
+            }
+        }
+    }
+
+    private fun openCameraCapture() {
+        viewModel.resetCameraCaptureUri()
+        observer.cameraCapture(viewModel.getCameraCaptureUri())
     }
 
     private fun openMediaGalleryFragment() {
@@ -170,7 +204,7 @@ internal class ShergilActivity :
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.clear()
+        viewModel.closeCursor()
     }
 
     override fun onApplyClicked() {

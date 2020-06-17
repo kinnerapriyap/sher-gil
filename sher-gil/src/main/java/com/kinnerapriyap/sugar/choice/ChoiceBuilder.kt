@@ -100,6 +100,17 @@ class ChoiceBuilder private constructor(
         }
 
     /**
+     * Determines whether or not to allow camera capture
+     *
+     * @param allowCamera Boolean default is true
+     * @return [ChoiceBuilder] instance
+     */
+    fun allowCamera(allowCamera: Boolean): ChoiceBuilder =
+        apply {
+            choiceSpec.allowCamera = allowCamera
+        }
+
+    /**
      * Opens media selection with the requestCode provided
      *
      * @param requestCode Request code to be returned in onActivityResult

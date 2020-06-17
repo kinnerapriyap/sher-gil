@@ -7,8 +7,6 @@ import android.database.MergeCursor
 import android.provider.MediaStore
 import com.kinnerapriyap.sugar.choice.MimeType
 import com.kinnerapriyap.sugar.mediagallery.album.MediaGalleryAlbumCursorWrapper
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class MediaGalleryHandler(private val contentResolver: ContentResolver) {
 
@@ -19,6 +17,9 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
      */
 
     companion object {
+        const val ALL_ALBUM_BUCKET_DISPLAY_NAME = "All"
+        const val CAMERA_CAPTURE_ID: Long = -3
+
         const val ALBUM_MEDIA_COUNT = "album_media_count"
 
         /**
@@ -38,27 +39,41 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
             "${MediaStore.MediaColumns.DATE_MODIFIED} DESC"
     }
 
-    fun fetchAlbum(cursor: Cursor?): Cursor? {
+    fun fetchAlbum(
+        cursor: Cursor?,
+        allowCamera: Boolean
+    ): Cursor? {
         val extras = MatrixCursor(PROJECTION)
-        extras.addRow(arrayOf("-1", MimeType.IMAGES, "All"))
+        extras.addRow(arrayOf("-1", MimeType.IMAGES, ALL_ALBUM_BUCKET_DISPLAY_NAME))
         val cursors =
             arrayOf(extras, cursor)
-        return MediaGalleryAlbumCursorWrapper(MergeCursor(cursors))
+        return MediaGalleryAlbumCursorWrapper(MergeCursor(cursors), allowCamera)
     }
 
-    suspend fun fetchMedia(
+    fun fetchMedia(
         mimeTypes: List<MimeType>,
-        showDisallowedMimeTypes: Boolean
-    ): Cursor? =
-        withContext(Dispatchers.IO) {
-            contentResolver.query(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                PROJECTION,
-                if (showDisallowedMimeTypes) null else getSelection(mimeTypes),
-                null,
-                SORT_ORDER
+        showDisallowedMimeTypes: Boolean,
+        allowCamera: Boolean
+    ): Cursor? {
+        val extras = MatrixCursor(PROJECTION)
+        if (allowCamera) {
+            extras.addRow(
+                arrayOf(
+                    CAMERA_CAPTURE_ID.toString(),
+                    MimeType.IMAGES,
+                    ALL_ALBUM_BUCKET_DISPLAY_NAME
+                )
             )
         }
+        val cursor = contentResolver.query(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            PROJECTION,
+            if (showDisallowedMimeTypes) null else getSelection(mimeTypes),
+            null,
+            SORT_ORDER
+        )
+        return MergeCursor(arrayOf(extras, cursor))
+    }
 
     private fun getSelection(mimeTypes: List<MimeType>): String =
         SELECTION +

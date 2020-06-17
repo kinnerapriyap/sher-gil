@@ -30,7 +30,38 @@ dependencies {
 ```
 Latest version: [ ![Download](https://api.bintray.com/packages/kinnerapriyap/maven-android/sher-gil/images/download.svg) ](https://bintray.com/kinnerapriyap/maven-android/sher-gil/_latestVersion)
 
-#### Data binding should be enabled to use sher-gil
+## Usage
+
+Sher-gil may be started from either an Activity or a Fragment.
+
+```
+Shergil.create(this)
+    .mimeTypes(MimeType.IMAGES)
+    .showDisallowedMimeTypes(false)
+    .numOfColumns(2)
+    .theme(R.style.Shergil)
+    .allowPreview(true)
+    .maxSelectable(Integer.MAX_VALUE)
+    .allowCamera(true)
+    .withRequestCode(REQUEST_SHERGIL)
+```
+
+#### Get result
+
+```
+override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    super.onActivityResult(requestCode, resultCode, data) 
+    if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_SHERGIL) {
+        val mediaUris: List<Uri> = Shergil.getMediaUris(data)
+    }
+}
+```
+
+If you're on `API level > R`, you can use `registerForActivityResult(ActivityResultContract, ActivityResultCallback)` with the appropriate ActivityResultContract and handle the result in the callback.
+
+**Min SDK:** sher-gil supports a minimum SDK of 19.
+
+#### dataBinding should be enabled to use sher-gil
 
 If your project uses a Android Gradle Plugin version **after 4.0.0-alpha05**:
 ```
@@ -51,35 +82,18 @@ android {
 }
 ```
 
-## Usage
-
-Sher-gil may be started from either an Activity or a Fragment.
+#### compileOptions should be applied in the android closure
 
 ```
-Shergil.create(this)
-    .mimeTypes(MimeType.IMAGES)
-    .showDisallowedMimeTypes(false)
-    .numOfColumns(2)
-    .theme(R.style.Shergil)
-    .allowPreview(true)
-    .maxSelectable(Integer.MAX_VALUE)
-    .withRequestCode(REQUEST_SHERGIL)
-```
-
-#### Get result
-
-```
-override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-    super.onActivityResult(requestCode, resultCode, data) 
-    if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_SHERGIL) {
-        val mediaUris: List<Uri> = Shergil.getMediaUris(data)
+android {
+    ...
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
-```
 
-If you're on `API level > R`, you can use `registerForActivityResult(ActivityResultContract, ActivityResultCallback)` with the appropriate ActivityResultContract and handle the result in the callback.
-
-**Min SDK:** sher-gil supports a minimum SDK of 18.
+Ref: [Java 8 support](https://developer.android.com/studio/write/java8-support)
 
 ## Contributing
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md)

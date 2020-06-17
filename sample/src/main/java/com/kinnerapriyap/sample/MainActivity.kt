@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
                 .theme(R.style.Shergil)
                 .allowPreview(true)
                 .maxSelectable(3)
+                .allowCamera(true)
                 .withRequestCode(REQUEST_SHERGIL)
         }
     }

@@ -1,18 +1,18 @@
 package com.kinnerapriyap.sugar
 
 import android.app.Application
+import android.content.ContentValues
 import android.database.Cursor
 import android.net.Uri
+import android.provider.MediaStore
 import androidx.lifecycle.*
 import com.kinnerapriyap.sugar.choice.ChoiceSpec
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellUpdateModel
 import com.kinnerapriyap.sugar.mediagallery.media.MediaGalleryCursorWrapper
-import kotlinx.coroutines.*
-import kotlin.coroutines.CoroutineContext
 
-class ShergilViewModel(application: Application) : AndroidViewModel(application), CoroutineScope {
+class ShergilViewModel(application: Application) : AndroidViewModel(application) {
 
     private val choiceSpec: ChoiceSpec = ChoiceSpec.instance
 
@@ -26,11 +26,14 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
 
     private var updatedMediaCellPositions: Pair<Int, Int> = Pair(-1, -1)
 
-    private var cursor: LiveData<Cursor?> = liveData {
-        emit(
+    private var cursor: MutableLiveData<Cursor?> = MutableLiveData<Cursor?>()
+
+    fun fetchCursor() {
+        cursor.postValue(
             mediaGalleryHandler.fetchMedia(
                 mimeTypes = choiceSpec.mimeTypes,
-                showDisallowedMimeTypes = choiceSpec.showDisallowedMimeTypes
+                showDisallowedMimeTypes = choiceSpec.showDisallowedMimeTypes,
+                allowCamera = choiceSpec.allowCamera
             )
         )
     }
@@ -39,16 +42,17 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
         MutableLiveData<String?>().apply { value = null }
     }
 
-    /**
-     * Providing [Dispatchers.Main] in coroutineContext as default
-     * to use [launch], which is an extension function of [CoroutineScope],
-     * without specifying the thread each time
-     * [Dispatchers.IO] or [Dispatchers.Default] may be used
-     * when required to change the thread
-     */
-    private val job = Job()
-    override val coroutineContext: CoroutineContext
-        get() = job + Dispatchers.Main
+    private var cameraCaptureUri: Uri? = null
+
+    fun getCameraCaptureUri() = cameraCaptureUri
+
+    fun resetCameraCaptureUri() {
+        cameraCaptureUri =
+            getApplication<Application>().contentResolver?.insert(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                ContentValues()
+            )
+    }
 
     fun getChoiceSpec() = choiceSpec
 
@@ -100,9 +104,10 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
     fun getCurrentMediaCursor(bucketDisplayName: String? = null): Cursor? =
         MediaGalleryCursorWrapper(cursor.value, bucketDisplayName)
 
-    fun fetchAlbumCursor(): Cursor? = mediaGalleryHandler.fetchAlbum(cursor.value)
+    fun fetchAlbumCursor(): Cursor? =
+        mediaGalleryHandler.fetchAlbum(cursor.value, choiceSpec.allowCamera)
 
-    fun clear() {
+    fun closeCursor() {
         cursor.value?.close()
     }
 }
