@@ -92,6 +92,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
+```
 
 Ref: [Java 8 support](https://developer.android.com/studio/write/java8-support)
 
