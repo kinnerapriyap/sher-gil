@@ -70,7 +70,7 @@ internal class ShergilActivity :
 
         observer = ResultLauncherHandler(
             this,
-            ::setPermissionResult,
+            ::setReadStoragePermissionResult,
             ::setCameraCaptureResult
         )
 
@@ -125,7 +125,7 @@ internal class ShergilActivity :
         finish()
     }
 
-    private fun setPermissionResult(allowed: Boolean) {
+    private fun setReadStoragePermissionResult(allowed: Boolean) {
         if (allowed) {
             openMediaGalleryFragment()
         } else {

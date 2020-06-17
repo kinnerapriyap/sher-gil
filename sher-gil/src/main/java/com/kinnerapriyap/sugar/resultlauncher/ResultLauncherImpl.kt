@@ -13,7 +13,7 @@ import androidx.lifecycle.OnLifecycleEvent
 internal class ResultLauncherImpl(
     registry: ActivityResultRegistry,
     lifecycleOwner: LifecycleOwner,
-    private val setPermissionResult: (Boolean) -> Unit,
+    private val setReadStoragePermissionResult: (Boolean) -> Unit,
     private val setCameraCaptureResult: (Boolean) -> Unit
 ) : LifecycleObserver, ResultLauncher {
 
@@ -22,7 +22,7 @@ internal class ResultLauncherImpl(
             REQUEST_READ_STORAGE_PERMISSION,
             ActivityResultContracts.RequestPermission()
         ) { allowed ->
-            setPermissionResult(allowed)
+            setReadStoragePermissionResult(allowed)
         }
 
     private val cameraCapture: ActivityResultLauncher<Uri> =
