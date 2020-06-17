@@ -42,11 +42,17 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
         MutableLiveData<String?>().apply { value = null }
     }
 
-    val cameraCaptureUri: Uri?
-        get() = getApplication<Application>().contentResolver?.insert(
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            ContentValues()
-        )
+    private var cameraCaptureUri: Uri? = null
+
+    fun getCameraCaptureUri() = cameraCaptureUri
+
+    fun resetCameraCaptureUri() {
+        cameraCaptureUri =
+            getApplication<Application>().contentResolver?.insert(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                ContentValues()
+            )
+    }
 
     fun getChoiceSpec() = choiceSpec
 
