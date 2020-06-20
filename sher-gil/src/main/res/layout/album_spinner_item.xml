@@ -8,11 +8,12 @@
 
     <TextView
         android:id="@+id/albumName"
-        style="?android:attr/spinnerItemStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ellipsize="marquee"
         android:singleLine="true"
+        android:textColor="?attr/shergil_toolbarSpinnerAlbumNameText"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@id/mediaCount"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -20,11 +21,11 @@
 
     <TextView
         android:id="@+id/mediaCount"
-        style="?android:attr/spinnerItemStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ellipsize="marquee"
         android:singleLine="true"
+        android:textColor="?attr/shergil_toolbarSpinnerAlbumCountText"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/albumName"
