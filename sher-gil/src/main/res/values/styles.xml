@@ -17,9 +17,9 @@
         <item name="colorControlNormal">?attr/shergil_toolbarControlColor</item>
         <!-- or -->
         <item name="shergil_toolbarBackground">#8BC34A</item>
-        <item name="shergil_toolbarControlColor">#ddeed2</item>
-        <item name="shergil_toolbarSpinnerAlbumNameText">#dd0000</item>
-        <item name="shergil_toolbarSpinnerAlbumCountText">#3000f0</item>
+        <item name="shergil_toolbarControlColor">#000000</item>
+        <item name="shergil_toolbarSpinnerAlbumNameText">#000000</item>
+        <item name="shergil_toolbarSpinnerAlbumCountText">#000000</item>
 
         <!-- BottomBar -->
         <item name="shergil_bottomBar">@style/Shergil.BottomBar</item>
