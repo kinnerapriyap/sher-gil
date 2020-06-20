@@ -9,6 +9,11 @@
 
     <!-- Toolbar -->
     <attr name="shergil_toolbar" format="reference" />
+    <!-- or -->
+    <attr name="shergil_toolbarBackground" format="color" />
+    <attr name="shergil_toolbarControlColor" format="color" />
+    <attr name="shergil_toolbarSpinnerAlbumNameText" format="color" />
+    <attr name="shergil_toolbarSpinnerAlbumCountText" format="color" />
 
     <!-- BottomBar -->
     <attr name="shergil_bottomBar" format="reference" />
