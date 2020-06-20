@@ -61,13 +61,13 @@ internal class ResultLauncherImpl(
 
     override fun askReadStoragePermission() {
         askReadStoragePermission.launch(
-            Manifest.permission.CAMERA
+            Manifest.permission.READ_EXTERNAL_STORAGE
         )
     }
 
     override fun askCameraPermission() {
         askCameraPermission.launch(
-            Manifest.permission.READ_EXTERNAL_STORAGE
+            Manifest.permission.CAMERA
         )
     }
 
