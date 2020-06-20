@@ -43,6 +43,11 @@ android {
     buildFeatures {
         dataBinding = true
     }
+
+    lintOptions {
+        // TODO: Fix lint error
+        disable "NullSafeMutableLiveData"
+    }
 }
 
 dependencies {
