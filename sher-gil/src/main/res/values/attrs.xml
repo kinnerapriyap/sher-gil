@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- CardView -->
-    <attr name="shergil_mediaCheckedColor" format="color" />
-    <attr name="shergil_mediaCheckedAlpha" format="float" />
-    <attr name="shergil_mediaCheckedIconTintColor" format="color" />
-    <attr name="shergil_disabledMediaColor" format="color" />
-    <attr name="shergil_disabledMediaAlpha" format="float" />
+    <attr name="shergil_cardMediaCheckedColor" format="color" />
+    <attr name="shergil_cardMediaCheckedAlpha" format="float" />
+    <attr name="shergil_cardMediaCheckedIconTintColor" format="color" />
+    <attr name="shergil_cardDisabledMediaColor" format="color" />
+    <attr name="shergil_cardDisabledMediaAlpha" format="float" />
 
     <!-- Toolbar -->
     <attr name="shergil_toolbar" format="reference" />
+    <!-- or -->
+    <attr name="shergil_toolbarBackground" format="color" />
+    <attr name="shergil_toolbarControlColor" format="color" />
+    <attr name="shergil_toolbarSpinnerAlbumNameText" format="color" />
+    <attr name="shergil_toolbarSpinnerAlbumCountText" format="color" />
 
     <!-- BottomBar -->
     <attr name="shergil_bottomBar" format="reference" />
-    <attr name="shergil_applyButtonText" format="color" />
-    <attr name="shergil_applyButtonDisabledText" format="color" />
-    <attr name="shergil_previewButtonText" format="color" />
-    <attr name="shergil_previewButtonDisabledText" format="color" />
+    <!-- or -->
+    <attr name="shergil_bottomBarBackground" format="color" />
+    <attr name="shergil_bottomBarApplyButtonText" format="color" />
+    <attr name="shergil_bottomBarApplyButtonDisabledText" format="color" />
+    <attr name="shergil_bottomBarPreviewButtonText" format="color" />
+    <attr name="shergil_bottomBarPreviewButtonDisabledText" format="color" />
 
     <!-- Preview -->
     <attr name="shergil_previewSelectedDotColor" format="color" />
