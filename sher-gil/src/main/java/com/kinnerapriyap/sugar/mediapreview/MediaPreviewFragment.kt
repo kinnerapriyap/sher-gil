@@ -37,6 +37,7 @@ class MediaPreviewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         listener?.hideSpinnerAndPreviewButton()
 
+        viewPager.offscreenPageLimit = 1
         viewPager.adapter = mediaPreviewAdapter
 
         TabLayoutMediator(tabDots, viewPager) { tab, position ->
