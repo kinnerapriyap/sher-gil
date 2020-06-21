@@ -24,8 +24,8 @@
             android:checkable="true"
             android:checked_state="@{displayModel.isChecked}"
             android:clickable="true"
-            android:focusable="true"
             android:enabled="@{displayModel.isEnabled}"
+            android:focusable="true"
             android:onClick="@{() -> listener.onMediaCellClicked(displayModel)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="H, 1:1"
@@ -37,8 +37,7 @@
                 mediaUri="@{displayModel.mediaUri}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_placeholder_media" />
+                android:scaleType="centerCrop" />
 
         </com.google.android.material.card.MaterialCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
