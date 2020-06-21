@@ -2,11 +2,16 @@ package com.kinnerapriyap.sugar.mediagallery.cell
 
 import android.content.ContentResolver
 import android.content.ContentUris
+import android.content.Context
 import android.content.res.Resources
+import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.util.TypedValue
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.card.MaterialCardView
 import com.kinnerapriyap.sugar.R
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler.Companion.CAMERA_CAPTURE_ID
@@ -17,9 +22,26 @@ fun ImageView.bindMediaUri(mediaUri: Uri) {
         if (ContentUris.parseId(mediaUri) == CAMERA_CAPTURE_ID) {
             getCameraDrawableUri(resources)
         } else mediaUri
+    val errorDrawable =
+        getResourceFromAttr(R.attr.shergil_cardMediaErrorDrawable, context)
+    val placeholderDrawable =
+        getResourceFromAttr(R.attr.shergil_cardMediaPlaceholderDrawable, context)
+    val requestOptions =
+        RequestOptions().apply {
+            if (errorDrawable != null) error(errorDrawable)
+            if (placeholderDrawable != null) placeholder(placeholderDrawable)
+        }
     Glide.with(context)
         .load(uri)
+        .apply(requestOptions)
         .into(this@bindMediaUri)
+}
+
+private fun getResourceFromAttr(attribute: Int, context: Context): Drawable? {
+    val typedValue = TypedValue().apply {
+        context.theme.resolveAttribute(attribute, this, true)
+    }
+    return ContextCompat.getDrawable(context, typedValue.resourceId)
 }
 
 private fun getCameraDrawableUri(resources: Resources) =
