@@ -6,6 +6,8 @@
     <attr name="shergil_cardMediaCheckedIconTintColor" format="color" />
     <attr name="shergil_cardDisabledMediaColor" format="color" />
     <attr name="shergil_cardDisabledMediaAlpha" format="float" />
+    <attr name="shergil_cardMediaPlaceholderDrawable" format="reference" />
+    <attr name="shergil_cardMediaErrorDrawable" format="reference" />
 
     <!-- Toolbar -->
     <attr name="shergil_toolbar" format="reference" />

@@ -11,6 +11,9 @@
         <item name="shergil_cardMediaCheckedIconTintColor">#6b9b36</item>
         <item name="shergil_cardDisabledMediaColor">@android:color/secondary_text_dark</item>
         <item name="shergil_cardDisabledMediaAlpha">0.6</item>
+        <!-- TODO: Improve default drawables -->
+        <item name="shergil_cardMediaPlaceholderDrawable">@drawable/ic_placeholder_media</item>
+        <item name="shergil_cardMediaErrorDrawable">@drawable/ic_placeholder_media</item>
 
         <!-- Toolbar -->
         <item name="shergil_toolbar">@style/Shergil.Toolbar</item>
