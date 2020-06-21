@@ -28,8 +28,8 @@ fun ImageView.bindMediaUri(mediaUri: Uri) {
         getResourceFromAttr(R.attr.shergil_cardMediaPlaceholderDrawable, context)
     val requestOptions =
         RequestOptions().apply {
-            if (errorDrawable != null) error(errorDrawable)
-            if (placeholderDrawable != null) placeholder(placeholderDrawable)
+            errorDrawable?.let { error(it) }
+            placeholderDrawable?.let { placeholder(it) }
         }
     Glide.with(context)
         .load(uri)
@@ -38,10 +38,15 @@ fun ImageView.bindMediaUri(mediaUri: Uri) {
 }
 
 private fun getResourceFromAttr(attribute: Int, context: Context): Drawable? {
+    var isValid: Boolean
     val typedValue = TypedValue().apply {
-        context.theme.resolveAttribute(attribute, this, true)
+        isValid = context.theme.resolveAttribute(attribute, this, true)
     }
-    return ContextCompat.getDrawable(context, typedValue.resourceId)
+    return ContextCompat.getDrawable(
+        context,
+        if (isValid) typedValue.resourceId
+        else R.drawable.ic_placeholder_media
+    )
 }
 
 private fun getCameraDrawableUri(resources: Resources) =
