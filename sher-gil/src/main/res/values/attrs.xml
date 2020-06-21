@@ -27,8 +27,7 @@
     <attr name="shergil_bottomBarPreviewButtonDisabledText" format="color" />
 
     <!-- Preview -->
+    <attr name="shergil_previewDotDrawable" format="reference" />
+    <attr name="shergil_previewSelectedDotDrawable" format="reference" />
     <attr name="shergil_previewSelectedDotColor" format="color" />
-    <attr name="shergil_previewDotColor" format="color" />
-    <attr name="shergil_previewSelectedDotThickness" format="dimension" />
-    <attr name="shergil_previewDotThickness" format="dimension" />
 </resources>

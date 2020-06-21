@@ -23,9 +23,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:tabBackground="@drawable/tab_dot_default"
+        app:tabBackground="?attr/shergil_previewDotDrawable"
         app:tabGravity="center"
-        app:tabIndicator="@drawable/tab_dot_indicator"
+        app:tabIndicator="?attr/shergil_previewSelectedDotDrawable"
         app:tabIndicatorColor="?attr/shergil_previewSelectedDotColor"
         app:tabIndicatorGravity="center"
         app:tabMaxWidth="12dp" />
