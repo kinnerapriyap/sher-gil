@@ -23,8 +23,16 @@ class MediaPreviewFragment : Fragment() {
     private var listener: MediaPreviewFragmentListener? = null
 
     companion object {
-        fun newInstance() =
-            MediaPreviewFragment()
+        private const val SELECTED_MEDIA = "selected_media"
+        fun newInstance(selectedMedia: List<MediaCellDisplayModel>) =
+            MediaPreviewFragment().apply {
+                arguments = Bundle().apply {
+                    putSerializable(
+                        SELECTED_MEDIA,
+                        selectedMedia as? Serializable
+                    )
+                }
+            }
     }
 
     override fun onCreateView(
@@ -43,12 +51,10 @@ class MediaPreviewFragment : Fragment() {
         TabLayoutMediator(tabDots, viewPager) { tab, position ->
         }.attach()
 
-        viewModel.getSelectedMedia().observe(
-            requireActivity(),
-            Observer {
-                mediaPreviewAdapter.selectedMedia = it
-            }
-        )
+        arguments?.getSerializable(SELECTED_MEDIA)?.let {
+            val selectedMedia = it as? List<MediaCellDisplayModel> ?: return@let
+            mediaPreviewAdapter.selectedMedia = selectedMedia
+        }
     }
 
     override fun onDestroyView() {

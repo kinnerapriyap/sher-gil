@@ -216,7 +216,7 @@ internal class ShergilActivity :
             .beginTransaction()
             .replace(
                 R.id.container,
-                MediaPreviewFragment.newInstance(),
+                MediaPreviewFragment.newInstance(viewModel.getSelectedMediaCellDisplayModels()),
                 MEDIA_PREVIEW_FRAGMENT_TAG
             )
             .addToBackStack(null)
