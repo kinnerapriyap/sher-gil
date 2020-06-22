@@ -1,16 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
+        <variable
+            name="listener"
+            type="com.kinnerapriyap.sugar.mediapreview.MediaObjectPreviewListener" />
 
         <variable
             name="displayModel"
             type="com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel" />
     </data>
 
-    <ImageView
-        android:id="@+id/imageView"
-        mediaUri="@{displayModel.mediaUri}"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/previewCardView"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:checkable="true"
+            android:checked_state="@{displayModel.isChecked}"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="@{() -> listener.onMediaObjectPreviewClicked(displayModel)}"
+            app:cardElevation="0dp"
+            app:cardForegroundColor="@null"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            mediaUri="@{displayModel.mediaUri}"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/previewCardView" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

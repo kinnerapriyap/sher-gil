@@ -8,7 +8,9 @@ import com.kinnerapriyap.sugar.R
 import com.kinnerapriyap.sugar.databinding.ViewMediaObjectPreviewBinding
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
 
-class MediaPreviewAdapter : RecyclerView.Adapter<MediaPreviewAdapter.MediaPreviewObjectHolder>() {
+class MediaPreviewAdapter(
+    private val mediaObjectPreviewListener: MediaObjectPreviewListener
+) : RecyclerView.Adapter<MediaPreviewAdapter.MediaPreviewObjectHolder>() {
 
     var selectedMedia: List<MediaCellDisplayModel> = listOf()
         set(value) {
@@ -32,14 +34,15 @@ class MediaPreviewAdapter : RecyclerView.Adapter<MediaPreviewAdapter.MediaPrevie
     }
 
     override fun onBindViewHolder(holder: MediaPreviewObjectHolder, position: Int) {
-        holder.bind(selectedMedia[position])
+        holder.bind(selectedMedia[position], mediaObjectPreviewListener)
     }
 
     inner class MediaPreviewObjectHolder(
         private val binding: ViewMediaObjectPreviewBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(displayModel: MediaCellDisplayModel) {
+        fun bind(displayModel: MediaCellDisplayModel, listener: MediaObjectPreviewListener) {
             binding.displayModel = displayModel
+            binding.listener = listener
             binding.executePendingBindings()
         }
     }
