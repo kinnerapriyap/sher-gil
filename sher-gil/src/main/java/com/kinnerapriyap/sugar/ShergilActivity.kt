@@ -224,12 +224,12 @@ internal class ShergilActivity :
     }
 
     override fun hideSpinnerAndPreviewButton() {
-        albumSpinner.isVisible = false
+        toolbar.isVisible = false
         previewButton.isVisible = false
     }
 
     override fun showSpinnerAndPreviewButton() {
-        albumSpinner.isVisible = true
+        toolbar.isVisible = true
         previewButton.isVisible = true
     }
 }
