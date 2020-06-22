@@ -48,6 +48,7 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
                 it ?: return@Observer
                 mediaGalleryAdapter = MediaGalleryAdapter(
                     viewModel.getCurrentMediaCursor(),
+                    viewModel.getSelectedMediaCellDisplayModels(),
                     this@MediaGalleryFragment,
                     viewModel.getChoiceSpec().mimeTypes,
                     viewModel.allowMultipleSelection()

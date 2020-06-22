@@ -23,6 +23,7 @@ import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellUpdateModel
 
 class MediaGalleryAdapter(
     private var mediaCursor: Cursor?,
+    private var selectedMediaCellDisplayModels: List<MediaCellDisplayModel>,
     private val mediaCellListener: MediaCellListener,
     private val mimeTypes: List<MimeType>,
     private val allowMultipleSelection: Boolean
@@ -36,6 +37,8 @@ class MediaGalleryAdapter(
         MediaCellUpdateModel(Pair(-1, -1), listOf())
         set(value) {
                 field = value
+                this.selectedMediaCellDisplayModels =
+                    mediaCellUpdateModel.selectedMediaCellDisplayModels
                 if (value.positions.first != -1) {
                     notifyItemChanged(value.positions.first)
                 }
@@ -104,7 +107,7 @@ class MediaGalleryAdapter(
             position = position,
             id = id,
             mediaUri = contentUri,
-            isChecked = mediaCellUpdateModel.selectedMediaCellDisplayModels.any { it.id == id },
+            isChecked = selectedMediaCellDisplayModels.any { it.id == id },
             bucketDisplayName = bucketDisplayName,
             mimeType = mimeType,
             isEnabled = mimeTypes.contains(mimeType) || isCameraCapture(id)
