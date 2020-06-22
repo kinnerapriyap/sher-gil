@@ -216,7 +216,7 @@ internal class ShergilActivity :
             .beginTransaction()
             .replace(
                 R.id.container,
-                MediaPreviewFragment.newInstance(),
+                MediaPreviewFragment.newInstance(viewModel.getSelectedMediaCellDisplayModels()),
                 MEDIA_PREVIEW_FRAGMENT_TAG
             )
             .addToBackStack(null)
@@ -224,12 +224,12 @@ internal class ShergilActivity :
     }
 
     override fun hideSpinnerAndPreviewButton() {
-        albumSpinner.isVisible = false
+        toolbar.isVisible = false
         previewButton.isVisible = false
     }
 
     override fun showSpinnerAndPreviewButton() {
-        albumSpinner.isVisible = true
+        toolbar.isVisible = true
         previewButton.isVisible = true
     }
 }
