@@ -63,6 +63,7 @@
         <item name="android:background">?attr/shergil_bottomBarBackground</item>
     </style>
 
+    <!-- https://github.com/material-components/material-components-android/blob/master/docs/components/Checkbox.md -->
     <style name="Widget.Shergil.CheckBox" parent="Widget.MaterialComponents.CompoundButton.CheckBox">
         <item name="materialThemeOverlay">@style/ThemeOverlay.Shergil.CheckBox</item>
     </style>
