@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import com.kinnerapriyap.sugar.databinding.ActivityShergilBinding
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryFragment
@@ -175,14 +176,13 @@ internal class ShergilActivity :
     }
 
     private fun openMediaGalleryFragment() {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(
+        supportFragmentManager.commit {
+            replace(
                 R.id.container,
                 MediaGalleryFragment.newInstance(),
                 MEDIA_GALLERY_FRAGMENT_TAG
             )
-            .commit()
+        }
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -212,15 +212,14 @@ internal class ShergilActivity :
     }
 
     override fun onPreviewClicked() {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(
+        supportFragmentManager.commit {
+            addToBackStack(null)
+            replace(
                 R.id.container,
                 MediaPreviewFragment.newInstance(viewModel.getSelectedMediaCellDisplayModels()),
                 MEDIA_PREVIEW_FRAGMENT_TAG
             )
-            .addToBackStack(null)
-            .commit()
+        }
     }
 
     override fun hideSpinnerAndPreviewButton() {
