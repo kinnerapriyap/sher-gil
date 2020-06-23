@@ -4,7 +4,7 @@
     <!-- Requires your theme to be a descendant of Theme.MaterialComponents -->
     <style name="Shergil" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- CardView -->
-        <item name="materialCardViewStyle">@style/Shergil.CardView</item>
+        <item name="materialCardViewStyle">@style/Widget.Shergil.CardView</item>
         <!-- or -->
         <item name="shergil_cardMediaCheckedColor">#8BC34A</item>
         <item name="shergil_cardMediaCheckedAlpha">0.1</item>
@@ -40,10 +40,15 @@
         <item name="shergil_previewDotDrawable">@drawable/tab_dot_default</item>
         <item name="shergil_previewSelectedDotDrawable">@drawable/tab_dot_indicator</item>
         <item name="shergil_previewSelectedDotColor">#6b9b36</item>
+
+        <item name="checkboxStyle">@style/Widget.Shergil.CheckBox</item>
+        <!-- or -->
+        <item name="shergil_previewCheckedCheckBoxColor">#6b9b36</item>
+        <item name="shergil_previewUncheckedCheckBoxColor">#808080</item>
     </style>
 
     <!-- https://github.com/material-components/material-components-android/blob/master/docs/components/Card.md -->
-    <style name="Shergil.CardView" parent="Widget.MaterialComponents.CardView">
+    <style name="Widget.Shergil.CardView" parent="Widget.MaterialComponents.CardView">
         <item name="cardForegroundColor">@color/card_view_foreground</item>
         <item name="checkedIconTint">?attr/shergil_cardMediaCheckedIconTintColor</item>
     </style>
@@ -56,5 +61,15 @@
     <style name="Shergil.BottomBar">
         <item name="popupTheme">@style/ThemeOverlay.MaterialComponents.Dark</item>
         <item name="android:background">?attr/shergil_bottomBarBackground</item>
+    </style>
+
+    <!-- https://github.com/material-components/material-components-android/blob/master/docs/components/Checkbox.md -->
+    <style name="Widget.Shergil.CheckBox" parent="Widget.MaterialComponents.CompoundButton.CheckBox">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Shergil.CheckBox</item>
+    </style>
+
+    <style name="ThemeOverlay.Shergil.CheckBox" parent="">
+        <item name="colorOnSurface">?attr/shergil_previewUncheckedCheckBoxColor</item>
+        <item name="colorSecondary">?attr/shergil_previewCheckedCheckBoxColor</item>
     </style>
 </resources>
