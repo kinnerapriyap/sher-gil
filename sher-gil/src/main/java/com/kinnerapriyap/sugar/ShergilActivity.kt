@@ -19,6 +19,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
+import com.kinnerapriyap.sugar.camera.CameraFragment
+import com.kinnerapriyap.sugar.camera.CameraFragmentListener
 import com.kinnerapriyap.sugar.databinding.ActivityShergilBinding
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryFragment
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryFragmentListener
@@ -34,6 +36,7 @@ internal class ShergilActivity :
     AdapterView.OnItemSelectedListener,
     MediaGalleryFragmentListener,
     MediaPreviewFragmentListener,
+    CameraFragmentListener,
     ShergilActivityListener {
 
     private lateinit var observer: ResultLauncherHandler
@@ -54,6 +57,8 @@ internal class ShergilActivity :
                 fragment.setMediaGalleryFragmentListener(this)
             is MediaPreviewFragment ->
                 fragment.setMediaPreviewFragmentListener(this)
+            is CameraFragment ->
+                fragment.setCameraFragmentListener(this)
         }
     }
 
@@ -230,5 +235,15 @@ internal class ShergilActivity :
     override fun showSpinnerAndPreviewButton() {
         toolbar.isVisible = true
         previewButton.isVisible = true
+    }
+
+    override fun hideBars() {
+        toolbar.isVisible = false
+        bottombar.isVisible = false
+    }
+
+    override fun showBars() {
+        toolbar.isVisible = true
+        bottombar.isVisible = true
     }
 }
