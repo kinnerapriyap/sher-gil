@@ -59,7 +59,7 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
 
 If you're on `API level > R`, you can use `registerForActivityResult(ActivityResultContract, ActivityResultCallback)` with the appropriate ActivityResultContract and handle the result in the callback.
 
-**Min SDK:** sher-gil supports a minimum SDK of 19.
+**Min SDK:** sher-gil supports a minimum SDK of 21.
 
 #### dataBinding should be enabled to use sher-gil
 
@@ -81,6 +81,20 @@ android {
     }
 }
 ```
+
+#### compileOptions should be applied in the `build.gradle` android closure
+
+```
+android {
+    ...
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+```
+
+Ref: [Java 8 support](https://developer.android.com/studio/write/java8-support)
 
 ## Contributing
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md)

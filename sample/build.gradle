@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId 'com.kinnerapriyap.sugar.sample'
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -28,6 +28,11 @@ android {
     // dataBinding should be enabled to use sher-gil
     buildFeatures {
         dataBinding = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
