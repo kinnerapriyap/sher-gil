@@ -71,11 +71,11 @@ class MediaPreviewFragment : Fragment(), MediaObjectPreviewListener {
     override fun onMediaObjectPreviewClicked(displayModel: MediaCellDisplayModel) {
         val selectedMedia = mediaPreviewAdapter.selectedMedia
         mediaPreviewAdapter.selectedMedia =
-                selectedMedia.map {
-                    it.copy(
-                        isChecked = if (it.id == displayModel.id) !it.isChecked else it.isChecked
-                    )
-                }
+            selectedMedia.map {
+                it.copy(
+                    isChecked = if (it.id == displayModel.id) !it.isChecked else it.isChecked
+                )
+            }
         viewModel.setMediaChecked(displayModel)
     }
 }
