@@ -17,17 +17,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/previewCardView"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:checkable="true"
-            android:checked_state="@{displayModel.isChecked}"
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/preivewCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="@{displayModel.isChecked}"
+            android:paddingVertical="16dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="0dp"
             android:clickable="true"
             android:focusable="true"
             android:onClick="@{() -> listener.onMediaObjectPreviewClicked(displayModel)}"
-            app:cardElevation="0dp"
-            app:cardForegroundColor="@null"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,6 +39,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/previewCardView" />
+            app:layout_constraintTop_toBottomOf="@id/preivewCheckBox" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
