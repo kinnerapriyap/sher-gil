@@ -59,7 +59,7 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
 
 If you're on `API level > R`, you can use `registerForActivityResult(ActivityResultContract, ActivityResultCallback)` with the appropriate ActivityResultContract and handle the result in the callback.
 
-**Min SDK:** sher-gil supports a minimum SDK of 19.
+**Min SDK:** sher-gil supports a minimum SDK of 21.
 
 #### dataBinding should be enabled to use sher-gil
 
