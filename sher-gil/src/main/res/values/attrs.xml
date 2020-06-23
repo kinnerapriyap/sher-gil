@@ -30,4 +30,6 @@
     <attr name="shergil_previewDotDrawable" format="reference" />
     <attr name="shergil_previewSelectedDotDrawable" format="reference" />
     <attr name="shergil_previewSelectedDotColor" format="color" />
+    <attr name="shergil_previewCheckedCheckBoxColor" format="color" />
+    <attr name="shergil_previewUncheckedCheckBoxColor" format="color" />
 </resources>
