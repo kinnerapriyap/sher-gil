@@ -15,7 +15,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
@@ -28,7 +27,6 @@ import com.kinnerapriyap.sugar.mediagallery.album.MediaGalleryAlbumCursorAdapter
 import com.kinnerapriyap.sugar.mediapreview.MediaPreviewFragment
 import com.kinnerapriyap.sugar.mediapreview.MediaPreviewFragmentListener
 import com.kinnerapriyap.sugar.resultlauncher.ResultLauncherHandler
-import kotlinx.android.synthetic.main.activity_shergil.*
 import java.util.ArrayList
 
 internal class ShergilActivity :
@@ -44,6 +42,8 @@ internal class ShergilActivity :
     private val viewModel: ShergilViewModel by viewModels()
 
     private lateinit var mediaGalleryAlbumCursorAdapter: MediaGalleryAlbumCursorAdapter
+
+    private lateinit var binding: ActivityShergilBinding
 
     companion object {
         const val RESULT_URIS = "resultUris"
@@ -105,7 +105,7 @@ internal class ShergilActivity :
             ) != PackageManager.PERMISSION_GRANTED ->
                 observer.askReadStoragePermission()
             else -> {
-                openMediaGalleryFragment()
+                openMediaGallery()
             }
         }
     }
@@ -134,7 +134,7 @@ internal class ShergilActivity :
 
     private fun setReadStoragePermissionResult(allowed: Boolean) {
         if (allowed) {
-            openMediaGalleryFragment()
+            openMediaGallery()
         } else {
             setResult(Activity.RESULT_CANCELED)
             finish()
@@ -179,7 +179,7 @@ internal class ShergilActivity :
         observer.cameraCapture(viewModel.getCameraCaptureUri())
     }
 
-    private fun openMediaGalleryFragment() {
+    override fun openMediaGallery() {
         supportFragmentManager.commit {
             replace(
                 R.id.container,
