@@ -51,17 +51,6 @@ internal class ShergilActivity :
         private const val MEDIA_PREVIEW_FRAGMENT_TAG = "mediaPreviewFragmentTag"
     }
 
-    override fun onAttachFragment(fragment: Fragment) {
-        when (fragment) {
-            is MediaGalleryFragment ->
-                fragment.setMediaGalleryFragmentListener(this)
-            is MediaPreviewFragment ->
-                fragment.setMediaPreviewFragmentListener(this)
-            is CameraFragment ->
-                fragment.setCameraFragmentListener(this)
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         theme.applyStyle(viewModel.getChoiceSpec().theme, true)
         super.onCreate(savedInstanceState)
@@ -93,6 +82,17 @@ internal class ShergilActivity :
                 Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
             }
         )
+
+        supportFragmentManager.addFragmentOnAttachListener { _, fragment ->
+            when (fragment) {
+                is MediaGalleryFragment ->
+                    fragment.setMediaGalleryFragmentListener(this)
+                is MediaPreviewFragment ->
+                    fragment.setMediaPreviewFragmentListener(this)
+                is CameraFragment ->
+                    fragment.setCameraFragmentListener(this)
+            }
+        }
 
         askPermissionAndOpenGallery()
     }
