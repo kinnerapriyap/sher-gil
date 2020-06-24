@@ -61,6 +61,10 @@ class MediaPreviewFragment : Fragment(), MediaObjectPreviewListener {
     override fun onDestroyView() {
         listener?.showSpinnerAndPreviewButton()
         super.onDestroyView()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         listener = null
     }
 
