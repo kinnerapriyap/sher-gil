@@ -38,12 +38,13 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val activity = activity ?: return
 
         recyclerView.layoutManager =
-            GridLayoutManager(requireActivity(), viewModel.getChoiceSpec().numOfColumns)
+            GridLayoutManager(activity, viewModel.getChoiceSpec().numOfColumns)
 
         viewModel.getCursor().observe(
-            requireActivity(),
+            activity,
             Observer {
                 it ?: return@Observer
                 mediaGalleryAdapter = MediaGalleryAdapter(
@@ -62,7 +63,7 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
         )
 
         viewModel.getMediaCellUpdateModel().observe(
-            requireActivity(),
+            activity,
             Observer { updateModel ->
                 if (updateModel.positions.first == -1) return@Observer
                 mediaGalleryAdapter.mediaCellUpdateModel = updateModel
@@ -70,6 +71,11 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
         )
 
         viewModel.fetchCursor()
+    }
+
+    override fun onDestroyView() {
+        recyclerView.adapter = null
+        super.onDestroyView()
     }
 
     override fun onDestroy() {
