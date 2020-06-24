@@ -65,13 +65,13 @@ internal class ShergilActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         theme.applyStyle(viewModel.getChoiceSpec().theme, true)
         super.onCreate(savedInstanceState)
-        val binding: ActivityShergilBinding =
-            DataBindingUtil.setContentView(this, R.layout.activity_shergil)
+        binding = ActivityShergilBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         binding.listener = this
         binding.lifecycleOwner = this
         binding.previewButton.isVisible = viewModel.getChoiceSpec().allowPreview
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
@@ -157,8 +157,8 @@ internal class ShergilActivity :
                 .also { adapter ->
                     adapter.setDropDownViewResource(R.layout.album_spinner_item)
                 }
-        albumSpinner.adapter = mediaGalleryAlbumCursorAdapter
-        albumSpinner.onItemSelectedListener = this
+        binding.albumSpinner.adapter = mediaGalleryAlbumCursorAdapter
+        binding.albumSpinner.onItemSelectedListener = this
     }
 
     override fun askPermissionAndOpenCameraCapture() {
@@ -227,22 +227,22 @@ internal class ShergilActivity :
     }
 
     override fun hideSpinnerAndPreviewButton() {
-        toolbar.isVisible = false
-        previewButton.isVisible = false
+        binding.toolbar.isVisible = false
+        binding.previewButton.isVisible = false
     }
 
     override fun showSpinnerAndPreviewButton() {
-        toolbar.isVisible = true
-        previewButton.isVisible = true
+        binding.toolbar.isVisible = true
+        binding.previewButton.isVisible = true
     }
 
     override fun hideBars() {
-        toolbar.isVisible = false
-        bottombar.isVisible = false
+        binding.toolbar.isVisible = false
+        binding.bottombar.isVisible = false
     }
 
     override fun showBars() {
-        toolbar.isVisible = true
-        bottombar.isVisible = true
+        binding.toolbar.isVisible = true
+        binding.bottombar.isVisible = true
     }
 }
