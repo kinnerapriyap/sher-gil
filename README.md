@@ -43,6 +43,7 @@ Shergil.create(this)
     .allowPreview(true)
     .maxSelectable(Integer.MAX_VALUE)
     .allowCamera(true)
+    .showDeviceCamera(false)
     .withRequestCode(REQUEST_SHERGIL)
 ```
 

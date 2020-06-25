@@ -111,6 +111,18 @@ class ChoiceBuilder private constructor(
         }
 
     /**
+     * Determines whether or not to show the device camera
+     * If false, library implementation of camera is shown
+     *
+     * @param showDeviceCamera Boolean default is false
+     * @return [ChoiceBuilder] instance
+     */
+    fun showDeviceCamera(showDeviceCamera: Boolean): ChoiceBuilder =
+        apply {
+            choiceSpec.showDeviceCamera = showDeviceCamera
+        }
+
+    /**
      * Opens media selection with the requestCode provided
      *
      * @param requestCode Request code to be returned in onActivityResult
