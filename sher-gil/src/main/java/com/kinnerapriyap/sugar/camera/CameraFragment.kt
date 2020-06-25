@@ -25,11 +25,15 @@ import androidx.core.net.toFile
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.kinnerapriyap.sugar.R
+import com.kinnerapriyap.sugar.ShergilViewModel
 import com.kinnerapriyap.sugar.databinding.FragmentCameraBinding
 import java.io.File
 
 class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedListener {
+
+    private val viewModel: ShergilViewModel by activityViewModels()
 
     private var imageCapture: ImageCapture? = null
 
@@ -72,6 +76,7 @@ class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedL
         listener?.hideBars()
         outputDirectory = getOutputDirectory(activity ?: return)
 
+        binding?.isCapture = true
         binding?.viewFinder?.post {
             setupCamera()
             setupCameraUI()
@@ -104,6 +109,14 @@ class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedL
             CameraSelector.LENS_FACING_FRONT
         }
         bindCameraUseCases()
+    }
+
+    override fun onCameraCaptureYesClicked() {
+        listener?.onCameraCaptureYesClicked()
+    }
+
+    override fun onCameraCaptureNoClicked() {
+        binding?.isCapture = true
     }
 
     private fun setupCamera() {
@@ -193,7 +206,9 @@ class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedL
                         arrayOf(savedUri.toFile().absolutePath),
                         arrayOf(mimeType)
                     ) { _, uri ->
-                        // TODO: open preview
+                        binding?.isCapture = false
+                        viewModel.setCameraCaptureUri(uri)
+                        binding?.cameraCapturePreviewImage?.setImageURI(uri)
                     }
                 }
             }

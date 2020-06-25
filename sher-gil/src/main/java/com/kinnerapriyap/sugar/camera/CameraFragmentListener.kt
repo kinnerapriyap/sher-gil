@@ -5,4 +5,5 @@ interface CameraFragmentListener {
     fun showBars()
     fun openMediaGallery()
     fun setResultCancelledAndFinish()
+    fun onCameraCaptureYesClicked()
 }

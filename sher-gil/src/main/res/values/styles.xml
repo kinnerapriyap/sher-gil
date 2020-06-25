@@ -53,6 +53,8 @@
         <item name="shergil_cameraGalleryButtonDrawable">@drawable/ic_gallery</item>
         <item name="shergil_cameraCameraCaptureButtonDrawable">@drawable/ic_camera_capture</item>
         <item name="shergil_cameraSwitchCameraButtonDrawable">@drawable/ic_switch_camera</item>
+        <item name="shergil_cameraCameraCaptureYesButtonDrawable">@drawable/ic_camera_yes</item>
+        <item name="shergil_cameraCameraCaptureNoButtonDrawable">@drawable/ic_camera_no</item>
     </style>
 
     <!-- https://github.com/material-components/material-components-android/blob/master/docs/components/Card.md -->

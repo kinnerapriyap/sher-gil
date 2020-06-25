@@ -173,8 +173,8 @@ internal class ShergilActivity :
     }
 
     private fun openCameraCapture() {
+        viewModel.resetCameraCaptureUri()
         if (viewModel.getChoiceSpec().showDeviceCamera) {
-            viewModel.resetCameraCaptureUri()
             observer.cameraCapture(viewModel.getCameraCaptureUri())
         } else {
             supportFragmentManager.commit {
@@ -186,6 +186,10 @@ internal class ShergilActivity :
                 )
             }
         }
+    }
+
+    override fun onCameraCaptureYesClicked() {
+        openMediaGallery()
     }
 
     private fun setCameraCaptureResult(result: Boolean) {

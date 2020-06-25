@@ -4,6 +4,12 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="isCapture"
+            type="Boolean" />
+
         <variable
             name="listener"
             type="com.kinnerapriyap.sugar.camera.CameraUIListener" />
@@ -13,13 +19,14 @@
         android:id="@+id/cameraContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:background="@android:color/black"
+        android:background="@android:color/black"
         tools:context=".camera.CameraFragment">
 
         <androidx.camera.view.PreviewView
             android:id="@+id/viewFinder"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:visibility="@{isCapture ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -33,6 +40,7 @@
             android:background="@null"
             android:elevation="2dp"
             android:popupBackground="@android:color/transparent"
+            android:visibility="@{isCapture ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,6 +53,7 @@
             android:onClick="@{() -> listener.onGalleryButtonClicked()}"
             android:padding="4dp"
             android:scaleType="fitCenter"
+            android:visibility="@{isCapture ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@id/cameraCaptureButton"
             app:layout_constraintEnd_toStartOf="@id/cameraCaptureButton"
             app:layout_constraintStart_toStartOf="parent"
@@ -60,6 +69,7 @@
             android:contentDescription="@string/take_photo"
             android:onClick="@{() -> listener.onCameraCaptureButtonClicked()}"
             android:scaleType="fitCenter"
+            android:visibility="@{isCapture ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -74,11 +84,55 @@
             android:onClick="@{() -> listener.onSwitchCameraButtonClicked()}"
             android:padding="4dp"
             android:scaleType="fitCenter"
+            android:visibility="@{isCapture ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@id/cameraCaptureButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/cameraCaptureButton"
             app:layout_constraintTop_toTopOf="@id/cameraCaptureButton"
             app:srcCompat="?attr/shergil_cameraSwitchCameraButtonDrawable" />
+
+        <ImageView
+            android:id="@+id/cameraCapturePreviewImage"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="@{isCapture ? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/camera_capture_preview" />
+
+        <ImageButton
+            android:id="@+id/cameraCaptureNoButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/camera_capture_no"
+            android:onClick="@{() -> listener.onCameraCaptureNoClicked()}"
+            android:scaleType="fitCenter"
+            android:translationZ="2dp"
+            android:visibility="@{isCapture ? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@id/cameraCaptureYesButton"
+            app:layout_constraintEnd_toStartOf="@id/cameraCaptureYesButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/cameraCaptureYesButton"
+            app:srcCompat="?attr/shergil_cameraCameraCaptureNoButtonDrawable" />
+
+        <ImageButton
+            android:id="@+id/cameraCaptureYesButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="40dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/camera_capture_yes"
+            android:onClick="@{() -> listener.onCameraCaptureYesClicked()}"
+            android:scaleType="fitCenter"
+            android:translationZ="2dp"
+            android:visibility="@{isCapture ? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cameraCaptureNoButton"
+            app:srcCompat="?attr/shergil_cameraCameraCaptureYesButtonDrawable" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
