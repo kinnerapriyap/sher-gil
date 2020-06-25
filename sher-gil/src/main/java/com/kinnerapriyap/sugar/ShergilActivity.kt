@@ -15,7 +15,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import com.kinnerapriyap.sugar.camera.CameraFragment
@@ -144,11 +143,10 @@ internal class ShergilActivity :
     private fun setCameraPermissionResult(allowed: Boolean) {
         if (allowed) {
             openCameraCapture()
+        } else {
+            setResult(Activity.RESULT_CANCELED)
+            finish()
         }
-    }
-
-    private fun setCameraCaptureResult(result: Boolean) {
-        if (result) viewModel.fetchCursor()
     }
 
     override fun setToolbarSpinner() {

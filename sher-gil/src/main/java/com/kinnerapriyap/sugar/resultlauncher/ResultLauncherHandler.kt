@@ -11,4 +11,4 @@ class ResultLauncherHandler(
         activity,
         setReadStoragePermissionResult,
         setCameraPermissionResult
-)
+    )

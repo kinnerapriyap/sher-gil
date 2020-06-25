@@ -1,7 +1,6 @@
 package com.kinnerapriyap.sugar.resultlauncher
 
 import android.Manifest
-import android.net.Uri
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.ActivityResultRegistry
 import androidx.activity.result.contract.ActivityResultContracts
