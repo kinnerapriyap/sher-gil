@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="shergil_appName" format="string" />
+
     <!-- CardView -->
     <attr name="shergil_cardMediaCheckedColor" format="color" />
     <attr name="shergil_cardMediaCheckedAlpha" format="float" />
@@ -33,4 +35,12 @@
     <attr name="shergil_previewDotColor" format="color" />
     <attr name="shergil_previewSelectedDotThickness" format="dimension" />
     <attr name="shergil_previewDotThickness" format="dimension" />
+
+    <!-- Camera -->
+    <attr name="shergil_cameraFlashOffButtonDrawable" format="reference" />
+    <attr name="shergil_cameraFlashOnButtonDrawable" format="reference" />
+    <attr name="shergil_cameraFlashAutoButtonDrawable" format="reference" />
+    <attr name="shergil_cameraGalleryButtonDrawable" format="reference" />
+    <attr name="shergil_cameraCameraCaptureButtonDrawable" format="reference" />
+    <attr name="shergil_cameraSwitchCameraButtonDrawable" format="reference" />
 </resources>

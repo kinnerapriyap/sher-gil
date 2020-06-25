@@ -5,7 +5,10 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import com.kinnerapriyap.sugar.choice.ChoiceSpec
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
@@ -38,10 +41,6 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
         )
     }
 
-    private val errorMessage by lazy {
-        MutableLiveData<String?>().apply { value = null }
-    }
-
     private var cameraCaptureUri: Uri? = null
 
     fun getCameraCaptureUri() = cameraCaptureUri
@@ -52,6 +51,10 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 ContentValues()
             )
+    }
+
+    private val errorMessage by lazy {
+        MutableLiveData<String?>().apply { value = null }
     }
 
     fun getChoiceSpec() = choiceSpec

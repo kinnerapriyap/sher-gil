@@ -15,7 +15,7 @@ import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler.Companion.CAMERA
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellListener
 import com.kinnerapriyap.sugar.mediagallery.media.MediaGalleryAdapter
-import kotlinx.android.synthetic.main.fragment_media_gallery.*
+import kotlinx.android.synthetic.main.fragment_media_gallery.view.*
 
 class MediaGalleryFragment : Fragment(), MediaCellListener {
 
@@ -38,12 +38,13 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val activity = activity ?: return
 
-        recyclerView.layoutManager =
-            GridLayoutManager(requireActivity(), viewModel.getChoiceSpec().numOfColumns)
+        view.recyclerView.layoutManager =
+            GridLayoutManager(activity, viewModel.getChoiceSpec().numOfColumns)
 
         viewModel.getCursor().observe(
-            requireActivity(),
+            activity,
             Observer {
                 it ?: return@Observer
                 mediaGalleryAdapter = MediaGalleryAdapter(
@@ -53,7 +54,7 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
                     viewModel.getChoiceSpec().mimeTypes,
                     viewModel.allowMultipleSelection()
                 )
-                recyclerView.adapter = mediaGalleryAdapter
+                view.recyclerView.adapter = mediaGalleryAdapter
                 mediaGalleryAdapter.filterQueryProvider = FilterQueryProvider { filter ->
                     viewModel.getCurrentMediaCursor(filter.toString())
                 }
@@ -62,7 +63,7 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
         )
 
         viewModel.getMediaCellUpdateModel().observe(
-            requireActivity(),
+            activity,
             Observer { updateModel ->
                 if (updateModel.positions.first == -1) return@Observer
                 mediaGalleryAdapter.mediaCellUpdateModel = updateModel
@@ -73,7 +74,12 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
     }
 
     override fun onDestroyView() {
+        view?.recyclerView?.adapter = null
         super.onDestroyView()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         listener = null
     }
 

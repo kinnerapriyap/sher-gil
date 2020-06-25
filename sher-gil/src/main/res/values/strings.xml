@@ -1,5 +1,10 @@
 <resources>
+    <string name="shergil">shergil</string>
     <string name="apply">Apply</string>
     <string name="preview">Preview</string>
     <string name="max_selectable_error">You can only select up to %d media files</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="switch_camera">Switch camera</string>
+    <string name="open_gallery">Open gallery</string>
+    <string name="flash_mode">Flash mode</string>
 </resources>

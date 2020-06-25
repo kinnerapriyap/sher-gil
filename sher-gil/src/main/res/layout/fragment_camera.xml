@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="listener"
+            type="com.kinnerapriyap.sugar.camera.CameraUIListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/cameraContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:background="@android:color/black"
+        tools:context=".camera.CameraFragment">
+
+        <androidx.camera.view.PreviewView
+            android:id="@+id/viewFinder"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/flashButtonSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@null"
+            android:elevation="2dp"
+            android:popupBackground="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/galleryButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/open_gallery"
+            android:onClick="@{() -> listener.onGalleryButtonClicked()}"
+            android:padding="4dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="@id/cameraCaptureButton"
+            app:layout_constraintEnd_toStartOf="@id/cameraCaptureButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/cameraCaptureButton"
+            app:srcCompat="?attr/shergil_cameraGalleryButtonDrawable" />
+
+        <ImageButton
+            android:id="@+id/cameraCaptureButton"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginBottom="32dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/take_photo"
+            android:onClick="@{() -> listener.onCameraCaptureButtonClicked()}"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="?attr/shergil_cameraCameraCaptureButtonDrawable" />
+
+        <ImageButton
+            android:id="@+id/switchCameraButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/switch_camera"
+            android:onClick="@{() -> listener.onSwitchCameraButtonClicked()}"
+            android:padding="4dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="@id/cameraCaptureButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cameraCaptureButton"
+            app:layout_constraintTop_toTopOf="@id/cameraCaptureButton"
+            app:srcCompat="?attr/shergil_cameraSwitchCameraButtonDrawable" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
