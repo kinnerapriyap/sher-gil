@@ -133,7 +133,7 @@ class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedL
 
     private fun bindCameraUseCases() {
         val cameraProvider =
-            cameraProvider ?: throw IllegalStateException("Camera initialization failed.")
+            cameraProvider ?: throw IllegalStateException("Camera initialisation failed")
 
         val preview = Preview.Builder().build()
         preview.setSurfaceProvider(binding?.viewFinder?.createSurfaceProvider())
@@ -239,6 +239,6 @@ class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedL
     private fun setFlashMode(flashMode: Int?) {
         cameraFlashSpinnerAdapter.isOpen = false
         this.flashMode = flashMode ?: ImageCapture.FLASH_MODE_OFF
-        bindCameraUseCases()
+        if (cameraProvider != null) bindCameraUseCases()
     }
 }
