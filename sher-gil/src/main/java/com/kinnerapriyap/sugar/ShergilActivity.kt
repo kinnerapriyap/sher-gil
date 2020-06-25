@@ -67,7 +67,8 @@ internal class ShergilActivity :
         observer = ResultLauncherHandler(
             this,
             ::setReadStoragePermissionResult,
-            ::setCameraPermissionResult
+            ::setCameraPermissionResult,
+            ::setCameraCaptureResult
         )
 
         viewModel.getSelectedMediaCount().observe(
