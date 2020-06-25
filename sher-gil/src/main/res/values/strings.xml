@@ -7,4 +7,7 @@
     <string name="switch_camera">Switch camera</string>
     <string name="open_gallery">Open gallery</string>
     <string name="flash_mode">Flash mode</string>
+    <string name="camera_capture_yes">Use photo</string>
+    <string name="camera_capture_no">Retake</string>
+    <string name="camera_capture_preview">Camera capture preview</string>
 </resources>

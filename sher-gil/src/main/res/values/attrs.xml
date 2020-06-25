@@ -43,4 +43,6 @@
     <attr name="shergil_cameraGalleryButtonDrawable" format="reference" />
     <attr name="shergil_cameraCameraCaptureButtonDrawable" format="reference" />
     <attr name="shergil_cameraSwitchCameraButtonDrawable" format="reference" />
+    <attr name="shergil_cameraCameraCaptureYesButtonDrawable" format="reference" />
+    <attr name="shergil_cameraCameraCaptureNoButtonDrawable" format="reference" />
 </resources>
