@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.databinding.DataBindingUtil
 import com.kinnerapriyap.sugar.R
 import com.kinnerapriyap.sugar.databinding.CameraFlashSpinnerItemBinding
 
@@ -32,12 +31,7 @@ class CameraFlashSpinnerAdapter(
 
     private fun getCustomView(position: Int, parent: ViewGroup, isView: Boolean = false): View {
         val binding =
-            DataBindingUtil.inflate<CameraFlashSpinnerItemBinding>(
-                LayoutInflater.from(parent.context),
-                R.layout.camera_flash_spinner_item,
-                parent,
-                false
-            )
+            CameraFlashSpinnerItemBinding.inflate(LayoutInflater.from(parent.context))
         if (isView && isOpen) {
             binding.cameraFlashSpinnerImageView.setImageDrawable(null)
         } else {
