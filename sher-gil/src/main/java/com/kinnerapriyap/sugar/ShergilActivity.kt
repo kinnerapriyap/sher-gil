@@ -48,6 +48,7 @@ internal class ShergilActivity :
         const val RESULT_URIS = "resultUris"
         private const val MEDIA_GALLERY_FRAGMENT_TAG = "mediaGalleryFragmentTag"
         private const val MEDIA_PREVIEW_FRAGMENT_TAG = "mediaPreviewFragmentTag"
+        private const val CAMERA_FRAGMENT_TAG = "cameraFragmentTag"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -135,8 +136,7 @@ internal class ShergilActivity :
         if (allowed) {
             openMediaGallery()
         } else {
-            setResult(Activity.RESULT_CANCELED)
-            finish()
+            setResultCancelledAndFinish()
         }
     }
 
@@ -144,8 +144,7 @@ internal class ShergilActivity :
         if (allowed) {
             openCameraCapture()
         } else {
-            setResult(Activity.RESULT_CANCELED)
-            finish()
+            setResultCancelledAndFinish()
         }
     }
 
@@ -173,8 +172,14 @@ internal class ShergilActivity :
     }
 
     private fun openCameraCapture() {
-        viewModel.resetCameraCaptureUri()
-        observer.cameraCapture(viewModel.getCameraCaptureUri())
+        supportFragmentManager.commit {
+            addToBackStack(null)
+            replace(
+                R.id.container,
+                CameraFragment.newInstance(),
+                CAMERA_FRAGMENT_TAG
+            )
+        }
     }
 
     override fun openMediaGallery() {
@@ -242,5 +247,10 @@ internal class ShergilActivity :
     override fun showBars() {
         binding.toolbar.isVisible = true
         binding.bottombar.isVisible = true
+    }
+
+    override fun setResultCancelledAndFinish() {
+        setResult(Activity.RESULT_CANCELED)
+        finish()
     }
 }

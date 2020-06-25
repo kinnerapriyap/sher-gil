@@ -4,4 +4,5 @@ interface CameraFragmentListener {
     fun hideBars()
     fun showBars()
     fun openMediaGallery()
+    fun setResultCancelledAndFinish()
 }
