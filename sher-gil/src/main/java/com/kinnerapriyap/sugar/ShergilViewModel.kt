@@ -1,8 +1,10 @@
 package com.kinnerapriyap.sugar
 
 import android.app.Application
+import android.content.ContentValues
 import android.database.Cursor
 import android.net.Uri
+import android.provider.MediaStore
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -37,6 +39,18 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
                 allowCamera = choiceSpec.allowCamera
             )
         )
+    }
+
+    private var cameraCaptureUri: Uri? = null
+
+    fun getCameraCaptureUri() = cameraCaptureUri
+
+    fun resetCameraCaptureUri() {
+        cameraCaptureUri =
+            getApplication<Application>().contentResolver?.insert(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                ContentValues()
+            )
     }
 
     private val errorMessage by lazy {

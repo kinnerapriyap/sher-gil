@@ -173,15 +173,22 @@ internal class ShergilActivity :
     }
 
     private fun openCameraCapture() {
-        supportFragmentManager.commit {
-            addToBackStack(null)
-            replace(
-                R.id.container,
-                CameraFragment.newInstance(),
-                CAMERA_FRAGMENT_TAG
-            )
+        if (viewModel.getChoiceSpec().showDeviceCamera) {
+            viewModel.resetCameraCaptureUri()
+            observer.cameraCapture(viewModel.getCameraCaptureUri())
+        } else {
+            supportFragmentManager.commit {
+                addToBackStack(null)
+                replace(
+                    R.id.container,
+                    CameraFragment.newInstance(),
+                    CAMERA_FRAGMENT_TAG
+                )
+            }
         }
     }
+
+    private fun setCameraCaptureResult(result: Boolean) = Unit
 
     override fun openMediaGallery() {
         supportFragmentManager.commit {
