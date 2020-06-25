@@ -4,6 +4,12 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="isCapture"
+            type="Boolean" />
+
         <variable
             name="listener"
             type="com.kinnerapriyap.sugar.camera.CameraUIListener" />
@@ -13,13 +19,14 @@
         android:id="@+id/cameraContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:background="@android:color/black"
+        android:background="@android:color/black"
         tools:context=".camera.CameraFragment">
 
         <androidx.camera.view.PreviewView
             android:id="@+id/viewFinder"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:visibility="@{isCapture ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -33,6 +40,7 @@
             android:background="@null"
             android:elevation="2dp"
             android:popupBackground="@android:color/transparent"
+            android:visibility="@{isCapture ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,6 +53,7 @@
             android:onClick="@{() -> listener.onGalleryButtonClicked()}"
             android:padding="4dp"
             android:scaleType="fitCenter"
+            android:visibility="@{isCapture ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@id/cameraCaptureButton"
             app:layout_constraintEnd_toStartOf="@id/cameraCaptureButton"
             app:layout_constraintStart_toStartOf="parent"
@@ -60,6 +69,7 @@
             android:contentDescription="@string/take_photo"
             android:onClick="@{() -> listener.onCameraCaptureButtonClicked()}"
             android:scaleType="fitCenter"
+            android:visibility="@{isCapture ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -74,6 +84,7 @@
             android:onClick="@{() -> listener.onSwitchCameraButtonClicked()}"
             android:padding="4dp"
             android:scaleType="fitCenter"
+            android:visibility="@{isCapture ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@id/cameraCaptureButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/cameraCaptureButton"
