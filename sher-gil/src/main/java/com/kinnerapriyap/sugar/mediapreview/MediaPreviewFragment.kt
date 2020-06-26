@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
 import com.kinnerapriyap.sugar.R
 import com.kinnerapriyap.sugar.ShergilViewModel
@@ -17,23 +18,10 @@ class MediaPreviewFragment : Fragment(), MediaObjectPreviewListener {
 
     private val viewModel: ShergilViewModel by activityViewModels()
 
+    private val args: MediaPreviewFragmentArgs by navArgs()
+
     private val mediaPreviewAdapter by lazy {
         MediaPreviewAdapter(this)
-    }
-
-    private var listener: MediaPreviewFragmentListener? = null
-
-    companion object {
-        private const val SELECTED_MEDIA = "selected_media"
-        fun newInstance(selectedMedia: List<MediaCellDisplayModel>) =
-            MediaPreviewFragment().apply {
-                arguments = Bundle().apply {
-                    putSerializable(
-                        SELECTED_MEDIA,
-                        selectedMedia as? Serializable
-                    )
-                }
-            }
     }
 
     override fun onCreateView(
@@ -44,7 +32,6 @@ class MediaPreviewFragment : Fragment(), MediaObjectPreviewListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        listener?.hideSpinnerAndPreviewButton()
 
         viewPager.offscreenPageLimit = 1
         viewPager.adapter = mediaPreviewAdapter
@@ -52,24 +39,7 @@ class MediaPreviewFragment : Fragment(), MediaObjectPreviewListener {
         TabLayoutMediator(tabDots, viewPager) { tab, position ->
         }.attach()
 
-        arguments?.getSerializable(SELECTED_MEDIA)?.let {
-            val selectedMedia = it as? List<MediaCellDisplayModel> ?: return@let
-            mediaPreviewAdapter.selectedMedia = selectedMedia
-        }
-    }
-
-    override fun onDestroyView() {
-        listener?.showSpinnerAndPreviewButton()
-        super.onDestroyView()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        listener = null
-    }
-
-    fun setMediaPreviewFragmentListener(listener: MediaPreviewFragmentListener) {
-        this.listener = listener
+        mediaPreviewAdapter.selectedMedia = args.selectedMedia.toList()
     }
 
     override fun onMediaObjectPreviewClicked(displayModel: MediaCellDisplayModel) {

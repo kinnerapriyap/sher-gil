@@ -23,13 +23,6 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
 
     private lateinit var mediaGalleryAdapter: MediaGalleryAdapter
 
-    private var listener: MediaGalleryFragmentListener? = null
-
-    companion object {
-        fun newInstance() =
-            MediaGalleryFragment()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -58,7 +51,7 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
                 mediaGalleryAdapter.filterQueryProvider = FilterQueryProvider { filter ->
                     viewModel.getCurrentMediaCursor(filter.toString())
                 }
-                listener?.setToolbarSpinner()
+                mediaGalleryAdapter.filter.filter(null)
             }
         )
 
@@ -70,6 +63,15 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
             }
         )
 
+        viewModel.getSelectedAlbumSpinnerName().observe(
+            activity,
+            Observer { bucketDisplayName ->
+                if (this::mediaGalleryAdapter.isInitialized) {
+                    mediaGalleryAdapter.filter.filter(bucketDisplayName)
+                }
+            }
+        )
+
         viewModel.fetchCursor()
     }
 
@@ -78,23 +80,10 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
         super.onDestroyView()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        listener = null
-    }
-
     override fun onMediaCellClicked(displayModel: MediaCellDisplayModel) {
         if (displayModel.id == CAMERA_CAPTURE_ID)
-            listener?.askPermissionAndOpenCameraCapture()
+            viewModel.setAskPermissionAndOpenCameraCapture()
         else
             viewModel.setMediaChecked(displayModel)
-    }
-
-    fun setSelectedSpinnerName(bucketDisplayName: String?) {
-        mediaGalleryAdapter.filter.filter(bucketDisplayName)
-    }
-
-    fun setMediaGalleryFragmentListener(listener: MediaGalleryFragmentListener) {
-        this.listener = listener
     }
 }
