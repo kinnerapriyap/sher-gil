@@ -95,6 +95,17 @@ android {
 }
 ```
 
+#### Navigation safe args classpath should be added to application level build.gradle
+
+```
+buildScript {
+    ...
+    dependencies {
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.3.0"
+    }
+}
+```
+
 Ref: [Java 8 support](https://developer.android.com/studio/write/java8-support)
 
 ## Contributing
