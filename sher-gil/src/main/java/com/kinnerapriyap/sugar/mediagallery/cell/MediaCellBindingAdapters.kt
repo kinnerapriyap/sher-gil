@@ -34,6 +34,7 @@ fun ImageView.bindMediaUri(mediaUri: Uri) {
     Glide.with(context)
         .load(uri)
         .apply(requestOptions)
+        .override(layoutParams.width, layoutParams.height)
         .thumbnail(0.1f)
         .into(this@bindMediaUri)
 }
