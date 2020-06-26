@@ -1,9 +1,13 @@
 package com.kinnerapriyap.sugar.mediagallery.cell
 
 import android.net.Uri
+import android.os.Parcelable
+import androidx.annotation.Keep
 import com.kinnerapriyap.sugar.choice.MimeType
-import java.io.Serializable
+import kotlinx.android.parcel.Parcelize
 
+@Keep
+@Parcelize
 data class MediaCellDisplayModel(
     val position: Int,
     val id: Long,
@@ -12,4 +16,4 @@ data class MediaCellDisplayModel(
     val isEnabled: Boolean,
     val bucketDisplayName: String,
     val mimeType: MimeType?
-) : Serializable
+) : Parcelable
