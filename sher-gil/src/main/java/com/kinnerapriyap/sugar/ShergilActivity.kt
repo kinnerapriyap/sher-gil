@@ -98,21 +98,11 @@ internal class ShergilActivity :
         )
 
         findNavController(R.id.nav_host_fragment).addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.mediaPreviewFragment -> {
-                    binding.toolbar.isVisible = false
-                    binding.previewButton.isVisible = false
-                }
-                R.id.cameraFragment -> {
-                    binding.toolbar.isVisible = false
-                    binding.bottombar.isVisible = false
-                }
-                R.id.mediaGalleryFragment -> {
-                    binding.toolbar.isVisible = true
-                    binding.bottombar.isVisible = true
-                    binding.previewButton.isVisible = true
-                }
-            }
+            val isMediaGallery = destination.id == R.id.mediaGalleryFragment
+            val isMediaPreview = destination.id == R.id.mediaPreviewFragment
+            binding.toolbar.isVisible = isMediaGallery
+            binding.previewButton.isVisible = isMediaGallery
+            binding.bottombar.isVisible = isMediaGallery || isMediaPreview
         }
 
         askPermissionAndOpenGallery()
@@ -210,7 +200,6 @@ internal class ShergilActivity :
     }
 
     private fun openMediaGallery() {
-        viewModel.fetchCursor()
         findNavController(R.id.nav_host_fragment)
             .navigate(NavGraphDirections.actionGlobalMediaGalleryFragment())
     }
