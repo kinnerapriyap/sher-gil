@@ -67,7 +67,7 @@ internal class ShergilActivity :
         observer = ResultLauncherHandler(
             this,
             ::setReadStoragePermissionResult,
-            ::setCameraPermissionResult,
+            ::setWriteStorageAndCameraPermissionsResult,
             ::setCameraCaptureResult
         )
 
@@ -141,8 +141,8 @@ internal class ShergilActivity :
         }
     }
 
-    private fun setCameraPermissionResult(allowed: Boolean) {
-        if (allowed) {
+    private fun setWriteStorageAndCameraPermissionsResult(map: Map<String, Boolean>) {
+        if (!map.containsValue(false)) {
             openCameraCapture()
         } else {
             setResultCancelledAndFinish()
@@ -159,13 +159,16 @@ internal class ShergilActivity :
         binding.albumSpinner.onItemSelectedListener = this
     }
 
-    override fun askPermissionAndOpenCameraCapture() {
+    private fun askPermissionAndOpenCameraCapture() {
         when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(
                 this,
                 CAMERA
+            ) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                this,
+                WRITE_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED ->
-                observer.askCameraPermission()
+                observer.askWriteStorageAndCameraPermission()
             else -> {
                 openCameraCapture()
             }

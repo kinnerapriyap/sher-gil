@@ -14,7 +14,7 @@ internal class ResultLauncherImpl(
     registry: ActivityResultRegistry,
     lifecycleOwner: LifecycleOwner,
     private val setReadStoragePermissionResult: (Boolean) -> Unit,
-    private val setCameraPermissionResult: (Boolean) -> Unit,
+    private val setWriteStorageAndCameraPermissionResult: (Map<String, Boolean>) -> Unit,
     private val setCameraCaptureResult: (Boolean) -> Unit
 ) : LifecycleObserver, ResultLauncher {
 
@@ -26,12 +26,12 @@ internal class ResultLauncherImpl(
             setReadStoragePermissionResult(allowed)
         }
 
-    private val askCameraPermission: ActivityResultLauncher<String> =
+    private val askWriteStorageAndCameraPermission: ActivityResultLauncher<Array<String>> =
         registry.register(
-            REQUEST_CAMERA_PERMISSION,
-            ActivityResultContracts.RequestPermission()
-        ) { allowed ->
-            setCameraPermissionResult(allowed)
+            REQUEST_WRITE_STORAGE_AND_CAMERA_PERMISSION,
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { map ->
+            setWriteStorageAndCameraPermissionResult(map)
         }
 
     private val cameraCapture: ActivityResultLauncher<Uri> =
@@ -44,7 +44,8 @@ internal class ResultLauncherImpl(
 
     companion object {
         private const val REQUEST_READ_STORAGE_PERMISSION = "request_read_storage_permission"
-        private const val REQUEST_CAMERA_PERMISSION = "request_camera_permission"
+        private const val REQUEST_WRITE_STORAGE_AND_CAMERA_PERMISSION =
+            "request_write_storage_and_camera_permission"
         private const val REQUEST_CAMERA_CAPTURE = "request_camera_capture"
     }
 
@@ -55,7 +56,7 @@ internal class ResultLauncherImpl(
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun onDestroy() {
         askReadStoragePermission.unregister()
-        askCameraPermission.unregister()
+        askWriteStorageAndCameraPermission.unregister()
         cameraCapture.unregister()
     }
 
@@ -65,9 +66,12 @@ internal class ResultLauncherImpl(
         )
     }
 
-    override fun askCameraPermission() {
-        askCameraPermission.launch(
-            Manifest.permission.CAMERA
+    override fun askWriteStorageAndCameraPermission() {
+        askWriteStorageAndCameraPermission.launch(
+            arrayOf(
+                Manifest.permission.CAMERA,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
         )
     }
 
