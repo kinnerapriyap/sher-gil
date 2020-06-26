@@ -26,7 +26,7 @@ internal class ShergilActivity :
     AdapterView.OnItemSelectedListener,
     ShergilActivityListener {
 
-    private lateinit var observer: ResultLauncherHandler
+    private var observer: ResultLauncherHandler? = null
 
     private val viewModel: ShergilViewModel by viewModels()
 
@@ -104,7 +104,10 @@ internal class ShergilActivity :
             binding.previewButton.isVisible = isMediaGallery
             binding.bottombar.isVisible = isMediaGallery || isMediaPreview
         }
+    }
 
+    override fun onResume() {
+        super.onResume()
         askPermissionAndOpenGallery()
     }
 
@@ -114,7 +117,7 @@ internal class ShergilActivity :
                 this,
                 READ_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED ->
-                observer.askReadStoragePermission()
+                observer?.askReadStoragePermission()
             else -> {
                 openMediaGallery()
             }
@@ -178,7 +181,7 @@ internal class ShergilActivity :
                 this,
                 WRITE_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED ->
-                observer.askWriteStorageAndCameraPermission()
+                observer?.askWriteStorageAndCameraPermission()
             else -> {
                 openCameraCapture()
             }
@@ -188,7 +191,7 @@ internal class ShergilActivity :
     private fun openCameraCapture() {
         viewModel.resetCameraCaptureUri()
         if (viewModel.getChoiceSpec().showDeviceCamera) {
-            observer.cameraCapture(viewModel.getCameraCaptureUri())
+            observer?.cameraCapture(viewModel.getCameraCaptureUri())
         } else {
             findNavController(R.id.nav_host_fragment)
                 .navigate(NavGraphDirections.actionGlobalCameraFragment())
@@ -218,6 +221,7 @@ internal class ShergilActivity :
     override fun onDestroy() {
         super.onDestroy()
         viewModel.closeCursor()
+        observer = null
     }
 
     override fun onApplyClicked() {
