@@ -71,7 +71,10 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
                 }
             }
         )
+    }
 
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
         viewModel.fetchCursor()
     }
 
