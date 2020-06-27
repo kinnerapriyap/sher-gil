@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".camera.CameraFragment">
 
     <data>
 
@@ -15,12 +17,11 @@
             type="com.kinnerapriyap.sugar.camera.CameraUIListener" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cameraContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/black"
-        tools:context=".camera.CameraFragment">
+        android:background="@android:color/black">
 
         <androidx.camera.view.PreviewView
             android:id="@+id/viewFinder"
@@ -95,12 +96,12 @@
             android:id="@+id/cameraCapturePreviewImage"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:contentDescription="@string/camera_capture_preview"
             android:visibility="@{isCapture ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/camera_capture_preview" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/cameraCaptureNoButton"

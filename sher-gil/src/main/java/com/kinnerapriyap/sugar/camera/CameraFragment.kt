@@ -1,5 +1,6 @@
 package com.kinnerapriyap.sugar.camera
 
+import android.app.Activity
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.media.MediaScannerConnection
@@ -27,6 +28,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.kinnerapriyap.sugar.R
+import com.kinnerapriyap.sugar.ShergilActivity
 import com.kinnerapriyap.sugar.ShergilViewModel
 import com.kinnerapriyap.sugar.databinding.FragmentCameraBinding
 import java.io.File
@@ -45,8 +47,6 @@ class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedL
 
     private var binding: FragmentCameraBinding? = null
 
-    private var listener: CameraFragmentListener? = null
-
     private val cameraFlashSpinnerAdapter by lazy {
         CameraFlashSpinnerAdapter(requireContext())
     }
@@ -58,8 +58,6 @@ class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedL
     companion object {
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
         private const val PHOTO_EXTENSION = ".jpg"
-
-        fun newInstance() = CameraFragment()
     }
 
     override fun onCreateView(
@@ -73,7 +71,6 @@ class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedL
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        listener?.hideBars()
         outputDirectory = getOutputDirectory(activity ?: return)
 
         binding?.isCapture = true
@@ -97,7 +94,7 @@ class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedL
     }
 
     override fun onGalleryButtonClicked() {
-        listener?.openMediaGallery()
+        (requireActivity() as? ShergilActivity)?.askPermissionAndOpenGallery()
     }
 
     override fun onCameraCaptureButtonClicked() = takePhoto()
@@ -112,7 +109,7 @@ class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedL
     }
 
     override fun onCameraCaptureYesClicked() {
-        listener?.onCameraCaptureYesClicked()
+        (requireActivity() as? ShergilActivity)?.askPermissionAndOpenGallery()
     }
 
     override fun onCameraCaptureNoClicked() {
@@ -169,7 +166,10 @@ class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedL
                 )
         } catch (e: Exception) {
             val msg = "Use case binding failed" + e.message
-            listener?.setResultCancelledAndFinish()
+            activity?.let {
+                it.setResult(Activity.RESULT_CANCELED)
+                it.finish()
+            }
         }
     }
 
@@ -232,17 +232,7 @@ class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedL
 
     override fun onDestroyView() {
         binding = null
-        listener?.showBars()
         super.onDestroyView()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        listener = null
-    }
-
-    fun setCameraFragmentListener(listener: CameraFragmentListener) {
-        this.listener = listener
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) = Unit

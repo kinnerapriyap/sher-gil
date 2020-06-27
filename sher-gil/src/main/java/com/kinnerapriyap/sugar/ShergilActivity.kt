@@ -2,6 +2,7 @@ package com.kinnerapriyap.sugar
 
 import android.Manifest.permission.CAMERA
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -15,28 +16,19 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
-import com.kinnerapriyap.sugar.camera.CameraFragment
-import com.kinnerapriyap.sugar.camera.CameraFragmentListener
+import androidx.navigation.findNavController
 import com.kinnerapriyap.sugar.databinding.ActivityShergilBinding
-import com.kinnerapriyap.sugar.mediagallery.MediaGalleryFragment
-import com.kinnerapriyap.sugar.mediagallery.MediaGalleryFragmentListener
 import com.kinnerapriyap.sugar.mediagallery.album.MediaGalleryAlbumCursorAdapter
-import com.kinnerapriyap.sugar.mediapreview.MediaPreviewFragment
-import com.kinnerapriyap.sugar.mediapreview.MediaPreviewFragmentListener
 import com.kinnerapriyap.sugar.resultlauncher.ResultLauncherHandler
 import java.util.ArrayList
 
 internal class ShergilActivity :
     AppCompatActivity(),
     AdapterView.OnItemSelectedListener,
-    MediaGalleryFragmentListener,
-    MediaPreviewFragmentListener,
-    CameraFragmentListener,
     ShergilActivityListener {
 
-    private lateinit var observer: ResultLauncherHandler
+    private var observer: ResultLauncherHandler? = null
 
     private val viewModel: ShergilViewModel by viewModels()
 
@@ -46,9 +38,6 @@ internal class ShergilActivity :
 
     companion object {
         const val RESULT_URIS = "resultUris"
-        private const val MEDIA_GALLERY_FRAGMENT_TAG = "mediaGalleryFragmentTag"
-        private const val MEDIA_PREVIEW_FRAGMENT_TAG = "mediaPreviewFragmentTag"
-        private const val CAMERA_FRAGMENT_TAG = "cameraFragmentTag"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,7 +56,7 @@ internal class ShergilActivity :
         observer = ResultLauncherHandler(
             this,
             ::setReadStoragePermissionResult,
-            ::setCameraPermissionResult,
+            ::setWriteStorageAndCameraPermissionsResult,
             ::setCameraCaptureResult
         )
 
@@ -84,27 +73,35 @@ internal class ShergilActivity :
             }
         )
 
-        supportFragmentManager.addFragmentOnAttachListener { _, fragment ->
-            when (fragment) {
-                is MediaGalleryFragment ->
-                    fragment.setMediaGalleryFragmentListener(this)
-                is MediaPreviewFragment ->
-                    fragment.setMediaPreviewFragmentListener(this)
-                is CameraFragment ->
-                    fragment.setCameraFragmentListener(this)
+        viewModel.getCursor().observe(
+            this,
+            Observer {
+                it ?: return@Observer
+                setToolbarSpinner()
             }
-        }
+        )
 
+        findNavController(R.id.nav_host_fragment).addOnDestinationChangedListener { _, destination, _ ->
+            val isMediaGallery = destination.id == R.id.mediaGalleryFragment
+            val isMediaPreview = destination.id == R.id.mediaPreviewFragment
+            binding.toolbar.isVisible = isMediaGallery
+            binding.previewButton.isVisible = isMediaGallery
+            binding.bottombar.isVisible = isMediaGallery || isMediaPreview
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
         askPermissionAndOpenGallery()
     }
 
-    private fun askPermissionAndOpenGallery() {
+    fun askPermissionAndOpenGallery() {
         when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(
                 this,
                 READ_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED ->
-                observer.askReadStoragePermission()
+                observer?.askReadStoragePermission()
             else -> {
                 openMediaGallery()
             }
@@ -141,15 +138,15 @@ internal class ShergilActivity :
         }
     }
 
-    private fun setCameraPermissionResult(allowed: Boolean) {
-        if (allowed) {
+    private fun setWriteStorageAndCameraPermissionsResult(map: Map<String, Boolean>) {
+        if (!map.containsValue(false)) {
             openCameraCapture()
         } else {
             setResultCancelledAndFinish()
         }
     }
 
-    override fun setToolbarSpinner() {
+    private fun setToolbarSpinner() {
         mediaGalleryAlbumCursorAdapter =
             MediaGalleryAlbumCursorAdapter(this, viewModel.fetchAlbumCursor())
                 .also { adapter ->
@@ -159,13 +156,16 @@ internal class ShergilActivity :
         binding.albumSpinner.onItemSelectedListener = this
     }
 
-    override fun askPermissionAndOpenCameraCapture() {
+    fun askPermissionAndOpenCameraCapture() {
         when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(
                 this,
                 CAMERA
+            ) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                this,
+                WRITE_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED ->
-                observer.askCameraPermission()
+                observer?.askWriteStorageAndCameraPermission()
             else -> {
                 openCameraCapture()
             }
@@ -175,57 +175,37 @@ internal class ShergilActivity :
     private fun openCameraCapture() {
         viewModel.resetCameraCaptureUri()
         if (viewModel.getChoiceSpec().showDeviceCamera) {
-            observer.cameraCapture(viewModel.getCameraCaptureUri())
+            observer?.cameraCapture(viewModel.getCameraCaptureUri())
         } else {
-            supportFragmentManager.commit {
-                addToBackStack(null)
-                replace(
-                    R.id.container,
-                    CameraFragment.newInstance(),
-                    CAMERA_FRAGMENT_TAG
-                )
-            }
+            findNavController(R.id.nav_host_fragment)
+                .navigate(NavGraphDirections.actionGlobalCameraFragment())
         }
-    }
-
-    override fun onCameraCaptureYesClicked() {
-        openMediaGallery()
     }
 
     private fun setCameraCaptureResult(result: Boolean) {
         if (result) viewModel.fetchCursor()
     }
 
-    override fun openMediaGallery() {
-        supportFragmentManager.commit {
-            replace(
-                R.id.container,
-                MediaGalleryFragment.newInstance(),
-                MEDIA_GALLERY_FRAGMENT_TAG
-            )
-        }
+    private fun openMediaGallery() {
+        findNavController(R.id.nav_host_fragment)
+            .navigate(NavGraphDirections.actionGlobalMediaGalleryFragment())
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
-        setSelectedSpinnerName(null)
+        viewModel.setSelectedAlbumSpinnerName(null)
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         val cursor = mediaGalleryAlbumCursorAdapter.getItem(position) as? Cursor
         val bucketDisplayName =
             mediaGalleryAlbumCursorAdapter.convertToString(cursor).toString()
-        setSelectedSpinnerName(bucketDisplayName)
-    }
-
-    private fun setSelectedSpinnerName(bucketDisplayName: String?) {
-        val mediaGalleryFragment: MediaGalleryFragment? =
-            supportFragmentManager.findFragmentByTag(MEDIA_GALLERY_FRAGMENT_TAG) as? MediaGalleryFragment
-        mediaGalleryFragment?.setSelectedSpinnerName(bucketDisplayName)
+        viewModel.setSelectedAlbumSpinnerName(bucketDisplayName)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         viewModel.closeCursor()
+        observer = null
     }
 
     override fun onApplyClicked() {
@@ -233,37 +213,14 @@ internal class ShergilActivity :
     }
 
     override fun onPreviewClicked() {
-        supportFragmentManager.commit {
-            addToBackStack(null)
-            replace(
-                R.id.container,
-                MediaPreviewFragment.newInstance(viewModel.getSelectedMediaCellDisplayModels()),
-                MEDIA_PREVIEW_FRAGMENT_TAG
+        val action =
+            NavGraphDirections.actionGlobalMediaPreviewFragment(
+                viewModel.getSelectedMediaCellDisplayModels().toTypedArray()
             )
-        }
+        findNavController(R.id.nav_host_fragment).navigate(action)
     }
 
-    override fun hideSpinnerAndPreviewButton() {
-        binding.toolbar.isVisible = false
-        binding.previewButton.isVisible = false
-    }
-
-    override fun showSpinnerAndPreviewButton() {
-        binding.toolbar.isVisible = true
-        binding.previewButton.isVisible = true
-    }
-
-    override fun hideBars() {
-        binding.toolbar.isVisible = false
-        binding.bottombar.isVisible = false
-    }
-
-    override fun showBars() {
-        binding.toolbar.isVisible = true
-        binding.bottombar.isVisible = true
-    }
-
-    override fun setResultCancelledAndFinish() {
+    private fun setResultCancelledAndFinish() {
         setResult(Activity.RESULT_CANCELED)
         finish()
     }

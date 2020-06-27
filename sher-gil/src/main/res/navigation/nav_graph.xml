@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mediaGalleryFragment">
+
+    <action
+        android:id="@+id/action_pop_out_of_shergil"
+        app:popUpTo="@id/nav_graph"
+        app:popUpToInclusive="true" />
+
+    <action
+        android:id="@+id/action_global_mediaGalleryFragment"
+        app:destination="@id/mediaGalleryFragment"
+        app:launchSingleTop="true"
+        app:popUpTo="@id/mediaGalleryFragment"
+        app:popUpToInclusive="true" />
+
+    <action
+        android:id="@+id/action_global_mediaPreviewFragment"
+        app:destination="@id/mediaPreviewFragment" />
+
+    <action
+        android:id="@+id/action_global_cameraFragment"
+        app:destination="@id/cameraFragment"
+        app:launchSingleTop="true"
+        app:popUpTo="@id/cameraFragment"
+        app:popUpToInclusive="true" />
+
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="com.kinnerapriyap.sugar.camera.CameraFragment"
+        android:label="fragment_camera"
+        tools:layout="@layout/fragment_camera" />
+
+    <fragment
+        android:id="@+id/mediaGalleryFragment"
+        android:name="com.kinnerapriyap.sugar.mediagallery.MediaGalleryFragment"
+        android:label="fragment_media_gallery"
+        tools:layout="@layout/fragment_media_gallery" />
+
+    <fragment
+        android:id="@+id/mediaPreviewFragment"
+        android:name="com.kinnerapriyap.sugar.mediapreview.MediaPreviewFragment"
+        android:label="fragment_media_preview"
+        tools:layout="@layout/fragment_media_preview">
+        <argument
+            android:name="selectedMedia"
+            app:argType="com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel[]" />
+    </fragment>
+</navigation>

@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.kinnerapriyap.sugar.R
+import com.kinnerapriyap.sugar.ShergilActivity
 import com.kinnerapriyap.sugar.ShergilViewModel
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler.Companion.CAMERA_CAPTURE_ID
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
@@ -22,13 +23,6 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
     private val viewModel: ShergilViewModel by activityViewModels()
 
     private lateinit var mediaGalleryAdapter: MediaGalleryAdapter
-
-    private var listener: MediaGalleryFragmentListener? = null
-
-    companion object {
-        fun newInstance() =
-            MediaGalleryFragment()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,7 +38,7 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
             GridLayoutManager(activity, viewModel.getChoiceSpec().numOfColumns)
 
         viewModel.getCursor().observe(
-            activity,
+            viewLifecycleOwner,
             Observer {
                 it ?: return@Observer
                 mediaGalleryAdapter = MediaGalleryAdapter(
@@ -58,18 +52,30 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
                 mediaGalleryAdapter.filterQueryProvider = FilterQueryProvider { filter ->
                     viewModel.getCurrentMediaCursor(filter.toString())
                 }
-                listener?.setToolbarSpinner()
+                mediaGalleryAdapter.filter.filter(null)
             }
         )
 
         viewModel.getMediaCellUpdateModel().observe(
-            activity,
+            viewLifecycleOwner,
             Observer { updateModel ->
                 if (updateModel.positions.first == -1) return@Observer
                 mediaGalleryAdapter.mediaCellUpdateModel = updateModel
             }
         )
 
+        viewModel.getSelectedAlbumSpinnerName().observe(
+            viewLifecycleOwner,
+            Observer { bucketDisplayName ->
+                if (this::mediaGalleryAdapter.isInitialized) {
+                    mediaGalleryAdapter.filter.filter(bucketDisplayName)
+                }
+            }
+        )
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
         viewModel.fetchCursor()
     }
 
@@ -78,23 +84,10 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
         super.onDestroyView()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        listener = null
-    }
-
     override fun onMediaCellClicked(displayModel: MediaCellDisplayModel) {
         if (displayModel.id == CAMERA_CAPTURE_ID)
-            listener?.askPermissionAndOpenCameraCapture()
+        (requireActivity() as? ShergilActivity)?.askPermissionAndOpenCameraCapture()
         else
             viewModel.setMediaChecked(displayModel)
-    }
-
-    fun setSelectedSpinnerName(bucketDisplayName: String?) {
-        mediaGalleryAdapter.filter.filter(bucketDisplayName)
-    }
-
-    fun setMediaGalleryFragmentListener(listener: MediaGalleryFragmentListener) {
-        this.listener = listener
     }
 }

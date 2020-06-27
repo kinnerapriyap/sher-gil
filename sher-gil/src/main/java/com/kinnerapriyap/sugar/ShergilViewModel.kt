@@ -27,6 +27,10 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
         MutableLiveData<MutableList<MediaCellDisplayModel>>().apply { value = mutableListOf() }
     }
 
+    private val selectedAlbumSpinnerName by lazy {
+        MutableLiveData<String?>().apply { value = null }
+    }
+
     private var updatedMediaCellPositions: Pair<Int, Int> = Pair(-1, -1)
 
     private var cursor: MutableLiveData<Cursor?> = MutableLiveData<Cursor?>()
@@ -116,5 +120,12 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
 
     fun closeCursor() {
         cursor.value?.close()
+    }
+
+    fun getSelectedAlbumSpinnerName(): LiveData<String?> =
+        selectedAlbumSpinnerName
+
+    fun setSelectedAlbumSpinnerName(bucketDisplayName: String?) {
+        selectedAlbumSpinnerName.value = bucketDisplayName
     }
 }

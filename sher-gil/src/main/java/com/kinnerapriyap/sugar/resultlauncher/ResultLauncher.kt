@@ -4,6 +4,6 @@ import android.net.Uri
 
 interface ResultLauncher {
     fun askReadStoragePermission()
-    fun askCameraPermission()
+    fun askWriteStorageAndCameraPermission()
     fun cameraCapture(uri: Uri?)
 }
