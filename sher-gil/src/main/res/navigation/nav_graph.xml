@@ -13,7 +13,9 @@
     <action
         android:id="@+id/action_global_mediaGalleryFragment"
         app:destination="@id/mediaGalleryFragment"
-        app:launchSingleTop="true" />
+        app:launchSingleTop="true"
+        app:popUpTo="@id/mediaGalleryFragment"
+        app:popUpToInclusive="true" />
 
     <action
         android:id="@+id/action_global_mediaPreviewFragment"
@@ -22,7 +24,9 @@
     <action
         android:id="@+id/action_global_cameraFragment"
         app:destination="@id/cameraFragment"
-        app:launchSingleTop="true" />
+        app:launchSingleTop="true"
+        app:popUpTo="@id/cameraFragment"
+        app:popUpToInclusive="true" />
 
     <fragment
         android:id="@+id/cameraFragment"
