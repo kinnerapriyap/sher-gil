@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.kinnerapriyap.sugar.R
+import com.kinnerapriyap.sugar.ShergilActivity
 import com.kinnerapriyap.sugar.ShergilViewModel
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler.Companion.CAMERA_CAPTURE_ID
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
@@ -37,7 +38,7 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
             GridLayoutManager(activity, viewModel.getChoiceSpec().numOfColumns)
 
         viewModel.getCursor().observe(
-            activity,
+            viewLifecycleOwner,
             Observer {
                 it ?: return@Observer
                 mediaGalleryAdapter = MediaGalleryAdapter(
@@ -56,7 +57,7 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
         )
 
         viewModel.getMediaCellUpdateModel().observe(
-            activity,
+            viewLifecycleOwner,
             Observer { updateModel ->
                 if (updateModel.positions.first == -1) return@Observer
                 mediaGalleryAdapter.mediaCellUpdateModel = updateModel
@@ -64,7 +65,7 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
         )
 
         viewModel.getSelectedAlbumSpinnerName().observe(
-            activity,
+            viewLifecycleOwner,
             Observer { bucketDisplayName ->
                 if (this::mediaGalleryAdapter.isInitialized) {
                     mediaGalleryAdapter.filter.filter(bucketDisplayName)
@@ -85,7 +86,7 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
 
     override fun onMediaCellClicked(displayModel: MediaCellDisplayModel) {
         if (displayModel.id == CAMERA_CAPTURE_ID)
-            viewModel.setAskPermissionAndOpenCameraCapture()
+            (requireActivity() as? ShergilActivity)?.askPermissionAndOpenCameraCapture()
         else
             viewModel.setMediaChecked(displayModel)
     }

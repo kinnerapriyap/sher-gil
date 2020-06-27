@@ -79,24 +79,6 @@ internal class ShergilActivity :
             }
         )
 
-        viewModel.getAskPermissionAndOpenCameraCapture().observe(
-            this,
-            Observer {
-                it.getContentIfNotHandled()?.let {
-                    askPermissionAndOpenCameraCapture()
-                }
-            }
-        )
-
-        viewModel.getAskPermissionAndOpenMediaGallery().observe(
-            this,
-            Observer {
-                it.getContentIfNotHandled()?.let {
-                    askPermissionAndOpenGallery()
-                }
-            }
-        )
-
         findNavController(R.id.nav_host_fragment).addOnDestinationChangedListener { _, destination, _ ->
             val isMediaGallery = destination.id == R.id.mediaGalleryFragment
             val isMediaPreview = destination.id == R.id.mediaPreviewFragment
@@ -111,7 +93,7 @@ internal class ShergilActivity :
         askPermissionAndOpenGallery()
     }
 
-    private fun askPermissionAndOpenGallery() {
+    fun askPermissionAndOpenGallery() {
         when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(
                 this,
@@ -172,7 +154,7 @@ internal class ShergilActivity :
         binding.albumSpinner.onItemSelectedListener = this
     }
 
-    private fun askPermissionAndOpenCameraCapture() {
+    fun askPermissionAndOpenCameraCapture() {
         when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(
                 this,

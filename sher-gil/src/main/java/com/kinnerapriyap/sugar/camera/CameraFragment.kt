@@ -24,6 +24,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.kinnerapriyap.sugar.R
+import com.kinnerapriyap.sugar.ShergilActivity
 import com.kinnerapriyap.sugar.ShergilViewModel
 import com.kinnerapriyap.sugar.databinding.FragmentCameraBinding
 import java.io.File
@@ -88,8 +89,9 @@ class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedL
         binding?.flashButtonSpinner?.adapter = cameraFlashSpinnerAdapter
     }
 
-    override fun onGalleryButtonClicked() =
-        viewModel.setAskPermissionAndOpenMediaGallery()
+    override fun onGalleryButtonClicked() {
+        (requireActivity() as? ShergilActivity)?.askPermissionAndOpenGallery()
+    }
 
     override fun onCameraCaptureButtonClicked() = takePhoto()
 
@@ -102,8 +104,9 @@ class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedL
         bindCameraUseCases()
     }
 
-    override fun onCameraCaptureYesClicked() =
-        viewModel.setAskPermissionAndOpenMediaGallery()
+    override fun onCameraCaptureYesClicked() {
+        (requireActivity() as? ShergilActivity)?.askPermissionAndOpenGallery()
+    }
 
     override fun onCameraCaptureNoClicked() {
         binding?.isCapture = true
