@@ -12,7 +12,6 @@ import com.kinnerapriyap.sugar.R
 import com.kinnerapriyap.sugar.ShergilViewModel
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
 import kotlinx.android.synthetic.main.fragment_media_preview.*
-import java.io.Serializable
 
 class MediaPreviewFragment : Fragment(), MediaObjectPreviewListener {
 

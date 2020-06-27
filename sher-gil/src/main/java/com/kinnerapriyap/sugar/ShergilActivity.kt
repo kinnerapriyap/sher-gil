@@ -1,6 +1,8 @@
 package com.kinnerapriyap.sugar
 
-import android.Manifest.permission.*
+import android.Manifest.permission.CAMERA
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
