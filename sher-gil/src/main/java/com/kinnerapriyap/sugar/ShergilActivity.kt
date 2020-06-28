@@ -173,8 +173,8 @@ internal class ShergilActivity :
     }
 
     private fun openCameraCapture() {
-        viewModel.resetCameraCaptureUri()
         if (viewModel.getChoiceSpec().showDeviceCamera) {
+            viewModel.resetCameraCaptureUri()
             observer?.cameraCapture(viewModel.getCameraCaptureUri())
         } else {
             findNavController(R.id.nav_host_fragment)
@@ -182,9 +182,7 @@ internal class ShergilActivity :
         }
     }
 
-    private fun setCameraCaptureResult(result: Boolean) {
-        if (result) viewModel.fetchCursor()
-    }
+    private fun setCameraCaptureResult(result: Boolean) = Unit
 
     private fun openMediaGallery() {
         findNavController(R.id.nav_host_fragment)

@@ -207,7 +207,6 @@ class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedL
                         arrayOf(mimeType)
                     ) { _, uri ->
                         binding?.isCapture = false
-                        viewModel.setCameraCaptureUri(uri)
                         binding?.cameraCapturePreviewImage?.setImageURI(uri)
                     }
                 }
