@@ -154,6 +154,7 @@ internal class ShergilActivity :
                 }
         binding.albumSpinner.adapter = mediaGalleryAlbumCursorAdapter
         binding.albumSpinner.onItemSelectedListener = this
+        binding.albumSpinner.setSelection(0)
     }
 
     fun askPermissionAndOpenCameraCapture() {
