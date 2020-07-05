@@ -123,6 +123,18 @@ class ChoiceBuilder private constructor(
         }
 
     /**
+     * Determines whether or not to show camera first when allowCamera is true
+     * If showCameraFirst or allowCamera are false, gallery is opened first
+     *
+     * @param showCameraFirst Boolean default is false
+     * @return [ChoiceBuilder] instance
+     */
+    fun showCameraFirst(showCameraFirst: Boolean): ChoiceBuilder =
+        apply {
+            choiceSpec.showCameraFirst = showCameraFirst
+        }
+
+    /**
      * Opens media selection with the requestCode provided
      *
      * @param requestCode Request code to be returned in onActivityResult

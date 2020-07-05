@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
                 .maxSelectable(3)
                 .allowCamera(true)
                 .showDeviceCamera(false)
+                .showCameraFirst(false)
                 .withRequestCode(REQUEST_SHERGIL)
         }
     }
