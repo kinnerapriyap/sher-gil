@@ -92,7 +92,11 @@ internal class ShergilActivity :
 
     override fun onResume() {
         super.onResume()
-        askPermissionAndOpenGallery()
+        if (viewModel.getChoiceSpec().showCameraFirst) {
+            askPermissionAndOpenCameraCapture()
+        } else {
+            askPermissionAndOpenGallery()
+        }
     }
 
     fun askPermissionAndOpenGallery() {
