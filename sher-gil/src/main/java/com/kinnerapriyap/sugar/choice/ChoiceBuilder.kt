@@ -111,8 +111,8 @@ class ChoiceBuilder private constructor(
         }
 
     /**
-     * Determines whether or not to show the device camera
-     * If false, library implementation of camera is shown
+     * Determines whether or not to show the device camera when allowCamera is true
+     * If showDeviceCamera is false, library implementation of camera is shown
      *
      * @param showDeviceCamera Boolean default is false
      * @return [ChoiceBuilder] instance
