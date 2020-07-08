@@ -1,9 +1,5 @@
 name: Upload to Bintray workflow
 
-on:
-  release:
-    types: [published]
-
 jobs:
   upload:
     runs-on: ubuntu-latest
