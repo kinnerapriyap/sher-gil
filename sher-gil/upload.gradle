@@ -11,6 +11,7 @@ ext {
     desc = 'Media picker library in kotlin for Android'
 
     githubUrl = 'https://github.com/kinnerapriyap/sher-gil'
+    issueTrackerUrl = 'https://github.com/kinnerapriyap/sher-gil/issues'
     gitUrl = 'https://github.com/kinnerapriyap/sher-gil.git'
 
     developerName = 'Kinnera Priya'
@@ -85,18 +86,19 @@ bintray {
     user = System.getenv('BINTRAY_USER')
     key = System.getenv('BINTRAY_API_KEY')
     configurations = ['archives']
+    publish = true
     pkg {
         repo = bintrayRepo
         name = repoName
+        desc = desc
         userOrg = user
         licenses = ['Apache-2.0']
         vcsUrl = gitUrl
         websiteUrl = githubUrl
+        issueTrackerUrl = issueTrackerUrl
 
         githubRepo = 'kinnerapriyap/sher-gil'
         githubReleaseNotesFile = 'README.md'
-
-        publish = true
 
         version {
             name = libVersion
