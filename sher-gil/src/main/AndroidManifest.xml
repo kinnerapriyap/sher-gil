@@ -14,9 +14,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application>
-        <activity
-            android:name=".ShergilActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name=".ShergilActivity" />
     </application>
 
 </manifest>

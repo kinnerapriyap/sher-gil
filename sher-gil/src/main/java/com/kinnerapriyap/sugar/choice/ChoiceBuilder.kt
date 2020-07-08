@@ -2,6 +2,7 @@ package com.kinnerapriyap.sugar.choice
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import androidx.fragment.app.Fragment
 import com.kinnerapriyap.sugar.R
 import com.kinnerapriyap.sugar.ShergilActivity
@@ -132,6 +133,17 @@ class ChoiceBuilder private constructor(
     fun showCameraFirst(showCameraFirst: Boolean): ChoiceBuilder =
         apply {
             choiceSpec.showCameraFirst = showCameraFirst
+        }
+
+    /**
+     * Sets or restricts orientation
+     *
+     * @param orientation Int default is [ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED]
+     * @return [ChoiceBuilder] instance
+     */
+    fun orientation(orientation: Int): ChoiceBuilder =
+        apply {
+            choiceSpec.orientation = orientation
         }
 
     /**

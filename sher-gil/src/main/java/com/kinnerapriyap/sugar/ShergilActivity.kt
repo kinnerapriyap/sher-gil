@@ -53,6 +53,8 @@ internal class ShergilActivity :
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
+        requestedOrientation = viewModel.getChoiceSpec().orientation
+
         observer = ResultLauncherHandler(
             this,
             ::setReadStoragePermissionResult,

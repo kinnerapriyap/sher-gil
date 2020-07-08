@@ -1,5 +1,6 @@
 package com.kinnerapriyap.sugar.choice
 
+import android.content.pm.ActivityInfo
 import com.kinnerapriyap.sugar.R
 
 class ChoiceSpec private constructor() {
@@ -13,6 +14,7 @@ class ChoiceSpec private constructor() {
     var allowCamera: Boolean = true
     var showDeviceCamera: Boolean = false
     var showCameraFirst: Boolean = false
+    var orientation: Int = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
 
     private object InstanceHolder {
         val INSTANCE = ChoiceSpec()
@@ -41,5 +43,6 @@ class ChoiceSpec private constructor() {
         allowCamera = true
         showDeviceCamera = false
         showCameraFirst = false
+        orientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
     }
 }
