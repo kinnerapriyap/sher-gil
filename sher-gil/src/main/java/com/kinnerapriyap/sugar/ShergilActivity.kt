@@ -143,7 +143,9 @@ internal class ShergilActivity :
     }
 
     private fun setWriteStorageAndCameraPermissionsResult(map: Map<String, Boolean>) {
-        if (!map.containsValue(false)) {
+        if (map[CAMERA] == true &&
+            (Build.VERSION.SDK_INT > Build.VERSION_CODES.P || map[WRITE_EXTERNAL_STORAGE] == true)
+        ) {
             openCameraCapture()
         } else {
             setResultCancelledAndFinish()
