@@ -211,7 +211,6 @@ internal class ShergilActivity :
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.closeCursor()
         observer = null
     }
 
