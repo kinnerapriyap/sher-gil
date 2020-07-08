@@ -17,6 +17,7 @@ ext {
     developerName = 'Kinnera Priya'
 
     libVersion = System.getenv('LIBRARY_VERSION')
+    libDesc = System.getenv('LIBRARY_VERSION_DESC')
 }
 
 group = publishedGroupId
@@ -102,6 +103,7 @@ bintray {
 
         version {
             name = libVersion
+            desc = libDesc
             released = new Date()
             vcsTag = libVersion
         }
