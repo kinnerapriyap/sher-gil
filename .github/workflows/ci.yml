@@ -15,4 +15,4 @@ jobs:
 
       - name: Get release version description
         id: get_version_desc
-        run: echo ${GITHUB_REF/refs\/releases\/}
+        run: echo ${ github.event.release }
