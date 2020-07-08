@@ -15,4 +15,4 @@ jobs:
 
       - name: Get release version description
         id: get_version_desc
-        run: echo ::set-output name=VERSION_DESC::${GITHUB_REF/refs\/releases\/}
+        run: echo ${GITHUB_REF/refs\/releases\/}
