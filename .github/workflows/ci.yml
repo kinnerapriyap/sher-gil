@@ -13,18 +13,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: actions/setup-java@v1
-        with:
-          java-version: 1.8
+      - name: Get release version description
+        id: get_version_desc
+        run: echo ::set-output name=VERSION_DESC::${GITHUB_REF/refs\/tags\/}
 
-      - name: Run ktlint
-        uses: ScaCap/action-ktlint@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-review
-
-      - name: Run Android Linter
-        run: ./gradlew lint
-
-      - name: Run Unit Tests
-        run: ./gradlew test
+          - name: Get release version description
+            id: get_version_desc
+            run: echo ::set-output name=VERSION_DESC::${GITHUB_REF/refs\/releases\/}
