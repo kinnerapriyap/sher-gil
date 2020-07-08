@@ -1,8 +1,10 @@
 name: CI workflow
 
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
   ci:
@@ -13,4 +15,4 @@ jobs:
 
       - name: Get release version description
         id: get_version_desc
-        run: echo ${ github.event.release.body }
+        run: echo ${ github.ref }
