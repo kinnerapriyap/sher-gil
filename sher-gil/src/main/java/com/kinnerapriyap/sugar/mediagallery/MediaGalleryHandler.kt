@@ -13,7 +13,7 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
     /**
      *  In API 29, BUCKET_DISPLAY_NAME was moved to MediaStore.MediaColumns
      *  from MediaStore.Images.ImageColumns (which implements the former)
-     *  However, the actual value of BUCKET_DISPLAY_NAME remains the sameA
+     *  However, the actual value of BUCKET_DISPLAY_NAME remains the same
      */
 
     companion object {

@@ -111,8 +111,8 @@ class ChoiceBuilder private constructor(
         }
 
     /**
-     * Determines whether or not to show the device camera
-     * If false, library implementation of camera is shown
+     * Determines whether or not to show the device camera when allowCamera is true
+     * If showDeviceCamera is false, library implementation of camera is shown
      *
      * @param showDeviceCamera Boolean default is false
      * @return [ChoiceBuilder] instance
@@ -120,6 +120,18 @@ class ChoiceBuilder private constructor(
     fun showDeviceCamera(showDeviceCamera: Boolean): ChoiceBuilder =
         apply {
             choiceSpec.showDeviceCamera = showDeviceCamera
+        }
+
+    /**
+     * Determines whether or not to show camera first when allowCamera is true
+     * If showCameraFirst or allowCamera are false, gallery is opened first
+     *
+     * @param showCameraFirst Boolean default is false
+     * @return [ChoiceBuilder] instance
+     */
+    fun showCameraFirst(showCameraFirst: Boolean): ChoiceBuilder =
+        apply {
+            choiceSpec.showCameraFirst = showCameraFirst
         }
 
     /**

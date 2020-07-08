@@ -47,10 +47,6 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
 
     private var cameraCaptureUri: Uri? = null
 
-    fun setCameraCaptureUri(uri: Uri) {
-        cameraCaptureUri = uri
-    }
-
     fun getCameraCaptureUri() = cameraCaptureUri
 
     fun resetCameraCaptureUri() {

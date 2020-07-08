@@ -92,7 +92,11 @@ internal class ShergilActivity :
 
     override fun onResume() {
         super.onResume()
-        askPermissionAndOpenGallery()
+        if (viewModel.getChoiceSpec().showCameraFirst) {
+            askPermissionAndOpenCameraCapture()
+        } else {
+            askPermissionAndOpenGallery()
+        }
     }
 
     fun askPermissionAndOpenGallery() {
@@ -139,7 +143,9 @@ internal class ShergilActivity :
     }
 
     private fun setWriteStorageAndCameraPermissionsResult(map: Map<String, Boolean>) {
-        if (!map.containsValue(false)) {
+        if (map[CAMERA] == true &&
+            (Build.VERSION.SDK_INT > Build.VERSION_CODES.P || map[WRITE_EXTERNAL_STORAGE] == true)
+        ) {
             openCameraCapture()
         } else {
             setResultCancelledAndFinish()
@@ -154,6 +160,7 @@ internal class ShergilActivity :
                 }
         binding.albumSpinner.adapter = mediaGalleryAlbumCursorAdapter
         binding.albumSpinner.onItemSelectedListener = this
+        binding.albumSpinner.setSelection(0)
     }
 
     fun askPermissionAndOpenCameraCapture() {
@@ -173,8 +180,8 @@ internal class ShergilActivity :
     }
 
     private fun openCameraCapture() {
-        viewModel.resetCameraCaptureUri()
         if (viewModel.getChoiceSpec().showDeviceCamera) {
+            viewModel.resetCameraCaptureUri()
             observer?.cameraCapture(viewModel.getCameraCaptureUri())
         } else {
             findNavController(R.id.nav_host_fragment)
@@ -182,9 +189,7 @@ internal class ShergilActivity :
         }
     }
 
-    private fun setCameraCaptureResult(result: Boolean) {
-        if (result) viewModel.fetchCursor()
-    }
+    private fun setCameraCaptureResult(result: Boolean) = Unit
 
     private fun openMediaGallery() {
         findNavController(R.id.nav_host_fragment)

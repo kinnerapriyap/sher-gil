@@ -12,6 +12,7 @@ class ChoiceSpec private constructor() {
     var maxSelectable: Int = Integer.MAX_VALUE
     var allowCamera: Boolean = true
     var showDeviceCamera: Boolean = false
+    var showCameraFirst: Boolean = false
 
     private object InstanceHolder {
         val INSTANCE = ChoiceSpec()
@@ -39,5 +40,6 @@ class ChoiceSpec private constructor() {
         maxSelectable = Integer.MAX_VALUE
         allowCamera = true
         showDeviceCamera = false
+        showCameraFirst = false
     }
 }

@@ -26,16 +26,12 @@ import androidx.core.net.toFile
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import com.kinnerapriyap.sugar.R
 import com.kinnerapriyap.sugar.ShergilActivity
-import com.kinnerapriyap.sugar.ShergilViewModel
 import com.kinnerapriyap.sugar.databinding.FragmentCameraBinding
 import java.io.File
 
 class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedListener {
-
-    private val viewModel: ShergilViewModel by activityViewModels()
 
     private var imageCapture: ImageCapture? = null
 
@@ -207,7 +203,6 @@ class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedL
                         arrayOf(mimeType)
                     ) { _, uri ->
                         binding?.isCapture = false
-                        viewModel.setCameraCaptureUri(uri)
                         binding?.cameraCapturePreviewImage?.setImageURI(uri)
                     }
                 }
