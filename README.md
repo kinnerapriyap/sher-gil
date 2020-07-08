@@ -45,6 +45,7 @@ Shergil.create(this)
     .allowCamera(true)
     .showDeviceCamera(false)
     .showCameraFirst(false)
+    .orientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
     .withRequestCode(REQUEST_SHERGIL)
 ```
 

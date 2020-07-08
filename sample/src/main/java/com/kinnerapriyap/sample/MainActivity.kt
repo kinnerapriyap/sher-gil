@@ -2,6 +2,7 @@ package com.kinnerapriyap.sample
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity() {
                 .allowCamera(true)
                 .showDeviceCamera(false)
                 .showCameraFirst(false)
+                .orientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
                 .withRequestCode(REQUEST_SHERGIL)
         }
     }
