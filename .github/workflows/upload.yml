@@ -27,4 +27,5 @@ jobs:
         BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
         BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
         LIBRARY_VERSION: ${{ steps.get_version.outputs.VERSION }}
+        LIBRARY_VERSION_DESC: ${{ toJson(github.event.release.body) }}
       run: ./gradlew clean install bintrayUpload --stacktrace
