@@ -13,6 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Get release version description
-        id: get_version_desc
-        run: echo ${ github.ref }
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
