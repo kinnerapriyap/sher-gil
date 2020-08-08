@@ -84,6 +84,7 @@ android {
     }
 }
 ```
+Note: If your project uses incremental annotation processing, add `android.databinding.incremental=true` to gradle.properties
 
 #### compileOptions should be applied in the `build.gradle` android closure
 
