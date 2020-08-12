@@ -8,6 +8,7 @@ package com.kinnerapriyap.sugar.choice
 enum class MimeType(val value: String) {
     // Images
     JPEG("image/jpeg"),
+    JPG("image/jpg"),
     GIF("image/gif"),
     PNG("image/png"),
     BMP("image/x-ms-bmp"),
