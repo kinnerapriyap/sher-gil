@@ -1,5 +1,4 @@
 <resources>
-    <string name="shergil">shergil</string>
     <string name="apply">Apply</string>
     <string name="preview">Preview</string>
     <string name="max_selectable_error">You can only select up to %d media files</string>
