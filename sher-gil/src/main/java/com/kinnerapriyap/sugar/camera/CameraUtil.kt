@@ -26,3 +26,11 @@ fun ProcessCameraProvider?.hasBackCamera(): Boolean =
  */
 fun ProcessCameraProvider?.hasFrontCamera(): Boolean =
     this?.hasCamera(CameraSelector.DEFAULT_FRONT_CAMERA) ?: false
+
+fun ImageProxy.toBitmap(): Bitmap {
+    val buffer = planes[0].buffer
+    buffer.rewind()
+    val bytes = ByteArray(buffer.remaining())
+    buffer.get(bytes)
+    return BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+}
