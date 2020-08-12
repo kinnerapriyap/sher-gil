@@ -3,7 +3,6 @@
 
     <!-- Requires your theme to be a descendant of Theme.MaterialComponents -->
     <style name="Shergil" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="shergil_appName">@string/shergil</item>
         <item name="android:fontFamily">sans-serif</item>
 
         <!-- CardView -->
