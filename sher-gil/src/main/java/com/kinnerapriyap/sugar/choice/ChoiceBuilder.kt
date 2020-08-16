@@ -150,7 +150,7 @@ class ChoiceBuilder private constructor(
      * Sets the maximum scale factor for zoom in preview
      * Zoom will be disabled in preview if value is set to 1f
      *
-     * @param previewMaxScaleFactor Float default is 5f
+     * @param previewMaxScaleFactor Float default is 1f
      * @return [ChoiceBuilder] instance
      */
     fun previewMaxScaleFactor(previewMaxScaleFactor: Float): ChoiceBuilder =
