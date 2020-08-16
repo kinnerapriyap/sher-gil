@@ -147,6 +147,18 @@ class ChoiceBuilder private constructor(
         }
 
     /**
+     * Sets the maximum scale factor for zoom in preview
+     * Zoom will be disabled in preview if value is set to 1f
+     *
+     * @param previewMaxScaleFactor Float default is 5f
+     * @return [ChoiceBuilder] instance
+     */
+    fun previewMaxScaleFactor(previewMaxScaleFactor: Float): ChoiceBuilder =
+        apply {
+            choiceSpec.previewMaxScaleFactor = previewMaxScaleFactor
+        }
+
+    /**
      * Opens media selection with the requestCode provided
      *
      * @param requestCode Request code to be returned in onActivityResult

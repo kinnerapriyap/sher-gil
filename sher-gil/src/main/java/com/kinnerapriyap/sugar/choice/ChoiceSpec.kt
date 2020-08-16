@@ -15,6 +15,7 @@ class ChoiceSpec private constructor() {
     var showDeviceCamera: Boolean = false
     var showCameraFirst: Boolean = false
     var orientation: Int = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+    var previewMaxScaleFactor: Float = 5f
 
     private object InstanceHolder {
         val INSTANCE = ChoiceSpec()
@@ -44,5 +45,6 @@ class ChoiceSpec private constructor() {
         showDeviceCamera = false
         showCameraFirst = false
         orientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+        previewMaxScaleFactor = 5f
     }
 }
