@@ -16,6 +16,8 @@
     <attr name="shergil_toolbarControlColor" format="color" />
     <attr name="shergil_toolbarSpinnerAlbumNameText" format="color" />
     <attr name="shergil_toolbarSpinnerAlbumCountText" format="color" />
+    <attr name="shergil_toolbarSelectedSpinnerAlbumNameText" format="color" />
+    <attr name="shergil_toolbarSelectedSpinnerAlbumCountText" format="color" />
 
     <!-- BottomBar -->
     <attr name="shergil_bottomBar" format="reference" />
