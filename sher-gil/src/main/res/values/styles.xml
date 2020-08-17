@@ -25,6 +25,8 @@
         <item name="shergil_toolbarControlColor">#000000</item>
         <item name="shergil_toolbarSpinnerAlbumNameText">#000000</item>
         <item name="shergil_toolbarSpinnerAlbumCountText">#000000</item>
+        <item name="shergil_toolbarSelectedSpinnerAlbumNameText">#ffffff</item>
+        <item name="shergil_toolbarSelectedSpinnerAlbumCountText">#ffffff</item>
 
         <!-- BottomBar -->
         <item name="shergil_bottomBar">@style/Shergil.BottomBar</item>
