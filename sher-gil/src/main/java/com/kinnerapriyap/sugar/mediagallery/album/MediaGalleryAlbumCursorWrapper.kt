@@ -20,7 +20,8 @@ class MediaGalleryAlbumCursorWrapper(
     init {
         for (i in 0 until origCount) {
             super.moveToPosition(i)
-            val name = getString(getColumnIndexOrThrow(MediaStore.MediaColumns.BUCKET_DISPLAY_NAME))
+            val name: String = getString(getColumnIndexOrThrow(MediaStore.MediaColumns.BUCKET_DISPLAY_NAME))
+                    ?: continue
             if (!addedNames.contains(name)) {
                 addedNamesCount[name] = 1
                 filterMap[fCount++] = i
@@ -118,7 +119,7 @@ class MediaGalleryAlbumCursorWrapper(
         return result.toTypedArray()
     }
 
-    override fun getString(columnIndex: Int): String {
+    override fun getString(columnIndex: Int): String? {
         if (columnIndex == origColumnCount) {
             val name = getString(getColumnIndexOrThrow(MediaStore.MediaColumns.BUCKET_DISPLAY_NAME))
             return addedNamesCount[name].toString()
