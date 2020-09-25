@@ -52,7 +52,7 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
                 mediaGalleryAdapter.filterQueryProvider = FilterQueryProvider { filter ->
                     viewModel.getCurrentMediaCursor(filter.toString())
                 }
-                mediaGalleryAdapter.filter.filter(null)
+                mediaGalleryAdapter.filter.filter("")
             }
         )
 
