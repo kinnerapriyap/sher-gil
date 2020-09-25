@@ -123,8 +123,9 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
         val cursor = cursor.value ?: return emptyList()
         cursor.moveToFirst()
         while (!cursor.isAfterLast) {
-            val name =
-                cursor.getString(cursor.getColumnIndex(MediaGalleryHandler.BUCKET_DISPLAY_NAME))
+            val bucketColumnIndex = cursor.getColumnIndex(MediaGalleryHandler.BUCKET_DISPLAY_NAME)
+            if (bucketColumnIndex == -1) break
+            val name = cursor.getString(bucketColumnIndex)
             if (!addedNamesCount.contains(name)) {
                 addedNamesCount[name] = 1
             } else {
