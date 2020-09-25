@@ -15,15 +15,26 @@ class MediaGalleryAlbumSpinnerAdapter(
     override fun getItem(position: Int): MediaGalleryAlbum? = albums[position]
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View =
-        populateView(position, convertView)
+        populateView(
+            position,
+            convertView ?: activity.layoutInflater.inflate(
+                R.layout.album_spinner_item,
+                null
+            )
+        )
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View =
-        populateView(position, convertView)
+        populateView(
+            position,
+            convertView ?: activity.layoutInflater.inflate(
+                R.layout.album_spinner_dropdown_item,
+                null
+            )
+        )
 
-    private fun populateView(position: Int, convertView: View?): View {
-        val v = convertView ?: activity.layoutInflater.inflate(R.layout.album_spinner_item, null)
-        v?.findViewById<TextView>(R.id.albumName)?.text = getItem(position)?.albumName
-        v?.findViewById<TextView>(R.id.mediaCount)?.text =
+    private fun populateView(position: Int, v: View): View {
+        v.findViewById<TextView>(R.id.albumName)?.text = getItem(position)?.albumName
+        v.findViewById<TextView>(R.id.mediaCount)?.text =
             getItem(position)?.mediaCount.toString()
         return v
     }
