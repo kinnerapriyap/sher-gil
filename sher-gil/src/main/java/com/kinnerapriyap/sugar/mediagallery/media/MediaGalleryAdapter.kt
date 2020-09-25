@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kinnerapriyap.sugar.R
 import com.kinnerapriyap.sugar.choice.MimeType
 import com.kinnerapriyap.sugar.databinding.ViewMediaCellBinding
+import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler.Companion.CAMERA_CAPTURE_ID
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellListener
@@ -62,7 +63,7 @@ class MediaGalleryAdapter(
         mediaCursor?.getColumnIndexOrThrow(MediaStore.MediaColumns._ID) ?: -1
 
     private val bucketDisplayNameColumnIndex =
-        mediaCursor?.getColumnIndex(MediaStore.MediaColumns.BUCKET_DISPLAY_NAME) ?: -1
+        mediaCursor?.getColumnIndex(MediaGalleryHandler.BUCKET_DISPLAY_NAME) ?: -1
 
     private val mimeTypeColumnIndex =
         mediaCursor?.getColumnIndex(MediaStore.MediaColumns.MIME_TYPE) ?: -1
@@ -87,7 +88,12 @@ class MediaGalleryAdapter(
      * so it is used to get the data
      */
     override fun onBindViewHolder(holder: MediaCellHolder, position: Int) {
-        if (mediaCursor?.moveToPosition(position) == false || !isDataValid) {
+        if (mediaCursor?.moveToPosition(position) == false
+            || !isDataValid
+            || idColumnIndex == -1
+            || bucketDisplayNameColumnIndex == -1
+            || mimeTypeColumnIndex == -1
+        ) {
             throw IllegalStateException("onBind $position")
         }
         val cursor = mediaCursor ?: throw IllegalStateException("invalid cursor")
