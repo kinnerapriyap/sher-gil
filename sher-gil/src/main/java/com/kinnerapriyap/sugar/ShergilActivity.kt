@@ -158,7 +158,7 @@ internal class ShergilActivity :
         mediaGalleryAlbumCursorAdapter =
             MediaGalleryAlbumCursorAdapter(this, viewModel.fetchAlbumCursor())
                 .also { adapter ->
-                    adapter.setDropDownViewResource(R.layout.album_spinner_item)
+                    adapter.setDropDownViewResource(R.layout.album_spinner_dropdown_item)
                 }
         binding.albumSpinner.adapter = mediaGalleryAlbumCursorAdapter
         binding.albumSpinner.onItemSelectedListener = this
