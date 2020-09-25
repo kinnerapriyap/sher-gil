@@ -19,7 +19,8 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.kinnerapriyap.sugar.databinding.ActivityShergilBinding
-import com.kinnerapriyap.sugar.mediagallery.album.MediaGalleryAlbumCursorAdapter
+import com.kinnerapriyap.sugar.mediagallery.album.MediaGalleryAlbumSpinnerAdapter
+import com.kinnerapriyap.sugar.mediagallery.album.toBucketDisplayName
 import com.kinnerapriyap.sugar.resultlauncher.ResultLauncherHandler
 import java.util.ArrayList
 
@@ -32,7 +33,7 @@ internal class ShergilActivity :
 
     private val viewModel: ShergilViewModel by viewModels()
 
-    private lateinit var mediaGalleryAlbumCursorAdapter: MediaGalleryAlbumCursorAdapter
+    private lateinit var mediaGalleryAlbumSpinnerAdapter: MediaGalleryAlbumSpinnerAdapter
 
     private lateinit var binding: ActivityShergilBinding
 
@@ -155,12 +156,9 @@ internal class ShergilActivity :
     }
 
     private fun setToolbarSpinner() {
-        mediaGalleryAlbumCursorAdapter =
-            MediaGalleryAlbumCursorAdapter(this, viewModel.fetchAlbumCursor())
-                .also { adapter ->
-                    adapter.setDropDownViewResource(R.layout.album_spinner_item)
-                }
-        binding.albumSpinner.adapter = mediaGalleryAlbumCursorAdapter
+        mediaGalleryAlbumSpinnerAdapter =
+            MediaGalleryAlbumSpinnerAdapter(this, viewModel.fetchAlbums())
+        binding.albumSpinner.adapter = mediaGalleryAlbumSpinnerAdapter
         binding.albumSpinner.onItemSelectedListener = this
         binding.albumSpinner.setSelection(0)
     }
@@ -203,10 +201,9 @@ internal class ShergilActivity :
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        val cursor = mediaGalleryAlbumCursorAdapter.getItem(position) as? Cursor
-        val bucketDisplayName =
-            mediaGalleryAlbumCursorAdapter.convertToString(cursor).toString()
-        viewModel.setSelectedAlbumSpinnerName(bucketDisplayName)
+        viewModel.setSelectedAlbumSpinnerName(
+            mediaGalleryAlbumSpinnerAdapter.getItem(position)?.toBucketDisplayName()
+        )
     }
 
     override fun onDestroy() {
