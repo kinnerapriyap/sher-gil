@@ -4,6 +4,7 @@ import android.content.ContentResolver
 import android.database.Cursor
 import android.database.MatrixCursor
 import android.database.MergeCursor
+import android.os.Build
 import android.provider.MediaStore
 import com.kinnerapriyap.sugar.choice.MimeType
 
@@ -38,17 +39,6 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
 
         private const val SORT_ORDER =
             "${MediaStore.MediaColumns.DATE_MODIFIED} DESC"
-    }
-
-    fun fetchAlbum(
-        cursor: Cursor?,
-        allowCamera: Boolean
-    ): Cursor? {
-        val extras = MatrixCursor(PROJECTION)
-        extras.addRow(arrayOf("-1", MimeType.IMAGES, ALL_ALBUM_BUCKET_DISPLAY_NAME))
-        val cursors =
-            arrayOf(extras, cursor)
-        return MediaGalleryAlbumCursorWrapper(MergeCursor(cursors), allowCamera)
     }
 
     fun fetchMedia(

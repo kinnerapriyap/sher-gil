@@ -11,6 +11,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.kinnerapriyap.sugar.choice.ChoiceSpec
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler
+import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler.Companion.ALL_ALBUM_BUCKET_DISPLAY_NAME
+import com.kinnerapriyap.sugar.mediagallery.album.MediaGalleryAlbum
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellUpdateModel
 import com.kinnerapriyap.sugar.mediagallery.media.MediaGalleryCursorWrapper
@@ -111,11 +113,27 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
     fun getCurrentMediaCursor(bucketDisplayName: String? = null): Cursor? =
         MediaGalleryCursorWrapper(cursor.value, bucketDisplayName)
 
-    fun fetchAlbumCursor(): Cursor? =
-        mediaGalleryHandler.fetchAlbum(cursor.value, choiceSpec.allowCamera)
-
-    fun closeCursor() {
-        cursor.value?.close()
+    fun fetchAlbums(): List<MediaGalleryAlbum> {
+        val addedNamesCount: MutableMap<String, Int> = mutableMapOf()
+        val cursor = cursor.value ?: return emptyList()
+        cursor.moveToFirst()
+        while (!cursor.isAfterLast) {
+            val name =
+                cursor.getString(cursor.getColumnIndex(MediaGalleryHandler.BUCKET_DISPLAY_NAME))
+            if (!addedNamesCount.contains(name)) {
+                addedNamesCount[name] = 1
+            } else {
+                addedNamesCount[name] = (addedNamesCount[name] ?: 0) + 1
+            }
+            cursor.moveToNext()
+        }
+        addedNamesCount[ALL_ALBUM_BUCKET_DISPLAY_NAME] = cursor.count
+        if (choiceSpec.allowCamera) {
+            addedNamesCount[ALL_ALBUM_BUCKET_DISPLAY_NAME] =
+                addedNamesCount[ALL_ALBUM_BUCKET_DISPLAY_NAME]?.minus(1) ?: 0
+        }
+        cursor.moveToFirst()
+        return addedNamesCount.map { MediaGalleryAlbum(it.key, it.value) }
     }
 
     fun getSelectedAlbumSpinnerName(): LiveData<String?> =
