@@ -88,11 +88,11 @@ class MediaGalleryAdapter(
      * so it is used to get the data
      */
     override fun onBindViewHolder(holder: MediaCellHolder, position: Int) {
-        if (mediaCursor?.moveToPosition(position) == false
-            || !isDataValid
-            || idColumnIndex == -1
-            || bucketDisplayNameColumnIndex == -1
-            || mimeTypeColumnIndex == -1
+        if (mediaCursor?.moveToPosition(position) == false ||
+            !isDataValid ||
+            idColumnIndex == -1 ||
+            bucketDisplayNameColumnIndex == -1 ||
+            mimeTypeColumnIndex == -1
         ) {
             throw IllegalStateException("onBind $position")
         }
@@ -128,7 +128,7 @@ class MediaGalleryAdapter(
             mediaCursor?.getLong(idColumnIndex) ?: 0
         } else RecyclerView.NO_ID
 
-    inner class MediaCellHolder(
+    class MediaCellHolder(
         private val binding: ViewMediaCellBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(displayModel: MediaCellDisplayModel, listener: MediaCellListener) {
