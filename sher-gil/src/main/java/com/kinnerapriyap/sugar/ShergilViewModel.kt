@@ -126,12 +126,13 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
             val bucketColumnIndex = cursor.getColumnIndex(MediaGalleryHandler.BUCKET_DISPLAY_NAME)
             if (bucketColumnIndex == -1) break
             val name = cursor.getString(bucketColumnIndex)
-            if (!addedNamesCount.contains(name)) {
+            cursor.moveToNext()
+            if (name == null) continue
+            else if (!addedNamesCount.contains(name)) {
                 addedNamesCount[name] = 1
             } else {
                 addedNamesCount[name] = (addedNamesCount[name] ?: 0) + 1
             }
-            cursor.moveToNext()
         }
         addedNamesCount[ALL_ALBUM_BUCKET_DISPLAY_NAME] = cursor.count
         if (choiceSpec.allowCamera) {
