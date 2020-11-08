@@ -4,23 +4,25 @@ import android.content.ContentResolver
 import android.database.Cursor
 import android.database.MatrixCursor
 import android.database.MergeCursor
+import android.os.Build
 import android.provider.MediaStore
 import com.kinnerapriyap.sugar.choice.MimeType
-import com.kinnerapriyap.sugar.mediagallery.album.MediaGalleryAlbumCursorWrapper
 
 class MediaGalleryHandler(private val contentResolver: ContentResolver) {
-
-    /**
-     *  In API 29, BUCKET_DISPLAY_NAME was moved to MediaStore.MediaColumns
-     *  from MediaStore.Images.ImageColumns (which implements the former)
-     *  However, the actual value of BUCKET_DISPLAY_NAME remains the same
-     */
 
     companion object {
         const val ALL_ALBUM_BUCKET_DISPLAY_NAME = "All"
         const val CAMERA_CAPTURE_ID: Long = -3
 
-        const val ALBUM_MEDIA_COUNT = "album_media_count"
+        /**
+         *  In API 29, BUCKET_DISPLAY_NAME was moved to MediaStore.MediaColumns
+         *  from MediaStore.Images.ImageColumns (which implements the former)
+         *  However, the actual value of BUCKET_DISPLAY_NAME remains the same
+         */
+        val BUCKET_DISPLAY_NAME =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                MediaStore.MediaColumns.BUCKET_DISPLAY_NAME
+            } else "bucket_display_name"
 
         /**
          *  Retrieve Data._ID to use while binding the result Cursor
@@ -29,7 +31,7 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
         private val PROJECTION: Array<String> = arrayOf(
             MediaStore.MediaColumns._ID,
             MediaStore.MediaColumns.MIME_TYPE,
-            MediaStore.MediaColumns.BUCKET_DISPLAY_NAME
+            BUCKET_DISPLAY_NAME
         )
 
         private const val SELECTION =
@@ -37,17 +39,6 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
 
         private const val SORT_ORDER =
             "${MediaStore.MediaColumns.DATE_MODIFIED} DESC"
-    }
-
-    fun fetchAlbum(
-        cursor: Cursor?,
-        allowCamera: Boolean
-    ): Cursor? {
-        val extras = MatrixCursor(PROJECTION)
-        extras.addRow(arrayOf("-1", MimeType.IMAGES, ALL_ALBUM_BUCKET_DISPLAY_NAME))
-        val cursors =
-            arrayOf(extras, cursor)
-        return MediaGalleryAlbumCursorWrapper(MergeCursor(cursors), allowCamera)
     }
 
     fun fetchMedia(

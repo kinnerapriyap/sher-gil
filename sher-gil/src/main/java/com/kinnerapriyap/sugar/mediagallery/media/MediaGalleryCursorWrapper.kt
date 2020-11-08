@@ -2,7 +2,7 @@ package com.kinnerapriyap.sugar.mediagallery.media
 
 import android.database.Cursor
 import android.database.CursorWrapper
-import android.provider.MediaStore
+import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler
 
 class MediaGalleryCursorWrapper(
     cursor: Cursor?,
@@ -24,7 +24,7 @@ class MediaGalleryCursorWrapper(
             for (i in 0 until origCount) {
                 super.moveToPosition(i)
                 val name =
-                    getString(getColumnIndexOrThrow(MediaStore.MediaColumns.BUCKET_DISPLAY_NAME))
+                    getString(getColumnIndexOrThrow(MediaGalleryHandler.BUCKET_DISPLAY_NAME))
                 if (name == bucketDisplayName) {
                     filterMap[fCount++] = i
                 }
