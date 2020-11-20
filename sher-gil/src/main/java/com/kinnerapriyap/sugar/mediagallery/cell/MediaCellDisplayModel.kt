@@ -14,6 +14,6 @@ data class MediaCellDisplayModel(
     val mediaUri: Uri,
     val isChecked: Boolean = false,
     val isEnabled: Boolean,
-    val bucketDisplayName: String,
+    val bucketDisplayName: String?,
     val mimeType: MimeType?
 ) : Parcelable
