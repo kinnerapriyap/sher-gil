@@ -57,9 +57,9 @@ class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedL
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_camera, container, false)
         return binding?.root
@@ -105,9 +105,9 @@ class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedL
     override fun onCameraCaptureYesClicked() {
         val bitmap = capturedBitmap ?: return
         viewModel.insertCameraImage(
-            getFileDisplayName(FILENAME_FORMAT),
-            MIME_TYPE,
-            bitmap
+                getFileDisplayName(FILENAME_FORMAT),
+                MIME_TYPE,
+                bitmap
         )
         (requireActivity() as? ShergilActivity)?.askPermissionAndOpenGallery()
     }
@@ -118,32 +118,28 @@ class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedL
 
     private fun setupCamera() {
         val activity = activity ?: return
-        val cameraProviderFuture =
-            ProcessCameraProvider.getInstance(activity)
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(activity)
 
-        cameraProviderFuture.addListener(
-            Runnable {
-                cameraProvider = cameraProviderFuture.get()
+        cameraProviderFuture.addListener({
+            cameraProvider = cameraProviderFuture.get()
 
-                val hasBackCamera = cameraProvider.hasBackCamera()
-                val hasFrontCamera = cameraProvider.hasFrontCamera()
-                binding?.switchCameraButton?.isVisible = hasBackCamera && hasFrontCamera
+            val hasBackCamera = cameraProvider.hasBackCamera()
+            val hasFrontCamera = cameraProvider.hasFrontCamera()
+            binding?.switchCameraButton?.isVisible = hasBackCamera && hasFrontCamera
 
-                lensFacing = when {
-                    hasBackCamera -> CameraSelector.LENS_FACING_BACK
-                    hasFrontCamera -> CameraSelector.LENS_FACING_FRONT
-                    else -> throw IllegalStateException("Back and front camera are unavailable")
-                }
+            lensFacing = when {
+                hasBackCamera -> CameraSelector.LENS_FACING_BACK
+                hasFrontCamera -> CameraSelector.LENS_FACING_FRONT
+                else -> throw IllegalStateException("Back and front camera are unavailable")
+            }
 
-                bindCameraUseCases()
-            },
-            ContextCompat.getMainExecutor(activity)
-        )
+            bindCameraUseCases()
+        }, ContextCompat.getMainExecutor(activity))
     }
 
     private fun bindCameraUseCases() {
         val cameraProvider =
-            cameraProvider ?: throw IllegalStateException("Camera initialisation failed")
+                cameraProvider ?: throw IllegalStateException("Camera initialisation failed")
 
         val preview = Preview.Builder().build()
         preview.setSurfaceProvider(binding?.viewFinder?.surfaceProvider)
@@ -153,17 +149,17 @@ class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedL
         }.build()
 
         val cameraSelector =
-            CameraSelector.Builder().requireLensFacing(lensFacing).build()
+                CameraSelector.Builder().requireLensFacing(lensFacing).build()
 
         cameraProvider.unbindAll()
         try {
             camera =
-                cameraProvider.bindToLifecycle(
-                    this,
-                    cameraSelector,
-                    preview,
-                    imageCapture
-                )
+                    cameraProvider.bindToLifecycle(
+                            this,
+                            cameraSelector,
+                            preview,
+                            imageCapture
+                    )
         } catch (e: Exception) {
             val msg = "Use case binding failed" + e.message
             activity?.let {
@@ -178,37 +174,37 @@ class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedL
         val activity = activity ?: return
 
         imageCapture.takePicture(
-            ContextCompat.getMainExecutor(activity),
-            object : ImageCapture.OnImageCapturedCallback() {
-                override fun onError(e: ImageCaptureException) {
-                    Toast.makeText(
-                        activity,
-                        "Photo capture failed: ${e.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+                ContextCompat.getMainExecutor(activity),
+                object : ImageCapture.OnImageCapturedCallback() {
+                    override fun onError(e: ImageCaptureException) {
+                        Toast.makeText(
+                                activity,
+                                "Photo capture failed: ${e.message}",
+                                Toast.LENGTH_SHORT
+                        ).show()
+                    }
 
-                override fun onCaptureSuccess(image: ImageProxy) {
-                    capturedBitmap = image.toBitmap()
-                    binding?.isCapture = false
-                    binding?.cameraCapturePreviewImage?.setImageBitmap(capturedBitmap)
-                    super.onCaptureSuccess(image)
+                    override fun onCaptureSuccess(image: ImageProxy) {
+                        capturedBitmap = image.toBitmap()
+                        binding?.isCapture = false
+                        binding?.cameraCapturePreviewImage?.setImageBitmap(capturedBitmap)
+                        super.onCaptureSuccess(image)
+                    }
                 }
-            }
         )
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // Display flash animation to indicate that photo was captured
             val cameraContainer = binding?.cameraContainer ?: return
             cameraContainer.postDelayed(
-                {
-                    cameraContainer.foreground = ColorDrawable(Color.WHITE)
-                    cameraContainer.postDelayed(
-                        { cameraContainer.foreground = null },
-                        ANIMATION_FAST_MILLIS
-                    )
-                },
-                ANIMATION_SLOW_MILLIS
+                    {
+                        cameraContainer.foreground = ColorDrawable(Color.WHITE)
+                        cameraContainer.postDelayed(
+                                { cameraContainer.foreground = null },
+                                ANIMATION_FAST_MILLIS
+                        )
+                    },
+                    ANIMATION_SLOW_MILLIS
             )
         }
     }
