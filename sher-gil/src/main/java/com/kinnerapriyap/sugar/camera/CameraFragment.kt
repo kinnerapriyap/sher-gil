@@ -146,7 +146,7 @@ class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedL
             cameraProvider ?: throw IllegalStateException("Camera initialisation failed")
 
         val preview = Preview.Builder().build()
-        preview.setSurfaceProvider(binding?.viewFinder?.createSurfaceProvider())
+        preview.setSurfaceProvider(binding?.viewFinder?.surfaceProvider)
 
         imageCapture = ImageCapture.Builder().apply {
             setFlashMode(flashMode)
