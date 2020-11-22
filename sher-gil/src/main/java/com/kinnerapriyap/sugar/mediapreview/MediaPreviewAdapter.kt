@@ -1,16 +1,10 @@
 package com.kinnerapriyap.sugar.mediapreview
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.RecyclerView
-import com.kinnerapriyap.sugar.R
-import com.kinnerapriyap.sugar.databinding.ViewMediaObjectPreviewBinding
+import androidx.fragment.app.Fragment
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
 
-class MediaPreviewAdapter(
-    private val mediaObjectPreviewListener: MediaObjectPreviewListener
-) : RecyclerView.Adapter<MediaPreviewAdapter.MediaPreviewObjectHolder>() {
+class MediaPreviewAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
     var selectedMedia: List<MediaCellDisplayModel> = listOf()
         set(value) {
@@ -20,30 +14,6 @@ class MediaPreviewAdapter(
 
     override fun getItemCount(): Int = selectedMedia.size
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): MediaPreviewObjectHolder {
-        val binding = DataBindingUtil.inflate<ViewMediaObjectPreviewBinding>(
-            LayoutInflater.from(parent.context),
-            R.layout.view_media_object_preview,
-            parent,
-            false
-        )
-        return MediaPreviewObjectHolder(binding)
-    }
-
-    override fun onBindViewHolder(holder: MediaPreviewObjectHolder, position: Int) {
-        holder.bind(selectedMedia[position], mediaObjectPreviewListener)
-    }
-
-    inner class MediaPreviewObjectHolder(
-        private val binding: ViewMediaObjectPreviewBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(displayModel: MediaCellDisplayModel, listener: MediaObjectPreviewListener) {
-            binding.displayModel = displayModel
-            binding.listener = listener
-            binding.executePendingBindings()
-        }
-    }
+    override fun createFragment(position: Int): Fragment =
+        MediaPreviewPageFragment.createInstance(selectedMedia[position])
 }

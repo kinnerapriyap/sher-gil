@@ -86,7 +86,7 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
 
     override fun onMediaCellClicked(displayModel: MediaCellDisplayModel) {
         if (displayModel.id == CAMERA_CAPTURE_ID)
-        (requireActivity() as? ShergilActivity)?.askPermissionAndOpenCameraCapture()
+            (requireActivity() as? ShergilActivity)?.askPermissionAndOpenCameraCapture()
         else
             viewModel.setMediaChecked(displayModel)
     }
