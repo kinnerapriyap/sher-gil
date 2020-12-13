@@ -11,6 +11,8 @@ import android.widget.Filter
 import android.widget.FilterQueryProvider
 import android.widget.Filterable
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.database.getLongOrNull
+import androidx.core.database.getStringOrNull
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.kinnerapriyap.sugar.R
@@ -86,11 +88,8 @@ class MediaGalleryAdapter(
      * so it is used to get the data
      */
     override fun onBindViewHolder(holder: MediaCellHolder, position: Int) {
-        if (mediaCursor?.moveToPosition(position) == false ||
-            !isDataValid ||
-            idColumnIndex == -1 ||
-            bucketDisplayNameColumnIndex == -1 ||
-            mimeTypeColumnIndex == -1
+        if (!mediaCursor.moveToPosition(position) || idColumnIndex < 0 ||
+            bucketDisplayNameColumnIndex < 0 || mimeTypeColumnIndex < 0
         ) {
             throw IllegalStateException("onBind $position")
         }
@@ -99,13 +98,14 @@ class MediaGalleryAdapter(
          * Get a URI representing the media item and
          * append the id from the projection column to the base URI
          */
-        val id = cursor.getLong(idColumnIndex)
+        val id = mediaCursor.getLongOrNull(idColumnIndex) ?: return
         val contentUri: Uri = ContentUris.withAppendedId(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
             id
         )
-        val bucketDisplayName = cursor.getString(bucketDisplayNameColumnIndex)
-        val mimeType = MimeType.fromValue(cursor.getString(mimeTypeColumnIndex))
+        val bucketDisplayName = mediaCursor.getStringOrNull(bucketDisplayNameColumnIndex)
+        val mimeType =
+            mediaCursor.getStringOrNull(mimeTypeColumnIndex)?.let { MimeType.valueOf(it) }
         val displayModel = MediaCellDisplayModel(
             position = position,
             id = id,
