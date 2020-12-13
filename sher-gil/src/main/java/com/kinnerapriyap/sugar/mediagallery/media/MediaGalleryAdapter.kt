@@ -23,7 +23,7 @@ import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellListener
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellUpdateModel
 
 class MediaGalleryAdapter(
-    private var mediaCursor: Cursor?,
+    private var mediaCursor: Cursor,
     private var selectedMediaCellDisplayModels: List<MediaCellDisplayModel>,
     private val mediaCellListener: MediaCellListener,
     private val mimeTypes: List<MimeType>,
@@ -32,21 +32,19 @@ class MediaGalleryAdapter(
     Filterable,
     MediaGalleryCursorFilterListener {
 
-    private var isDataValid = mediaCursor != null
-
     var mediaCellUpdateModel: MediaCellUpdateModel =
         MediaCellUpdateModel(Pair(-1, -1), listOf())
         set(value) {
-                field = value
-                this.selectedMediaCellDisplayModels =
-                    mediaCellUpdateModel.selectedMediaCellDisplayModels
-                if (value.positions.first != -1) {
-                    notifyItemChanged(value.positions.first)
-                }
-                if (value.positions.second != -1 && !allowMultipleSelection) {
-                    notifyItemChanged(value.positions.second)
-                }
+            field = value
+            this.selectedMediaCellDisplayModels =
+                mediaCellUpdateModel.selectedMediaCellDisplayModels
+            if (value.positions.first != -1) {
+                notifyItemChanged(value.positions.first)
             }
+            if (value.positions.second != -1 && !allowMultipleSelection) {
+                notifyItemChanged(value.positions.second)
+            }
+        }
 
     var filterQueryProvider: FilterQueryProvider? = null
         set(value) {
@@ -60,13 +58,13 @@ class MediaGalleryAdapter(
      * getColumnIndexOrThrow is used since _ID column exists in [BaseColumns]
      */
     private var idColumnIndex =
-        mediaCursor?.getColumnIndexOrThrow(MediaStore.MediaColumns._ID) ?: -1
+        mediaCursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID)
 
     private val bucketDisplayNameColumnIndex =
-        mediaCursor?.getColumnIndex(MediaGalleryHandler.BUCKET_DISPLAY_NAME) ?: -1
+        mediaCursor.getColumnIndex(MediaGalleryHandler.BUCKET_DISPLAY_NAME)
 
     private val mimeTypeColumnIndex =
-        mediaCursor?.getColumnIndex(MediaStore.MediaColumns.MIME_TYPE) ?: -1
+        mediaCursor.getColumnIndex(MediaStore.MediaColumns.MIME_TYPE)
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -81,7 +79,7 @@ class MediaGalleryAdapter(
         return MediaCellHolder(binding)
     }
 
-    override fun getItemCount(): Int = mediaCursor?.count ?: 0
+    override fun getItemCount(): Int = mediaCursor.count
 
     /**
      * [mediaCursor] is moved to the correct position
@@ -96,7 +94,6 @@ class MediaGalleryAdapter(
         ) {
             throw IllegalStateException("onBind $position")
         }
-        val cursor = mediaCursor ?: throw IllegalStateException("invalid cursor")
 
         /**
          * Get a URI representing the media item and
@@ -124,8 +121,8 @@ class MediaGalleryAdapter(
     private fun isCameraCapture(id: Long) = id == CAMERA_CAPTURE_ID
 
     override fun getItemId(position: Int): Long =
-        if (isDataValid && mediaCursor?.moveToPosition(position) == true) {
-            mediaCursor?.getLong(idColumnIndex) ?: 0
+        if (mediaCursor.moveToPosition(position)) {
+            mediaCursor.getLong(idColumnIndex)
         } else RecyclerView.NO_ID
 
     class MediaCellHolder(
@@ -172,11 +169,11 @@ class MediaGalleryAdapter(
      */
     private fun swapCursor(newCursor: Cursor?) {
         if (newCursor === mediaCursor) return
-        mediaCursor = newCursor
-        isDataValid = newCursor != null
-        idColumnIndex =
-            newCursor?.getColumnIndex(MediaStore.MediaColumns._ID) ?: -1
-        notifyDataSetChanged()
+        if (newCursor != null) {
+            mediaCursor = newCursor
+            idColumnIndex = newCursor.getColumnIndex(MediaStore.MediaColumns._ID)
+            notifyDataSetChanged()
+        }
     }
 
     override fun getFilter(): Filter = cursorFilter
