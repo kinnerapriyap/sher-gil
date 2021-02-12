@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import com.kinnerapriyap.sugar.databinding.ActivityShergilBinding
 import com.kinnerapriyap.sugar.mediagallery.album.MediaGalleryAlbumSpinnerAdapter
 import com.kinnerapriyap.sugar.mediagallery.album.toBucketDisplayName
@@ -34,6 +34,11 @@ internal class ShergilActivity :
     private lateinit var mediaGalleryAlbumSpinnerAdapter: MediaGalleryAlbumSpinnerAdapter
 
     private lateinit var binding: ActivityShergilBinding
+
+    private val navController by lazy {
+        (supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+                as NavHostFragment).navController
+    }
 
     companion object {
         const val RESULT_URIS = "resultUris"
@@ -87,7 +92,7 @@ internal class ShergilActivity :
             }
         )
 
-        findNavController(R.id.nav_host_fragment).addOnDestinationChangedListener { _, destination, _ ->
+        navController.addOnDestinationChangedListener { _, destination, _ ->
             val isMediaGallery = destination.id == R.id.mediaGalleryFragment
             val isMediaPreview = destination.id == R.id.mediaPreviewFragment
             binding.toolbar.isVisible = isMediaGallery
@@ -190,16 +195,14 @@ internal class ShergilActivity :
             viewModel.resetCameraCaptureUri()
             observer?.cameraCapture(viewModel.getCameraCaptureUri())
         } else {
-            findNavController(R.id.nav_host_fragment)
-                .navigate(NavGraphDirections.actionGlobalCameraFragment())
+            navController.navigate(NavGraphDirections.actionGlobalCameraFragment())
         }
     }
 
     private fun setCameraCaptureResult(result: Boolean) = Unit
 
     private fun openMediaGallery() {
-        findNavController(R.id.nav_host_fragment)
-            .navigate(NavGraphDirections.actionGlobalMediaGalleryFragment())
+        navController.navigate(NavGraphDirections.actionGlobalMediaGalleryFragment())
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -226,7 +229,7 @@ internal class ShergilActivity :
             NavGraphDirections.actionGlobalMediaPreviewFragment(
                 viewModel.getSelectedMediaCellDisplayModels().toTypedArray()
             )
-        findNavController(R.id.nav_host_fragment).navigate(action)
+        navController.navigate(action)
     }
 
     private fun setResultCancelledAndFinish() {
