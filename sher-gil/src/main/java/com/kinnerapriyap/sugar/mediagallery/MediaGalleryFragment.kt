@@ -14,10 +14,9 @@ import com.kinnerapriyap.sugar.ShergilViewModel
 import com.kinnerapriyap.sugar.databinding.FragmentMediaGalleryBinding
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler.Companion.CAMERA_CAPTURE_ID
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
-import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellListener
 import com.kinnerapriyap.sugar.mediagallery.media.MediaGalleryAdapter
 
-class MediaGalleryFragment : Fragment(), MediaCellListener {
+class MediaGalleryFragment : Fragment() {
 
     private val viewModel: ShergilViewModel by activityViewModels()
 
@@ -50,7 +49,7 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
                 mediaGalleryAdapter = MediaGalleryAdapter(
                     viewModel.getCurrentMediaCursor() ?: return@Observer,
                     viewModel.getSelectedMediaCellDisplayModels(),
-                    this@MediaGalleryFragment,
+                    ::onMediaCellClicked,
                     viewModel.getChoiceSpec().mimeTypes,
                     viewModel.allowMultipleSelection()
                 )
@@ -91,7 +90,7 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
         _binding = null
     }
 
-    override fun onMediaCellClicked(displayModel: MediaCellDisplayModel) {
+    private fun onMediaCellClicked(displayModel: MediaCellDisplayModel) {
         if (displayModel.id == CAMERA_CAPTURE_ID)
             (requireActivity() as? ShergilActivity)?.askPermissionAndOpenCameraCapture()
         else
