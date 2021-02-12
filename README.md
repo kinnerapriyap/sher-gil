@@ -21,7 +21,7 @@ Written in kotlin with Android architecture components, `sher-gil` aims to be a 
 Add the dependency to your project `build.gradle` file
 ```
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
