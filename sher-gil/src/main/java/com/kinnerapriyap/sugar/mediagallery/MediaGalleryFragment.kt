@@ -9,14 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import com.kinnerapriyap.sugar.R
 import com.kinnerapriyap.sugar.ShergilActivity
 import com.kinnerapriyap.sugar.ShergilViewModel
+import com.kinnerapriyap.sugar.databinding.FragmentMediaGalleryBinding
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler.Companion.CAMERA_CAPTURE_ID
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellListener
 import com.kinnerapriyap.sugar.mediagallery.media.MediaGalleryAdapter
-import kotlinx.android.synthetic.main.fragment_media_gallery.view.*
 
 class MediaGalleryFragment : Fragment(), MediaCellListener {
 
@@ -24,17 +23,24 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
 
     private lateinit var mediaGalleryAdapter: MediaGalleryAdapter
 
+    private var _binding: FragmentMediaGalleryBinding? = null
+
+    private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_media_gallery, container, false)
+    ): View {
+        _binding = FragmentMediaGalleryBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val activity = activity ?: return
 
-        view.recyclerView.layoutManager =
+        binding.recyclerView.layoutManager =
             GridLayoutManager(activity, viewModel.getChoiceSpec().numOfColumns)
 
         viewModel.getCursor().observe(
@@ -48,7 +54,7 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
                     viewModel.getChoiceSpec().mimeTypes,
                     viewModel.allowMultipleSelection()
                 )
-                view.recyclerView.adapter = mediaGalleryAdapter
+                binding.recyclerView.adapter = mediaGalleryAdapter
                 mediaGalleryAdapter.filterQueryProvider = FilterQueryProvider { filter ->
                     viewModel.getCurrentMediaCursor(filter.toString())
                 }
@@ -66,7 +72,7 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
 
         viewModel.getSelectedAlbumSpinnerName().observe(
             viewLifecycleOwner,
-            Observer { bucketDisplayName ->
+            { bucketDisplayName ->
                 if (this::mediaGalleryAdapter.isInitialized) {
                     mediaGalleryAdapter.filter.filter(bucketDisplayName)
                 }
@@ -80,13 +86,14 @@ class MediaGalleryFragment : Fragment(), MediaCellListener {
     }
 
     override fun onDestroyView() {
-        view?.recyclerView?.adapter = null
         super.onDestroyView()
+        binding.recyclerView.adapter = null
+        _binding = null
     }
 
     override fun onMediaCellClicked(displayModel: MediaCellDisplayModel) {
         if (displayModel.id == CAMERA_CAPTURE_ID)
-        (requireActivity() as? ShergilActivity)?.askPermissionAndOpenCameraCapture()
+            (requireActivity() as? ShergilActivity)?.askPermissionAndOpenCameraCapture()
         else
             viewModel.setMediaChecked(displayModel)
     }
