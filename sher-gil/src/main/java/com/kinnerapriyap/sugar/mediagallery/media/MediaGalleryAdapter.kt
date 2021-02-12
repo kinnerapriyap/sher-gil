@@ -88,10 +88,16 @@ class MediaGalleryAdapter(
      * so it is used to get the data
      */
     override fun onBindViewHolder(holder: MediaCellHolder, position: Int) {
-        if (!mediaCursor.moveToPosition(position) || idColumnIndex < 0 ||
-            bucketDisplayNameColumnIndex < 0 || mimeTypeColumnIndex < 0
+        val id = mediaCursor.getLongOrNull(idColumnIndex)
+        if (!mediaCursor.moveToPosition(position) || id == null) {
+            throw IllegalStateException("onBind $position $id")
+        } else if (idColumnIndex < 0 ||
+            bucketDisplayNameColumnIndex < 0 ||
+            mimeTypeColumnIndex < 0
         ) {
-            throw IllegalStateException("onBind $position")
+            val msg =
+                "onBind index $idColumnIndex $bucketDisplayNameColumnIndex $mimeTypeColumnIndex"
+            throw IllegalStateException(msg)
         }
 
         /**
