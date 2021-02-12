@@ -135,7 +135,7 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
             }
         }
         var allCount = cursor.count
-        if (choiceSpec.allowCamera) allCount -=1
+        if (choiceSpec.allowCamera) allCount -= 1
         cursor.moveToFirst()
         return mutableListOf(MediaGalleryAlbum(ALL_ALBUM_BUCKET_DISPLAY_NAME, allCount)).apply {
             addAll(addedNamesCount.map { MediaGalleryAlbum(it.key, it.value) })
