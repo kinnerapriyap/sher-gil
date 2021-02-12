@@ -36,11 +36,6 @@ android {
         dataBinding = true
     }
 
-    lintOptions {
-        // TODO: Fix lint error
-        disable "NullSafeMutableLiveData"
-    }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
