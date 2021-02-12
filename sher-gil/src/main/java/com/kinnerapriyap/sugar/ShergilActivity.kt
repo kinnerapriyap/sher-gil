@@ -36,8 +36,7 @@ internal class ShergilActivity :
     private lateinit var binding: ActivityShergilBinding
 
     private val navController by lazy {
-        (supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
-                as NavHostFragment).navController
+        (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController
     }
 
     companion object {
