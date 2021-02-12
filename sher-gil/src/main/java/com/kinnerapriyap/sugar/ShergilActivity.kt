@@ -25,8 +25,7 @@ import java.util.ArrayList
 
 internal class ShergilActivity :
     AppCompatActivity(),
-    AdapterView.OnItemSelectedListener,
-    ShergilActivityListener {
+    AdapterView.OnItemSelectedListener {
 
     private var observer: ResultLauncherHandler? = null
 
@@ -45,8 +44,6 @@ internal class ShergilActivity :
         super.onCreate(savedInstanceState)
         binding = ActivityShergilBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.listener = this
-        binding.lifecycleOwner = this
         binding.previewButton.isVisible = viewModel.getChoiceSpec().allowPreview
 
         setSupportActionBar(binding.toolbar)
@@ -64,7 +61,14 @@ internal class ShergilActivity :
 
         viewModel.getSelectedMediaCount().observe(
             this,
-            Observer(binding::setSelectedCount)
+            { selectedCount ->
+                binding.previewButton.isEnabled = selectedCount != 0
+                binding.applyButton.isEnabled = selectedCount != 0
+                binding.applyButton.text = StringBuilder().apply {
+                    append(resources.getString(R.string.apply))
+                    if (selectedCount != 0) append(" ($selectedCount)")
+                }
+            }
         )
 
         viewModel.getErrorMessage().observe(
@@ -90,6 +94,9 @@ internal class ShergilActivity :
             binding.previewButton.isVisible = isMediaGallery
             binding.bottombar.isVisible = isMediaGallery || isMediaPreview
         }
+
+        binding.previewButton.setOnClickListener { onPreviewClicked() }
+        binding.applyButton.setOnClickListener { onApplyClicked() }
     }
 
     override fun onResume() {
@@ -210,11 +217,11 @@ internal class ShergilActivity :
         observer = null
     }
 
-    override fun onApplyClicked() {
+    private fun onApplyClicked() {
         setShergilResult()
     }
 
-    override fun onPreviewClicked() {
+    private fun onPreviewClicked() {
         val action =
             NavGraphDirections.actionGlobalMediaPreviewFragment(
                 viewModel.getSelectedMediaCellDisplayModels().toTypedArray()
