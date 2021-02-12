@@ -12,7 +12,7 @@ import com.kinnerapriyap.sugar.ShergilViewModel
 import com.kinnerapriyap.sugar.databinding.FragmentMediaPreviewBinding
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
 
-class MediaPreviewFragment : Fragment(), MediaObjectPreviewListener {
+class MediaPreviewFragment : Fragment() {
 
     private val viewModel: ShergilViewModel by activityViewModels()
 
@@ -23,7 +23,7 @@ class MediaPreviewFragment : Fragment(), MediaObjectPreviewListener {
     private val binding get() = _binding!!
 
     private val mediaPreviewAdapter by lazy {
-        MediaPreviewAdapter(this)
+        MediaPreviewAdapter(::onMediaObjectPreviewClicked)
     }
 
     override fun onCreateView(
@@ -41,7 +41,7 @@ class MediaPreviewFragment : Fragment(), MediaObjectPreviewListener {
         binding.viewPager.offscreenPageLimit = 1
         binding.viewPager.adapter = mediaPreviewAdapter
 
-        TabLayoutMediator(binding.tabDots, binding.viewPager) { tab, position ->
+        TabLayoutMediator(binding.tabDots, binding.viewPager) { _, _ ->
         }.attach()
 
         mediaPreviewAdapter.selectedMedia = args.selectedMedia.toList()
@@ -52,7 +52,7 @@ class MediaPreviewFragment : Fragment(), MediaObjectPreviewListener {
         _binding = null
     }
 
-    override fun onMediaObjectPreviewClicked(displayModel: MediaCellDisplayModel) {
+    private fun onMediaObjectPreviewClicked(displayModel: MediaCellDisplayModel) {
         val selectedMedia = mediaPreviewAdapter.selectedMedia
         mediaPreviewAdapter.selectedMedia =
             selectedMedia.map {
