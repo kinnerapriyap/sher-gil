@@ -104,14 +104,13 @@ class MediaGalleryAdapter(
          * Get a URI representing the media item and
          * append the id from the projection column to the base URI
          */
-        val id = mediaCursor.getLongOrNull(idColumnIndex) ?: return
         val contentUri: Uri = ContentUris.withAppendedId(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
             id
         )
         val bucketDisplayName = mediaCursor.getStringOrNull(bucketDisplayNameColumnIndex)
         val mimeType =
-            mediaCursor.getStringOrNull(mimeTypeColumnIndex)?.let { MimeType.valueOf(it) }
+            mediaCursor.getStringOrNull(mimeTypeColumnIndex)?.let { MimeType.fromValue(it) }
         val displayModel = MediaCellDisplayModel(
             position = position,
             id = id,
