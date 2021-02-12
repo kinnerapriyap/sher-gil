@@ -127,20 +127,19 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
             if (bucketColumnIndex == -1) break
             val name = cursor.getString(bucketColumnIndex)
             cursor.moveToNext()
-            if (name == null) continue
+            if (name == null || name == ALL_ALBUM_BUCKET_DISPLAY_NAME) continue
             else if (!addedNamesCount.contains(name)) {
                 addedNamesCount[name] = 1
             } else {
                 addedNamesCount[name] = (addedNamesCount[name] ?: 0) + 1
             }
         }
-        addedNamesCount[ALL_ALBUM_BUCKET_DISPLAY_NAME] = cursor.count
-        if (choiceSpec.allowCamera) {
-            addedNamesCount[ALL_ALBUM_BUCKET_DISPLAY_NAME] =
-                addedNamesCount[ALL_ALBUM_BUCKET_DISPLAY_NAME]?.minus(1) ?: 0
-        }
+        var allCount = cursor.count
+        if (choiceSpec.allowCamera) allCount -= 1
         cursor.moveToFirst()
-        return addedNamesCount.map { MediaGalleryAlbum(it.key, it.value) }
+        return mutableListOf(MediaGalleryAlbum(ALL_ALBUM_BUCKET_DISPLAY_NAME, allCount)).apply {
+            addAll(addedNamesCount.map { MediaGalleryAlbum(it.key, it.value) })
+        }
     }
 
     fun getSelectedAlbumSpinnerName(): LiveData<String?> =
