@@ -47,7 +47,7 @@ class MediaGalleryFragment : Fragment() {
             Observer {
                 it ?: return@Observer
                 mediaGalleryAdapter = MediaGalleryAdapter(
-                    viewModel.getCurrentMediaCursor() ?: return@Observer,
+                    viewModel.getCurrentMediaCursor(),
                     viewModel.getSelectedMediaCellDisplayModels(),
                     ::onMediaCellClicked,
                     viewModel.getChoiceSpec().mimeTypes,
