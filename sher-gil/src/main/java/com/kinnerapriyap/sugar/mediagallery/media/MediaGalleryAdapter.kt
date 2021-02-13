@@ -20,6 +20,7 @@ import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler.Companion.CAMERA_CAPTURE_ID
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellUpdateModel
+import com.kinnerapriyap.sugar.mediagallery.cell.bindMediaUri
 
 class MediaGalleryAdapter(
     private var mediaCursor: Cursor,
