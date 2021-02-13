@@ -11,6 +11,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import com.kinnerapriyap.sugar.camera.CameraState
 import com.kinnerapriyap.sugar.choice.ChoiceSpec
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler.Companion.ALL_ALBUM_BUCKET_DISPLAY_NAME
@@ -36,6 +37,10 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
 
     private val selectedAlbumSpinnerName by lazy {
         MutableLiveData<String?>().apply { value = null }
+    }
+
+    private val cameraState by lazy {
+        MutableLiveData<CameraState>().apply { value = CameraState.CAPTURE }
     }
 
     private var updatedMediaCellPositions: Pair<Int, Int> = Pair(-1, -1)
@@ -115,7 +120,7 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
 
     fun getCursor(): LiveData<Cursor?> = cursor
 
-    fun getCurrentMediaCursor(bucketDisplayName: String? = null): Cursor? =
+    fun getCurrentMediaCursor(bucketDisplayName: String? = null): Cursor =
         MediaGalleryCursorWrapper(cursor.value, bucketDisplayName)
 
     fun fetchAlbums(): List<MediaGalleryAlbum> {
@@ -147,6 +152,12 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
 
     fun setSelectedAlbumSpinnerName(bucketDisplayName: String?) {
         selectedAlbumSpinnerName.value = bucketDisplayName
+    }
+
+    fun getCameraState(): LiveData<CameraState> = cameraState
+
+    fun setCameraState(state: CameraState) {
+        cameraState.value = state
     }
 
     fun insertCameraImage(

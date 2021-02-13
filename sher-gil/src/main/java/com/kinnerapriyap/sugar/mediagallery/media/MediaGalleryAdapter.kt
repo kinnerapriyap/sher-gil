@@ -11,21 +11,19 @@ import android.widget.Filter
 import android.widget.FilterQueryProvider
 import android.widget.Filterable
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.kinnerapriyap.sugar.R
 import com.kinnerapriyap.sugar.choice.MimeType
 import com.kinnerapriyap.sugar.databinding.ViewMediaCellBinding
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler
 import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler.Companion.CAMERA_CAPTURE_ID
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
-import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellListener
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellUpdateModel
+import com.kinnerapriyap.sugar.mediagallery.cell.bindMediaUri
 
 class MediaGalleryAdapter(
     private var mediaCursor: Cursor?,
     private var selectedMediaCellDisplayModels: List<MediaCellDisplayModel>,
-    private val mediaCellListener: MediaCellListener,
+    private val onMediaCellClicked: ((MediaCellDisplayModel) -> Unit),
     private val mimeTypes: List<MimeType>,
     private val allowMultipleSelection: Boolean
 ) : RecyclerView.Adapter<MediaGalleryAdapter.MediaCellHolder>(),
@@ -72,9 +70,8 @@ class MediaGalleryAdapter(
         parent: ViewGroup,
         viewType: Int
     ): MediaCellHolder {
-        val binding = DataBindingUtil.inflate<ViewMediaCellBinding>(
+        val binding = ViewMediaCellBinding.inflate(
             LayoutInflater.from(parent.context),
-            R.layout.view_media_cell,
             parent,
             false
         )
@@ -118,7 +115,7 @@ class MediaGalleryAdapter(
             mimeType = mimeType,
             isEnabled = mimeTypes.contains(mimeType) || isCameraCapture(id)
         )
-        holder.bind(displayModel, mediaCellListener)
+        holder.bind(displayModel, onMediaCellClicked)
     }
 
     private fun isCameraCapture(id: Long) = id == CAMERA_CAPTURE_ID
@@ -128,13 +125,17 @@ class MediaGalleryAdapter(
             mediaCursor?.getLong(idColumnIndex) ?: 0
         } else RecyclerView.NO_ID
 
-    class MediaCellHolder(
+    inner class MediaCellHolder(
         private val binding: ViewMediaCellBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(displayModel: MediaCellDisplayModel, listener: MediaCellListener) {
-            binding.displayModel = displayModel
-            binding.listener = listener
-            binding.executePendingBindings()
+        fun bind(
+            displayModel: MediaCellDisplayModel,
+            onMediaCellClicked: ((MediaCellDisplayModel) -> Unit)
+        ) {
+            binding.imageView.bindMediaUri(displayModel.mediaUri)
+            binding.cardView.isChecked = displayModel.isChecked
+            binding.cardView.isEnabled = displayModel.isEnabled
+            binding.cardView.setOnClickListener { onMediaCellClicked.invoke(displayModel) }
         }
     }
 

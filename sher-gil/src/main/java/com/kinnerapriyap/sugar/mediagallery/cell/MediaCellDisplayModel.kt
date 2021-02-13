@@ -4,7 +4,7 @@ import android.net.Uri
 import android.os.Parcelable
 import androidx.annotation.Keep
 import com.kinnerapriyap.sugar.choice.MimeType
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Keep
 @Parcelize

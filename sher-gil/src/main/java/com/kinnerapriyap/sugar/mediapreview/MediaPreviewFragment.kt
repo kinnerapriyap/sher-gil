@@ -8,40 +8,51 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
-import com.kinnerapriyap.sugar.R
 import com.kinnerapriyap.sugar.ShergilViewModel
+import com.kinnerapriyap.sugar.databinding.FragmentMediaPreviewBinding
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
-import kotlinx.android.synthetic.main.fragment_media_preview.*
 
-class MediaPreviewFragment : Fragment(), MediaObjectPreviewListener {
+class MediaPreviewFragment : Fragment() {
 
     private val viewModel: ShergilViewModel by activityViewModels()
 
     private val args: MediaPreviewFragmentArgs by navArgs()
 
+    private var _binding: FragmentMediaPreviewBinding? = null
+
+    private val binding get() = _binding!!
+
     private val mediaPreviewAdapter by lazy {
-        MediaPreviewAdapter(this)
+        MediaPreviewAdapter(::onMediaObjectPreviewClicked)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_media_preview, container, false)
+    ): View {
+        _binding = FragmentMediaPreviewBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewPager.offscreenPageLimit = 1
-        viewPager.adapter = mediaPreviewAdapter
+        binding.viewPager.offscreenPageLimit = 1
+        binding.viewPager.adapter = mediaPreviewAdapter
 
-        TabLayoutMediator(tabDots, viewPager) { tab, position ->
+        TabLayoutMediator(binding.tabDots, binding.viewPager) { _, _ ->
         }.attach()
 
         mediaPreviewAdapter.selectedMedia = args.selectedMedia.toList()
     }
 
-    override fun onMediaObjectPreviewClicked(displayModel: MediaCellDisplayModel) {
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun onMediaObjectPreviewClicked(displayModel: MediaCellDisplayModel) {
         val selectedMedia = mediaPreviewAdapter.selectedMedia
         mediaPreviewAdapter.selectedMedia =
             selectedMedia.map {
