@@ -21,7 +21,7 @@ Written in kotlin with Android architecture components, `sher-gil` aims to be a 
 Add the dependency to your project `build.gradle` file
 ```
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
@@ -63,28 +63,6 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
 If you're on `API level > R`, you can use `registerForActivityResult(ActivityResultContract, ActivityResultCallback)` with the appropriate ActivityResultContract and handle the result in the callback.
 
 **Min SDK:** sher-gil supports a minimum SDK of 21.
-
-#### dataBinding should be enabled to use sher-gil
-
-If your project uses a Android Gradle Plugin version **after 4.0.0-alpha05**:
-```
-android {
-    ...
-    buildFeatures {
-        dataBinding = true
-    }
-}
-```
-If your project uses a Android Gradle Plugin version **before 4.0.0-alpha05**:
-```
-android {
-    ...
-    dataBinding {
-        enabled = true
-    }
-}
-```
-Note: If your project uses incremental annotation processing, add `android.databinding.incremental=true` to gradle.properties
 
 #### compileOptions should be applied in the `build.gradle` android closure
 

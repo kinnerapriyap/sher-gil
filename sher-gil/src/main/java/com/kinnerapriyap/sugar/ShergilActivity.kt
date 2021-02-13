@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import com.kinnerapriyap.sugar.databinding.ActivityShergilBinding
 import com.kinnerapriyap.sugar.mediagallery.album.MediaGalleryAlbumSpinnerAdapter
 import com.kinnerapriyap.sugar.mediagallery.album.toBucketDisplayName
@@ -25,8 +25,7 @@ import java.util.ArrayList
 
 internal class ShergilActivity :
     AppCompatActivity(),
-    AdapterView.OnItemSelectedListener,
-    ShergilActivityListener {
+    AdapterView.OnItemSelectedListener {
 
     private var observer: ResultLauncherHandler? = null
 
@@ -35,6 +34,10 @@ internal class ShergilActivity :
     private lateinit var mediaGalleryAlbumSpinnerAdapter: MediaGalleryAlbumSpinnerAdapter
 
     private lateinit var binding: ActivityShergilBinding
+
+    private val navController by lazy {
+        (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController
+    }
 
     companion object {
         const val RESULT_URIS = "resultUris"
@@ -45,8 +48,6 @@ internal class ShergilActivity :
         super.onCreate(savedInstanceState)
         binding = ActivityShergilBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.listener = this
-        binding.lifecycleOwner = this
         binding.previewButton.isVisible = viewModel.getChoiceSpec().allowPreview
 
         setSupportActionBar(binding.toolbar)
@@ -64,7 +65,14 @@ internal class ShergilActivity :
 
         viewModel.getSelectedMediaCount().observe(
             this,
-            Observer(binding::setSelectedCount)
+            { selectedCount ->
+                binding.previewButton.isEnabled = selectedCount != 0
+                binding.applyButton.isEnabled = selectedCount != 0
+                binding.applyButton.text = StringBuilder().apply {
+                    append(resources.getString(R.string.apply))
+                    if (selectedCount != 0) append(" ($selectedCount)")
+                }
+            }
         )
 
         viewModel.getErrorMessage().observe(
@@ -83,13 +91,16 @@ internal class ShergilActivity :
             }
         )
 
-        findNavController(R.id.nav_host_fragment).addOnDestinationChangedListener { _, destination, _ ->
+        navController.addOnDestinationChangedListener { _, destination, _ ->
             val isMediaGallery = destination.id == R.id.mediaGalleryFragment
             val isMediaPreview = destination.id == R.id.mediaPreviewFragment
             binding.toolbar.isVisible = isMediaGallery
             binding.previewButton.isVisible = isMediaGallery
             binding.bottombar.isVisible = isMediaGallery || isMediaPreview
         }
+
+        binding.previewButton.setOnClickListener { onPreviewClicked() }
+        binding.applyButton.setOnClickListener { onApplyClicked() }
     }
 
     override fun onResume() {
@@ -183,16 +194,14 @@ internal class ShergilActivity :
             viewModel.resetCameraCaptureUri()
             observer?.cameraCapture(viewModel.getCameraCaptureUri())
         } else {
-            findNavController(R.id.nav_host_fragment)
-                .navigate(NavGraphDirections.actionGlobalCameraFragment())
+            navController.navigate(NavGraphDirections.actionGlobalCameraFragment())
         }
     }
 
     private fun setCameraCaptureResult(result: Boolean) = Unit
 
     private fun openMediaGallery() {
-        findNavController(R.id.nav_host_fragment)
-            .navigate(NavGraphDirections.actionGlobalMediaGalleryFragment())
+        navController.navigate(NavGraphDirections.actionGlobalMediaGalleryFragment())
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -210,16 +219,16 @@ internal class ShergilActivity :
         observer = null
     }
 
-    override fun onApplyClicked() {
+    private fun onApplyClicked() {
         setShergilResult()
     }
 
-    override fun onPreviewClicked() {
+    private fun onPreviewClicked() {
         val action =
             NavGraphDirections.actionGlobalMediaPreviewFragment(
                 viewModel.getSelectedMediaCellDisplayModels().toTypedArray()
             )
-        findNavController(R.id.nav_host_fragment).navigate(action)
+        navController.navigate(action)
     }
 
     private fun setResultCancelledAndFinish() {

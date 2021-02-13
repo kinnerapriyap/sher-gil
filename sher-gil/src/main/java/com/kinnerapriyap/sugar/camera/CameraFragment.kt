@@ -21,15 +21,13 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.kinnerapriyap.sugar.R
 import com.kinnerapriyap.sugar.ShergilActivity
 import com.kinnerapriyap.sugar.ShergilViewModel
 import com.kinnerapriyap.sugar.databinding.FragmentCameraBinding
 
-class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedListener {
+class CameraFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private val viewModel: ShergilViewModel by activityViewModels()
 
@@ -39,7 +37,9 @@ class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedL
 
     private var cameraProvider: ProcessCameraProvider? = null
 
-    private var binding: FragmentCameraBinding? = null
+    private var _binding: FragmentCameraBinding? = null
+
+    private val binding get() = _binding!!
 
     private var capturedBitmap: Bitmap? = null
 
@@ -60,40 +60,54 @@ class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedL
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_camera, container, false)
-        return binding?.root
+    ): View {
+        _binding = FragmentCameraBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding?.isCapture = true
-        binding?.viewFinder?.post {
+
+        viewModel.getCameraState().observe(
+            viewLifecycleOwner,
+            { cameraState ->
+                binding.captureGroup.isVisible = cameraState == CameraState.CAPTURE
+                binding.confirmGroup.isVisible = cameraState == CameraState.CONFIRM
+            }
+        )
+
+        viewModel.setCameraState(CameraState.CAPTURE)
+        binding.viewFinder.post {
             setupCamera()
             setupCameraUI()
         }
+
+        binding.galleryButton.setOnClickListener { onGalleryButtonClicked() }
+        binding.cameraCaptureButton.setOnClickListener { onCameraCaptureButtonClicked() }
+        binding.switchCameraButton.setOnClickListener { onSwitchCameraButtonClicked() }
+        binding.cameraCaptureNoButton.setOnClickListener { onCameraCaptureNoClicked() }
+        binding.cameraCaptureYesButton.setOnClickListener { onCameraCaptureYesClicked() }
     }
 
     private fun setupCameraUI() {
-        binding?.listener = this
-        binding?.flashButtonSpinner?.onItemSelectedListener = this
-        binding?.flashButtonSpinner?.setOnTouchListener { view, event ->
+        binding.flashButtonSpinner.onItemSelectedListener = this
+        binding.flashButtonSpinner.setOnTouchListener { view, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 view.performClick()
                 cameraFlashSpinnerAdapter.isOpen = true
             }
             false
         }
-        binding?.flashButtonSpinner?.adapter = cameraFlashSpinnerAdapter
+        binding.flashButtonSpinner.adapter = cameraFlashSpinnerAdapter
     }
 
-    override fun onGalleryButtonClicked() {
+    private fun onGalleryButtonClicked() {
         (requireActivity() as? ShergilActivity)?.askPermissionAndOpenGallery()
     }
 
-    override fun onCameraCaptureButtonClicked() = takePhoto()
+    private fun onCameraCaptureButtonClicked() = takePhoto()
 
-    override fun onSwitchCameraButtonClicked() {
+    private fun onSwitchCameraButtonClicked() {
         lensFacing = if (CameraSelector.LENS_FACING_FRONT == lensFacing) {
             CameraSelector.LENS_FACING_BACK
         } else {
@@ -102,7 +116,7 @@ class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedL
         bindCameraUseCases()
     }
 
-    override fun onCameraCaptureYesClicked() {
+    private fun onCameraCaptureYesClicked() {
         val bitmap = capturedBitmap ?: return
         viewModel.insertCameraImage(
             getFileDisplayName(FILENAME_FORMAT),
@@ -112,8 +126,8 @@ class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedL
         (requireActivity() as? ShergilActivity)?.askPermissionAndOpenGallery()
     }
 
-    override fun onCameraCaptureNoClicked() {
-        binding?.isCapture = true
+    private fun onCameraCaptureNoClicked() {
+        viewModel.setCameraState(CameraState.CAPTURE)
     }
 
     private fun setupCamera() {
@@ -122,12 +136,12 @@ class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedL
             ProcessCameraProvider.getInstance(activity)
 
         cameraProviderFuture.addListener(
-            Runnable {
+            {
                 cameraProvider = cameraProviderFuture.get()
 
                 val hasBackCamera = cameraProvider.hasBackCamera()
                 val hasFrontCamera = cameraProvider.hasFrontCamera()
-                binding?.switchCameraButton?.isVisible = hasBackCamera && hasFrontCamera
+                binding.switchCameraButton.isVisible = hasBackCamera && hasFrontCamera
 
                 lensFacing = when {
                     hasBackCamera -> CameraSelector.LENS_FACING_BACK
@@ -146,7 +160,7 @@ class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedL
             cameraProvider ?: throw IllegalStateException("Camera initialisation failed")
 
         val preview = Preview.Builder().build()
-        preview.setSurfaceProvider(binding?.viewFinder?.surfaceProvider)
+        preview.setSurfaceProvider(binding.viewFinder.surfaceProvider)
 
         imageCapture = ImageCapture.Builder().apply {
             setFlashMode(flashMode)
@@ -190,8 +204,8 @@ class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedL
 
                 override fun onCaptureSuccess(image: ImageProxy) {
                     capturedBitmap = image.toBitmap()
-                    binding?.isCapture = false
-                    binding?.cameraCapturePreviewImage?.setImageBitmap(capturedBitmap)
+                    viewModel.setCameraState(CameraState.CONFIRM)
+                    binding.cameraCapturePreviewImage.setImageBitmap(capturedBitmap)
                     super.onCaptureSuccess(image)
                 }
             }
@@ -199,7 +213,7 @@ class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedL
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // Display flash animation to indicate that photo was captured
-            val cameraContainer = binding?.cameraContainer ?: return
+            val cameraContainer = binding.cameraContainer
             cameraContainer.postDelayed(
                 {
                     cameraContainer.foreground = ColorDrawable(Color.WHITE)
@@ -214,8 +228,8 @@ class CameraFragment : Fragment(), CameraUIListener, AdapterView.OnItemSelectedL
     }
 
     override fun onDestroyView() {
-        binding = null
         super.onDestroyView()
+        _binding = null
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) = Unit
