@@ -21,7 +21,7 @@ import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellUpdateModel
 import com.kinnerapriyap.sugar.mediagallery.cell.bindMediaUri
 
 class MediaGalleryAdapter(
-    private var mediaCursor: Cursor?,
+    private var mediaCursor: Cursor,
     private var selectedMediaCellDisplayModels: List<MediaCellDisplayModel>,
     private val onMediaCellClicked: ((MediaCellDisplayModel) -> Unit),
     private val mimeTypes: List<MimeType>,
@@ -30,7 +30,7 @@ class MediaGalleryAdapter(
     Filterable,
     MediaGalleryCursorFilterListener {
 
-    private var isDataValid = mediaCursor != null
+    private var isDataValid = true
 
     var mediaCellUpdateModel: MediaCellUpdateModel =
         MediaCellUpdateModel(Pair(-1, -1), listOf())
@@ -93,19 +93,18 @@ class MediaGalleryAdapter(
         ) {
             throw IllegalStateException("onBind $position")
         }
-        val cursor = mediaCursor ?: throw IllegalStateException("invalid cursor")
 
         /**
          * Get a URI representing the media item and
          * append the id from the projection column to the base URI
          */
-        val id = cursor.getLong(idColumnIndex)
+        val id = mediaCursor.getLong(idColumnIndex)
         val contentUri: Uri = ContentUris.withAppendedId(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
             id
         )
-        val bucketDisplayName = cursor.getString(bucketDisplayNameColumnIndex)
-        val mimeType = MimeType.fromValue(cursor.getString(mimeTypeColumnIndex))
+        val bucketDisplayName = mediaCursor.getString(bucketDisplayNameColumnIndex)
+        val mimeType = MimeType.fromValue(mediaCursor.getString(mimeTypeColumnIndex))
         val displayModel = MediaCellDisplayModel(
             position = position,
             id = id,
@@ -149,10 +148,10 @@ class MediaGalleryAdapter(
      * @param constraint to filter the query
      * @return [Cursor] for query results
      */
-    override fun fetchMediaAsync(constraint: CharSequence?): Cursor? =
+    override fun fetchMediaAsync(constraint: CharSequence?): Cursor =
         filterQueryProvider?.runQuery(constraint) ?: getCursor()
 
-    override fun getCursor(): Cursor? = mediaCursor
+    override fun getCursor(): Cursor = mediaCursor
 
     /**
      * Update to new cursor with [swapCursor]
@@ -173,7 +172,9 @@ class MediaGalleryAdapter(
      */
     private fun swapCursor(newCursor: Cursor?) {
         if (newCursor === mediaCursor) return
-        mediaCursor = newCursor
+        if (newCursor != null) {
+            mediaCursor = newCursor
+        }
         isDataValid = newCursor != null
         idColumnIndex =
             newCursor?.getColumnIndex(MediaStore.MediaColumns._ID) ?: -1
