@@ -11,6 +11,8 @@ import android.widget.Filter
 import android.widget.FilterQueryProvider
 import android.widget.Filterable
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.database.getLongOrNull
+import androidx.core.database.getStringOrNull
 import androidx.recyclerview.widget.RecyclerView
 import com.kinnerapriyap.sugar.choice.MimeType
 import com.kinnerapriyap.sugar.databinding.ViewMediaCellBinding
@@ -58,13 +60,13 @@ class MediaGalleryAdapter(
      * getColumnIndexOrThrow is used since _ID column exists in [BaseColumns]
      */
     private var idColumnIndex =
-        mediaCursor?.getColumnIndexOrThrow(MediaStore.MediaColumns._ID) ?: -1
+        mediaCursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID)
 
     private val bucketDisplayNameColumnIndex =
-        mediaCursor?.getColumnIndex(MediaGalleryHandler.BUCKET_DISPLAY_NAME) ?: -1
+        mediaCursor.getColumnIndex(MediaGalleryHandler.BUCKET_DISPLAY_NAME)
 
     private val mimeTypeColumnIndex =
-        mediaCursor?.getColumnIndex(MediaStore.MediaColumns.MIME_TYPE) ?: -1
+        mediaCursor.getColumnIndex(MediaStore.MediaColumns.MIME_TYPE)
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -78,7 +80,7 @@ class MediaGalleryAdapter(
         return MediaCellHolder(binding)
     }
 
-    override fun getItemCount(): Int = mediaCursor?.count ?: 0
+    override fun getItemCount(): Int = mediaCursor.count
 
     /**
      * [mediaCursor] is moved to the correct position
@@ -98,13 +100,13 @@ class MediaGalleryAdapter(
          * Get a URI representing the media item and
          * append the id from the projection column to the base URI
          */
-        val id = mediaCursor.getLong(idColumnIndex)
+        val id = mediaCursor.getLongOrNull(idColumnIndex) ?: 0
         val contentUri: Uri = ContentUris.withAppendedId(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
             id
         )
-        val bucketDisplayName = mediaCursor.getString(bucketDisplayNameColumnIndex)
-        val mimeType = MimeType.fromValue(mediaCursor.getString(mimeTypeColumnIndex))
+        val bucketDisplayName = mediaCursor.getStringOrNull(bucketDisplayNameColumnIndex)
+        val mimeType = MimeType.fromValue(mediaCursor.getStringOrNull(mimeTypeColumnIndex))
         val displayModel = MediaCellDisplayModel(
             position = position,
             id = id,
@@ -172,7 +174,7 @@ class MediaGalleryAdapter(
         }
         isDataValid = newCursor != null
         idColumnIndex =
-            newCursor?.getColumnIndex(MediaStore.MediaColumns._ID) ?: -1
+            mediaCursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID)
         notifyDataSetChanged()
     }
 
