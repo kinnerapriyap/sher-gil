@@ -119,11 +119,6 @@ class MediaGalleryAdapter(
 
     private fun isCameraCapture(id: Long) = id == CAMERA_CAPTURE_ID
 
-    override fun getItemId(position: Int): Long =
-        if (isDataValid && mediaCursor?.moveToPosition(position) == true) {
-            mediaCursor?.getLong(idColumnIndex) ?: 0
-        } else RecyclerView.NO_ID
-
     inner class MediaCellHolder(
         private val binding: ViewMediaCellBinding
     ) : RecyclerView.ViewHolder(binding.root) {
