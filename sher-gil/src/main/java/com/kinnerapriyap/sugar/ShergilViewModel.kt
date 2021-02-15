@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import androidx.core.database.getStringOrNull
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -139,7 +140,7 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
         while (!cursor.isAfterLast) {
             val bucketColumnIndex = cursor.getColumnIndex(MediaGalleryHandler.BUCKET_DISPLAY_NAME)
             if (bucketColumnIndex == -1) break
-            val name = cursor.getString(bucketColumnIndex)
+            val name = cursor.getStringOrNull(bucketColumnIndex)
             cursor.moveToNext()
             if (name == null || name == ALL_ALBUM_BUCKET_DISPLAY_NAME) continue
             else if (!addedNamesCount.contains(name)) {
