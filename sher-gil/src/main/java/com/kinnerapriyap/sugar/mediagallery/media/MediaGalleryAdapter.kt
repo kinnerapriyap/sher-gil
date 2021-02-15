@@ -34,8 +34,6 @@ class MediaGalleryAdapter(
     Filterable,
     MediaGalleryCursorFilterListener {
 
-    private var isDataValid = true
-
     var mediaCellUpdateModel: MediaCellUpdateModel =
         MediaCellUpdateModel(Pair(-1, -1), listOf())
         set(value) {
@@ -89,8 +87,8 @@ class MediaGalleryAdapter(
      * so it is used to get the data
      */
     override fun onBindViewHolder(holder: MediaCellHolder, position: Int) {
-        if (!mediaCursor.moveToPosition(position) || !isDataValid) {
-            throw IllegalStateException("onBind position:$position isDataValid:$isDataValid")
+        if (!mediaCursor.moveToPosition(position)) {
+            throw IllegalStateException("onBind position:$position")
         } else if (idColumnIndex == -1 ||
             bucketDisplayNameColumnIndex == -1 ||
             mimeTypeColumnIndex == -1
@@ -176,11 +174,10 @@ class MediaGalleryAdapter(
         if (newCursor === mediaCursor) return
         if (newCursor != null) {
             mediaCursor = newCursor
+            idColumnIndex =
+                mediaCursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID)
+            notifyDataSetChanged()
         }
-        isDataValid = newCursor != null
-        idColumnIndex =
-            mediaCursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID)
-        notifyDataSetChanged()
     }
 
     override fun getFilter(): Filter = cursorFilter
