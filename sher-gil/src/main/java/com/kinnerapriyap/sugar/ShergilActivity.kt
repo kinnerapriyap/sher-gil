@@ -21,7 +21,6 @@ import com.kinnerapriyap.sugar.databinding.ActivityShergilBinding
 import com.kinnerapriyap.sugar.mediagallery.album.MediaGalleryAlbumSpinnerAdapter
 import com.kinnerapriyap.sugar.mediagallery.album.toBucketDisplayName
 import com.kinnerapriyap.sugar.resultlauncher.ResultLauncherHandler
-import java.util.ArrayList
 
 internal class ShergilActivity :
     AppCompatActivity(),
