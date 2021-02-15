@@ -89,13 +89,16 @@ class MediaGalleryAdapter(
      * so it is used to get the data
      */
     override fun onBindViewHolder(holder: MediaCellHolder, position: Int) {
-        if (mediaCursor?.moveToPosition(position) == false ||
-            !isDataValid ||
-            idColumnIndex == -1 ||
+        if (!mediaCursor.moveToPosition(position) || !isDataValid) {
+            throw IllegalStateException("onBind position:$position isDataValid:$isDataValid")
+        } else if (idColumnIndex == -1 ||
             bucketDisplayNameColumnIndex == -1 ||
             mimeTypeColumnIndex == -1
         ) {
-            throw IllegalStateException("onBind $position")
+            throw IllegalStateException(
+                "onBind invalid column index $idColumnIndex " +
+                        "$bucketDisplayNameColumnIndex $mimeTypeColumnIndex"
+            )
         }
 
         /**
