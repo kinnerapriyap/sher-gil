@@ -22,6 +22,8 @@ import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellUpdateModel
 import com.kinnerapriyap.sugar.mediagallery.cell.bindMediaUri
 
+const val DEFAULT_ID = -1L
+
 class MediaGalleryAdapter(
     private var mediaCursor: Cursor,
     private var selectedMediaCellDisplayModels: List<MediaCellDisplayModel>,
@@ -100,7 +102,7 @@ class MediaGalleryAdapter(
          * Get a URI representing the media item and
          * append the id from the projection column to the base URI
          */
-        val id = mediaCursor.getLongOrNull(idColumnIndex) ?: 0
+        val id = mediaCursor.getLongOrNull(idColumnIndex) ?: DEFAULT_ID
         val contentUri: Uri = ContentUris.withAppendedId(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
             id
