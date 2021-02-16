@@ -8,6 +8,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
@@ -21,7 +23,6 @@ import com.kinnerapriyap.sugar.databinding.ActivityShergilBinding
 import com.kinnerapriyap.sugar.mediagallery.album.MediaGalleryAlbumSpinnerAdapter
 import com.kinnerapriyap.sugar.mediagallery.album.toBucketDisplayName
 import com.kinnerapriyap.sugar.resultlauncher.ResultLauncherHandler
-import java.util.ArrayList
 
 internal class ShergilActivity :
     AppCompatActivity(),
@@ -194,7 +195,9 @@ internal class ShergilActivity :
             viewModel.resetCameraCaptureUri()
             observer?.cameraCapture(viewModel.getCameraCaptureUri())
         } else {
-            navController.navigate(NavGraphDirections.actionGlobalCameraFragment())
+            Handler(Looper.getMainLooper()).post {
+                navController.navigate(NavGraphDirections.actionGlobalCameraFragment())
+            }
         }
     }
 

@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import androidx.core.database.getStringOrNull
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -18,6 +19,7 @@ import com.kinnerapriyap.sugar.mediagallery.MediaGalleryHandler.Companion.ALL_AL
 import com.kinnerapriyap.sugar.mediagallery.album.MediaGalleryAlbum
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellDisplayModel
 import com.kinnerapriyap.sugar.mediagallery.cell.MediaCellUpdateModel
+import com.kinnerapriyap.sugar.mediagallery.media.DEFAULT_ID
 import com.kinnerapriyap.sugar.mediagallery.media.MediaGalleryCursorWrapper
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -95,19 +97,27 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
 
     fun setMediaChecked(displayModel: MediaCellDisplayModel) {
         val selected = selectedMediaCellDisplayModels.value ?: mutableListOf()
-        if (selected.any { it.id == displayModel.id }) {
-            selected.removeAll { it.id == displayModel.id }
-        } else {
-            if (isSelectedOverMax()) {
+        when {
+            displayModel.id == DEFAULT_ID -> {
                 errorMessage.value =
-                    getApplication<Application>().resources.getString(
-                        R.string.max_selectable_error,
-                        choiceSpec.maxSelectable
-                    )
+                    getApplication<Application>().resources.getString(R.string.invalid_id)
                 return
             }
-            if (!allowMultipleSelection()) selected.removeAll(selected)
-            selected.add(displayModel.copy(isChecked = true))
+            selected.any { it.id == displayModel.id } -> {
+                selected.removeAll { it.id == displayModel.id }
+            }
+            else -> {
+                if (isSelectedOverMax()) {
+                    errorMessage.value =
+                        getApplication<Application>().resources.getString(
+                            R.string.max_selectable_error,
+                            choiceSpec.maxSelectable
+                        )
+                    return
+                }
+                if (!allowMultipleSelection()) selected.removeAll(selected)
+                selected.add(displayModel.copy(isChecked = true))
+            }
         }
         updatedMediaCellPositions = Pair(displayModel.position, updatedMediaCellPositions.first)
         selectedMediaCellDisplayModels.value = selected
@@ -130,7 +140,7 @@ class ShergilViewModel(application: Application) : AndroidViewModel(application)
         while (!cursor.isAfterLast) {
             val bucketColumnIndex = cursor.getColumnIndex(MediaGalleryHandler.BUCKET_DISPLAY_NAME)
             if (bucketColumnIndex == -1) break
-            val name = cursor.getString(bucketColumnIndex)
+            val name = cursor.getStringOrNull(bucketColumnIndex)
             cursor.moveToNext()
             if (name == null || name == ALL_ALBUM_BUCKET_DISPLAY_NAME) continue
             else if (!addedNamesCount.contains(name)) {

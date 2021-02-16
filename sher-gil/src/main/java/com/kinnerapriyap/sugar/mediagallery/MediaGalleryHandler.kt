@@ -45,13 +45,13 @@ class MediaGalleryHandler(private val contentResolver: ContentResolver) {
         mimeTypes: List<MimeType>,
         showDisallowedMimeTypes: Boolean,
         allowCamera: Boolean
-    ): Cursor? {
+    ): Cursor {
         val extras = MatrixCursor(PROJECTION)
         if (allowCamera) {
             extras.addRow(
                 arrayOf(
                     CAMERA_CAPTURE_ID.toString(),
-                    MimeType.IMAGES,
+                    null,
                     ALL_ALBUM_BUCKET_DISPLAY_NAME
                 )
             )

@@ -3,6 +3,7 @@
     <string name="preview">Preview</string>
     <string name="gallery_image">Gallery image</string>
     <string name="max_selectable_error">You can only select up to %d media files</string>
+    <string name="invalid_id">This media file has an invalid id</string>
     <string name="take_photo">Take Photo</string>
     <string name="switch_camera">Switch camera</string>
     <string name="open_gallery">Open gallery</string>
