@@ -1,0 +1,41 @@
+# https://gist.github.com/sualeh/ae78dc16123899d7942bc38baba5203c
+# https://github.com/rnett/compiler-plugin-utils/blob/f2cb49cdc683d24b3c6793fe1cbc6a76af29fc8f/.github/workflows/ci.yml
+
+name: Upload to Bintray workflow
+
+on:
+  release:
+    types: [ published ]
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Grant permission
+        run: chmod +x gradlew
+
+      - name: Install gpg secret key
+        run: |
+          cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
+          gpg --list-secret-keys --keyid-format LONG
+
+      - name: Export secret key
+        run: gpg --export-secret-key ${{ secrets.OSSRH_GPG_ID }} > ~/.gnupg/secring.gpg
+
+      - name: Get release version
+        id: get_version
+        run: echo ::set-output name=VERSION_NAME::${GITHUB_REF/refs\/tags\//}
+
+      - name: Publish to central repository
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralRepositoryPassword: ${{ secrets.SONATYPE_PASSWORD }}
+          ORG_GRADLE_PROJECT_mavenCentralRepositoryUsername: ${{ secrets.SONATYPE_USERNAME }}
+          GRADLE_OPTS: -Xmx2048m -XX:MaxPermSize=512m
+        run: ./gradlew publish --no-daemon --no-parallel -Psigning.keyId=${{ secrets.OSSRH_GPG_ID }} -Psigning.secretKeyRingFile=/home/runner/.gnupg/secring.gpg -Psigning.password=${{ secrets.OSSRH_GPG_KEY_PASSWORD }} --stacktrace
