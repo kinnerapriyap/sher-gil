@@ -21,14 +21,6 @@ jobs:
       - name: Grant permission
         run: chmod +x gradlew
 
-      - name: Install gpg secret key
-        run: |
-          cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
-          gpg --list-secret-keys --keyid-format LONG
-
-      - name: Export secret key
-        run: gpg --export-secret-key ${{ secrets.OSSRH_GPG_ID }} > ~/.gnupg/secring.gpg
-
       - name: Get release version
         id: get_version
         run: echo ::set-output name=VERSION_NAME::${GITHUB_REF/refs\/tags\//}
