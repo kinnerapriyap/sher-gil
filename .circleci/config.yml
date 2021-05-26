@@ -1,0 +1,4 @@
+version: 2.1
+
+orbs:
+  github-maven-deploy: github-maven-deploy/github-maven-deploy@1.2.0
