@@ -21,6 +21,11 @@ jobs:
       - name: Grant permission
         run: chmod +x gradlew
 
+      - name: Install gpg secret key
+        run: |
+          cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
+          gpg --list-secret-keys --keyid-format LONG
+
       - name: Get release version
         id: get_version
         run: echo ::set-output name=VERSION_NAME::${GITHUB_REF/refs\/tags\//}
@@ -28,11 +33,6 @@ jobs:
       - name: Publish to central repository
         env:
           ORG_GRADLE_PROJECT_mavenCentralRepositoryPassword: ${{ secrets.SONATYPE_PASSWORD }}
-          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_PASSWORD }}
           ORG_GRADLE_PROJECT_mavenCentralRepositoryUsername: ${{ secrets.SONATYPE_USERNAME }}
-          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_USERNAME }}
-          ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.OSSRH_GPG_ID }}
-          ORG_GRADLE_PROJECT_signingInMemoryPassword: ${{ secrets.OSSRH_GPG_KEY_PASSWORD }}
-          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
           GRADLE_OPTS: -Xmx2048m -XX:MaxPermSize=512m
-        run: ./gradlew publish --no-daemon --no-parallel --stacktrace
+        run: ./gradlew publish --no-daemon --no-parallel -Dgpg.passphrase=${{ secrets.OSSRH_GPG_KEY_PASSWORD }} --stacktrace
