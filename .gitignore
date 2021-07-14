@@ -13,5 +13,3 @@
 .externalNativeBuild
 .cxx
 .idea
-secring.gpg
-publickey.asc
