@@ -21,6 +21,6 @@ enum class MimeType(val value: String) {
         val IMAGES: List<MimeType> = values().toList()
 
         private val map = values().associateBy(MimeType::value)
-        fun fromValue(value: String?): MimeType? = map.getOrDefault(value, null)
+        fun fromValue(value: String?): MimeType? = map.get(value)
     }
 }
